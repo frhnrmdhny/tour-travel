@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: TourTravelPG
+    image: postgres:15
+    ports:
+      - 12345:5432
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=ttuser
+      - POSTGRES_PASSWORD=ttpassword
+      - POSTGRES_DB=ttdb
