@@ -16,6 +16,10 @@ export default function User() {
     pageSize: paginationModel.pageSize
   })
 
+  const { mutate } = api.user.toggleVerification.useMutation()
+
+  const utils = api.useUtils()
+
   const columns = useMemo(
     () =>
       [
@@ -35,6 +39,20 @@ export default function User() {
                     ? 'btn-success'
                     : 'btn-warning'
                 }`}
+                onClick={() =>
+                  mutate(
+                    {
+                      idUser: params.row.id
+                    },
+                    {
+                      onSuccess: () =>
+                        void utils.user.getUsers.invalidate({
+                          page: paginationModel.page,
+                          pageSize: paginationModel.pageSize
+                        })
+                    }
+                  )
+                }
               >
                 {verificationStatus === 'VERIFIED'
                   ? 'Terverifikasi'
@@ -44,7 +62,12 @@ export default function User() {
           }
         }
       ] satisfies GridColDef<User>[],
-    []
+    [
+      mutate,
+      paginationModel.page,
+      paginationModel.pageSize,
+      utils.user.getUsers
+    ]
   )
 
   return (

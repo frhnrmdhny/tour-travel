@@ -29,5 +29,29 @@ export const userRouter = createTRPCRouter({
           rowCount: totalUsers
         }
       }
+    }),
+
+  toggleVerification: protectedProcedure
+    .input(
+      z.object({
+        idUser: z.string()
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: input.idUser
+        }
+      })
+
+      return ctx.db.user.update({
+        data: {
+          verificationStatus:
+            user?.verificationStatus === 'PENDING' ? 'VERIFIED' : 'PENDING'
+        },
+        where: {
+          id: input.idUser
+        }
+      })
     })
 })
