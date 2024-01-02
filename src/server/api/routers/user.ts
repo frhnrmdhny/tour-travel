@@ -44,10 +44,12 @@ export const userRouter = createTRPCRouter({
         }
       })
 
+      if (user?.role === 'SUPERADMIN')
+        throw Error('Cannot modified Super Admin')
+
       return ctx.db.user.update({
         data: {
-          verificationStatus:
-            user?.verificationStatus === 'PENDING' ? 'VERIFIED' : 'PENDING'
+          role: user?.role === 'USER' ? 'ADMIN' : 'USER'
         },
         where: {
           id: input.idUser

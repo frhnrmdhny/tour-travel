@@ -1,4 +1,5 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { type Role } from '@prisma/client'
 import { type GetServerSidePropsContext } from 'next'
 import {
   getServerSession,
@@ -20,15 +21,13 @@ declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: DefaultSession['user'] & {
       id: string
-      // ...other properties
-      // role: UserRole;
+      role: Role
     }
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    role: Role
+  }
 }
 
 /**
@@ -40,9 +39,12 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
+
       user: {
         ...session.user,
-        id: user.id
+        id: user.id,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        role: user.role
       }
     })
   },

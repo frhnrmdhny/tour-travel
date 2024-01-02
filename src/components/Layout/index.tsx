@@ -1,12 +1,17 @@
 import { Button } from '@mui/material'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
+import WaitingForVerification from '../WaitingForVerification'
 
 interface Props {
   children: React.ReactElement
 }
 
 export default function Layout({ children }: Props) {
+  const { data: session } = useSession()
+
+  if (session?.user.role === 'USER') return <WaitingForVerification />
+
   return (
     <div className="drawer drawer-open">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -21,9 +26,12 @@ export default function Layout({ children }: Props) {
           <li>
             <Link href={'/dashboard'}>Dashboard</Link>
           </li>
-          <li>
-            <Link href={'/user'}>User</Link>
-          </li>
+
+          {session?.user.role === 'SUPERADMIN' && (
+            <li>
+              <Link href={'/user'}>User</Link>
+            </li>
+          )}
 
           <Button
             onClick={() =>
