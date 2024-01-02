@@ -7,18 +7,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 model Account {
     id                String  @id @default(cuid())
     userId            String
@@ -46,14 +34,26 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    id                 String             @id @default(cuid())
+    name               String?
+    email              String?            @unique
+    emailVerified      DateTime?
+    image              String?
+    role               Role               @default(USER)
+    verificationStatus VerificationStatus @default(PENDING)
+    accounts           Account[]
+    sessions           Session[]
+}
+
+enum VerificationStatus {
+    PENDING
+    VERIFIED
+}
+
+enum Role {
+    SUPERADMIN
+    ADMIN
+    USER
 }
 
 model VerificationToken {

@@ -1,20 +1,24 @@
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
-
-import { api } from "~/utils/api";
-
-import "~/styles/globals.css";
+import { type Session } from 'next-auth'
+import { SessionProvider } from 'next-auth/react'
+import { type AppType } from 'next/app'
+import { ThemeProvider } from 'next-themes'
+import { api } from '~/utils/api'
+import { AppCacheProvider } from '@mui/material-nextjs/v13-pagesRouter'
+import '~/styles/globals.css'
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: { session, ...pageProps }
 }) => {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-  );
-};
+    <AppCacheProvider {...pageProps}>
+      <ThemeProvider forcedTheme="corporate">
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </ThemeProvider>
+    </AppCacheProvider>
+  )
+}
 
-export default api.withTRPC(MyApp);
+export default api.withTRPC(MyApp)
