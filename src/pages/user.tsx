@@ -1,3 +1,4 @@
+import Layout from '~/components/Layout'
 import Head from 'next/head'
 import { api } from '~/utils/api'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
@@ -54,7 +55,7 @@ export default function User() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto">
+      <Layout>
         <DataGrid
           rows={data?.users ?? []}
           columns={columns}
@@ -66,7 +67,7 @@ export default function User() {
           rowCount={data?.pagination.rowCount ?? 0}
           rowSelection={false}
         />
-      </main>
+      </Layout>
     </>
   )
 }
