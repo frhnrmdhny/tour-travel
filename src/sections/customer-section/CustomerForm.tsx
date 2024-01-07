@@ -37,7 +37,7 @@ export default function CustomerForm({
       onSubmit={handleSubmit(handleSubmitCallback)}
       className="flex flex-col gap-2"
     >
-      <p>Name</p>
+      <p>Nama</p>
       <input
         className="input input-bordered input-sm"
         {...register('name', { required: true })}
@@ -49,31 +49,31 @@ export default function CustomerForm({
         {...register('email', { required: true })}
       />
 
-      <p>Phone Number</p>
+      <p>No Telepon</p>
       <input
         className="input input-bordered input-sm"
         {...register('phoneNumber', { required: true })}
       />
 
-      <p>Address</p>
+      <p>Alamat</p>
       <input
         className="input input-bordered input-sm"
         {...register('address', { required: true })}
       />
 
-      <p>Age</p>
+      <p>Umur</p>
       <input
         className="input input-bordered input-sm"
         {...register('age', { required: true, valueAsNumber: true })}
       />
 
-      <p>Gender</p>
+      <p>Jenis Kelamin</p>
       <select
         {...register('gender', { required: true })}
         className="select select-bordered select-sm"
       >
-        <option value="MALE">Male</option>
-        <option value="FEMALE">Female</option>
+        <option value="MALE">Laki-laki</option>
+        <option value="FEMALE">Perempuan</option>
       </select>
 
       <button
@@ -81,7 +81,7 @@ export default function CustomerForm({
         className="btn btn-primary btn-sm mt-4"
         type="submit"
       >
-        {mode === 'create' ? 'Create' : 'Edit'}
+        {mode === 'create' ? 'Tambahkan' : 'Sunting'}
       </button>
     </form>
   )

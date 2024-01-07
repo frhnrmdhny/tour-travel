@@ -23,14 +23,14 @@ export default function Dashboard() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">New Customers</div>
+          <div className="stat-title">Pelanggan Baru</div>
           <div className="stat-value">{data?.thisMonthCustomerCount}</div>
           <div className="stat-desc">
             ↗︎ (
             {data?.customerGrowth && isFinite(data.customerGrowth)
               ? data.customerGrowth
               : 0}
-            %) this month
+            %) bulan ini
           </div>
         </div>
 
@@ -50,9 +50,9 @@ export default function Dashboard() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">Total Customers</div>
+          <div className="stat-title">Jumlah Pelanggan</div>
           <div className="stat-value">{data?.customerCount}</div>
-          <div className="stat-desc"># of customers from the start </div>
+          <div className="stat-desc"># semua pelanggan </div>
         </div>
       </div>
     </Layout>

@@ -30,14 +30,20 @@ export default function Customer() {
       [
         { field: 'name', headerName: 'Nama', flex: 1 },
         { field: 'email', headerName: 'Email', flex: 1 },
-        { field: 'phoneNumber', headerName: 'Phone Number', flex: 1 },
-        { field: 'address', headerName: 'Address', flex: 1 },
-        { field: 'age', headerName: 'Age', flex: 1 },
-        { field: 'gender', headerName: 'Gender', flex: 1 },
+        { field: 'phoneNumber', headerName: 'No Telepon', flex: 1 },
+        { field: 'address', headerName: 'Alamat', flex: 1 },
+        { field: 'age', headerName: 'Umur', flex: 1 },
+        {
+          field: 'gender',
+          headerName: 'Jenis Kelamin',
+          flex: 1,
+          valueGetter: (params) =>
+            params.row.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'
+        },
         {
           field: 'id',
-          headerName: 'Action',
-          flex: 1,
+          headerName: '',
+          width: 200,
           renderCell: (params) => {
             const { id } = params.row
 
@@ -56,20 +62,20 @@ export default function Customer() {
                     )
                   }
                 >
-                  Delete
+                  Hapus
                 </button>
 
                 <button
                   className="btn btn-sm btn-warning"
                   onClick={() => router.push(`/customer/${id}/edit`)}
                 >
-                  Edit
+                  Sunting
                 </button>
               </span>
             )
           }
         }
-      ] satisfies GridColDef<Customer>[],
+      ] as GridColDef<Customer>[],
     [mutate, refetch, router]
   )
 
