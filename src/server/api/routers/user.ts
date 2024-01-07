@@ -1,9 +1,11 @@
 import { z } from 'zod'
-
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
+import {
+  createTRPCRouter,
+  superAdminProtectedProcedure
+} from '~/server/api/trpc'
 
 export const userRouter = createTRPCRouter({
-  getUsers: protectedProcedure
+  getUsers: superAdminProtectedProcedure
     .input(
       z.object({
         page: z.number(),
@@ -31,7 +33,7 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
-  toggleVerification: protectedProcedure
+  toggleVerification: superAdminProtectedProcedure
     .input(
       z.object({
         idUser: z.string()
@@ -43,9 +45,6 @@ export const userRouter = createTRPCRouter({
           id: input.idUser
         }
       })
-
-      if (user?.role === 'SUPERADMIN')
-        throw Error('Cannot modified Super Admin')
 
       return ctx.db.user.update({
         data: {

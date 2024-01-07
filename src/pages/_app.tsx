@@ -12,7 +12,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <AppCacheProvider {...pageProps}>
-      <ThemeProvider forcedTheme="corporate">
+      <ThemeProvider forcedTheme="winter">
         <SessionProvider session={session}>
           <Component {...pageProps} />
         </SessionProvider>

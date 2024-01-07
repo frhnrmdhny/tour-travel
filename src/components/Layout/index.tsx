@@ -1,7 +1,7 @@
-import { Button } from '@mui/material'
-import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import WaitingForVerification from '../WaitingForVerification'
+import { useMemo } from 'react'
+import { signOut, useSession } from 'next-auth/react'
 
 interface Props {
   children: React.ReactElement
@@ -9,6 +9,25 @@ interface Props {
 
 export default function Layout({ children }: Props) {
   const { data: session } = useSession()
+
+  const MENU = useMemo(
+    () => [
+      {
+        href: '/dashboard',
+        label: 'Dashboard'
+      },
+      {
+        href: '/user',
+        label: 'User',
+        isHidden: session?.user.role !== 'SUPERADMIN'
+      },
+      {
+        href: '/customer',
+        label: 'Customer'
+      }
+    ],
+    [session?.user.role]
+  )
 
   if (session?.user.role === 'USER') return <WaitingForVerification />
 
@@ -23,26 +42,24 @@ export default function Layout({ children }: Props) {
 
       <div className="drawer-side">
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-          <li>
-            <Link href={'/dashboard'}>Dashboard</Link>
-          </li>
-
-          {session?.user.role === 'SUPERADMIN' && (
-            <li>
-              <Link href={'/user'}>User</Link>
-            </li>
+          {MENU.map(({ href, label, isHidden }) =>
+            isHidden ? null : (
+              <li key={href}>
+                <Link href={href}>{label}</Link>
+              </li>
+            )
           )}
 
-          <Button
+          <button
             onClick={() =>
               signOut({
                 callbackUrl: '/'
               })
             }
-            className="btn btn-secondary btn-sm mt-8"
+            className="btn btn-secondary btn-outline btn-sm mt-8"
           >
             Sign Out
-          </Button>
+          </button>
         </ul>
       </div>
     </div>
