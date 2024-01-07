@@ -60,7 +60,7 @@ export default function Customer() {
                 </button>
 
                 <button
-                  className="btn btn-sm btn-secondary"
+                  className="btn btn-sm btn-warning"
                   onClick={() => router.push(`/customer/${id}/edit`)}
                 >
                   Edit
@@ -79,7 +79,7 @@ export default function Customer() {
         <div className="mb-2">
           <button
             onClick={() => void router.push('/customer/create')}
-            className="btn btn-primary"
+            className="btn btn-primary btn-sm"
           >
             Tambahkan
           </button>
