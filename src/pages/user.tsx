@@ -2,21 +2,19 @@ import Layout from '~/components/Layout'
 import useVerifySuperAdmin from '~/hooks/useVerifySuperAdmin'
 import { api } from '~/utils/api'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { type User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
+import usePagination from '~/hooks/usePagination'
 
 export default function User() {
   const { data: session } = useSession()
 
-  const [paginationModel, setPaginationModel] = useState({
-    page: 0,
-    pageSize: 5
-  })
+  const [paginationModel, setPaginationModel] = usePagination()
 
   const { isSuperAdmin } = useVerifySuperAdmin()
 
-  const { data, isLoading, refetch } = api.user.getUsers.useQuery(
+  const { data, isLoading } = api.user.getUsers.useQuery(
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
@@ -25,6 +23,8 @@ export default function User() {
   )
 
   const { mutate } = api.user.toggleVerification.useMutation()
+
+  const utils = api.useUtils()
 
   const columns = useMemo(
     () =>
@@ -53,7 +53,7 @@ export default function User() {
                       idUser: params.row.id
                     },
                     {
-                      onSuccess: () => void refetch()
+                      onSuccess: () => void utils.user.getUsers.invalidate()
                     }
                   )
                 }
@@ -64,7 +64,7 @@ export default function User() {
           }
         }
       ] satisfies GridColDef<User>[],
-    [mutate, refetch, session?.user.id]
+    [mutate, session?.user.id, utils.user.getUsers]
   )
 
   return (

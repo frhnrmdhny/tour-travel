@@ -74,3 +74,17 @@ enum Gender {
     MALE
     FEMALE
 }
+
+model Departure {
+    id            String          @id @default(cuid())
+    name          String
+    departureDate DateTime
+    returnDate    DateTime
+    status        DepartureStatus @default(PREPARING)
+}
+
+enum DepartureStatus {
+    PREPARING
+    ONGOING
+    FINISH
+}

@@ -3,7 +3,7 @@ import CustomerForm from '~/sections/customer-section/CustomerForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
 
-export default function CreateCustomer() {
+export default function EditCustomer() {
   const router = useRouter()
 
   const id = router.query.id as string
@@ -19,6 +19,8 @@ export default function CreateCustomer() {
     }
   )
 
+  const utils = api.useUtils()
+
   return (
     <Layout>
       <>
@@ -31,7 +33,10 @@ export default function CreateCustomer() {
                   ...data
                 },
                 {
-                  onSuccess: void router.push('/customer')
+                  onSuccess: () => {
+                    void utils.customer.getCustomer.invalidate({ id })
+                    void router.push('/customer')
+                  }
                 }
               )
             }}

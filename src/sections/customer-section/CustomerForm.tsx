@@ -1,13 +1,7 @@
+import { type Customer } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 
-type CustomerFormState = {
-  name: string
-  email: string
-  phoneNumber: string
-  address: string
-  age: number
-  gender: 'MALE' | 'FEMALE'
-}
+type CustomerFormState = Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>
 
 interface Props {
   handleSubmitCallback: (data: CustomerFormState) => void
