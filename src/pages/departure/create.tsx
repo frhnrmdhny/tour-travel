@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 export default function CreateDeparture() {
   const router = useRouter()
 
-  const { mutate } = api.departure.createDeparture.useMutation()
+  const { mutate } = api.departure.add.useMutation()
 
   return (
     <Layout>

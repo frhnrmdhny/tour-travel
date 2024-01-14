@@ -5,7 +5,7 @@ import {
 } from '~/server/api/trpc'
 
 export const userRouter = createTRPCRouter({
-  getUsers: superAdminProtectedProcedure
+  get: superAdminProtectedProcedure
     .input(
       z.object({
         page: z.number(),

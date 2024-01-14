@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
 
-export const departureRouter = createTRPCRouter({
+export const componentRouter = createTRPCRouter({
   get: protectedProcedure
     .input(
       z.object({
@@ -12,20 +12,20 @@ export const departureRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { pageSize, page } = input
 
-      const [departures, totalDepartures] = await ctx.db.$transaction([
-        ctx.db.departure.findMany({
+      const [components, totalComponents] = await ctx.db.$transaction([
+        ctx.db.component.findMany({
           take: pageSize,
           skip: page * pageSize
         }),
-        ctx.db.departure.count()
+        ctx.db.component.count()
       ])
 
       return {
-        departures,
+        components,
         pagination: {
           page,
           pageSize,
-          rowCount: totalDepartures
+          rowCount: totalComponents
         }
       }
     }),
@@ -34,25 +34,26 @@ export const departureRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        departureDate: z.date(),
-        returnDate: z.date(),
-        status: z.enum(['PREPARING', 'ONGOING', 'FINISH'])
+        description: z.string(),
+        price: z.number(),
+        stock: z.number(),
+        restockLevel: z.number()
       })
     )
     .mutation(({ ctx, input }) =>
-      ctx.db.departure.create({
+      ctx.db.component.create({
         data: input
       })
     ),
 
-  delete: protectedProcedure
+  deleteComponent: protectedProcedure
     .input(
       z.object({
         id: z.string()
       })
     )
     .mutation(({ ctx, input: { id } }) =>
-      ctx.db.departure.delete({
+      ctx.db.component.delete({
         where: {
           id
         }
@@ -66,7 +67,7 @@ export const departureRouter = createTRPCRouter({
       })
     )
     .query(({ ctx, input: { id } }) =>
-      ctx.db.departure.findUnique({
+      ctx.db.component.findUnique({
         where: {
           id
         }
@@ -78,9 +79,10 @@ export const departureRouter = createTRPCRouter({
       z
         .object({
           name: z.string(),
-          departureDate: z.date(),
-          returnDate: z.date(),
-          status: z.enum(['PREPARING', 'ONGOING', 'FINISH'])
+          description: z.string(),
+          price: z.number(),
+          stock: z.number(),
+          restockLevel: z.number()
         })
         .partial()
         .merge(
@@ -90,7 +92,7 @@ export const departureRouter = createTRPCRouter({
         )
     )
     .mutation(({ ctx, input: { id, ...data } }) =>
-      ctx.db.departure.update({
+      ctx.db.component.update({
         data,
         where: {
           id

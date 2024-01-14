@@ -1,19 +1,19 @@
-import Layout from '~/components/Layout'
-import { api } from '~/utils/api'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { useMemo } from 'react'
-import { type Customer } from '@prisma/client'
+import { type Component } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useMemo } from 'react'
+import Layout from '~/components/Layout'
 import usePagination from '~/hooks/usePagination'
+import { api } from '~/utils/api'
 
-export default function Customer() {
+export default function Component() {
   const router = useRouter()
   const { data: session } = useSession()
 
   const [paginationModel, setPaginationModel] = usePagination()
 
-  const { data, isLoading, refetch } = api.customer.get.useQuery(
+  const { data, isLoading, refetch } = api.component.get.useQuery(
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
@@ -21,22 +21,27 @@ export default function Customer() {
     { enabled: !!session?.user }
   )
 
-  const { mutate } = api.customer.delete.useMutation()
+  const { mutate } = api.component.deleteComponent.useMutation()
 
   const columns = useMemo(
     () =>
       [
         { field: 'name', headerName: 'Nama', flex: 1 },
-        { field: 'email', headerName: 'Email', flex: 1 },
-        { field: 'phoneNumber', headerName: 'No Telepon', flex: 1 },
-        { field: 'address', headerName: 'Alamat', flex: 1 },
-        { field: 'age', headerName: 'Umur', flex: 1 },
         {
-          field: 'gender',
-          headerName: 'Jenis Kelamin',
-          flex: 1,
-          valueGetter: (params) =>
-            params.row.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'
+          field: 'description',
+          headerName: 'Deskripsi',
+          flex: 1
+        },
+        { field: 'price', headerName: 'Harga', flex: 1 },
+        {
+          field: 'stock',
+          headerName: 'Stock',
+          flex: 1
+        },
+        {
+          field: 'restockLevel',
+          headerName: 'Restock Level',
+          flex: 1
         },
         {
           field: 'id',
@@ -65,7 +70,7 @@ export default function Customer() {
 
                 <button
                   className="btn btn-sm btn-warning"
-                  onClick={() => router.push(`/customer/${id}/edit`)}
+                  onClick={() => router.push(`/component/${id}/edit`)}
                 >
                   Sunting
                 </button>
@@ -73,7 +78,7 @@ export default function Customer() {
             )
           }
         }
-      ] satisfies GridColDef<Customer>[],
+      ] satisfies GridColDef<Component>[],
     [mutate, refetch, router]
   )
 
@@ -82,7 +87,7 @@ export default function Customer() {
       <>
         <div className="mb-2">
           <button
-            onClick={() => void router.push('/customer/create')}
+            onClick={() => void router.push('/component/create')}
             className="btn btn-primary btn-sm"
           >
             Tambahkan
@@ -90,7 +95,7 @@ export default function Customer() {
         </div>
 
         <DataGrid
-          rows={data?.customers ?? []}
+          rows={data?.components ?? []}
           columns={columns}
           loading={isLoading}
           pageSizeOptions={[5, 10, 25]}

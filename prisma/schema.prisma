@@ -88,3 +88,49 @@ enum DepartureStatus {
     ONGOING
     FINISH
 }
+
+model ProductCategory {
+    id      String    @id @default(cuid())
+    name    String
+    Product Product[]
+}
+
+model Product {
+    id                 String               @id @default(cuid())
+    name               String
+    description        String
+    price              Int
+    stock              Int
+    restockLevel       Int
+    components         Component[]
+    ProductsComponents ProductsComponents[]
+    ProductCategory    ProductCategory      @relation(fields: [productCategoryId], references: [id])
+    productCategoryId  String
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @updatedAt
+}
+
+model Component {
+    id                 String               @id @default(cuid())
+    name               String
+    description        String
+    price              Int
+    stock              Int
+    restockLevel       Int
+    products           Product[]
+    ProductsComponents ProductsComponents[]
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @updatedAt
+}
+
+model ProductsComponents {
+    product     Product   @relation(fields: [productId], references: [id])
+    productId   String
+    component   Component @relation(fields: [componentId], references: [id])
+    componentId String
+    quantity    Int
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@id([productId, componentId])
+}

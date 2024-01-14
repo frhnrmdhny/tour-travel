@@ -14,7 +14,7 @@ export default function User() {
 
   const { isSuperAdmin } = useVerifySuperAdmin()
 
-  const { data, isLoading } = api.user.getUsers.useQuery(
+  const { data, isLoading } = api.user.get.useQuery(
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
@@ -53,7 +53,7 @@ export default function User() {
                       idUser: params.row.id
                     },
                     {
-                      onSuccess: () => void utils.user.getUsers.invalidate()
+                      onSuccess: () => void utils.user.get.invalidate()
                     }
                   )
                 }
@@ -64,7 +64,7 @@ export default function User() {
           }
         }
       ] satisfies GridColDef<User>[],
-    [mutate, session?.user.id, utils.user.getUsers]
+    [mutate, session?.user.id, utils.user.get]
   )
 
   return (

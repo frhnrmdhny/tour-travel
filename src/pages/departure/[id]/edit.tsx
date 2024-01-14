@@ -9,9 +9,9 @@ export default function EditDeparture() {
 
   const id = router.query.id as string
 
-  const { mutate } = api.departure.updateDeparture.useMutation()
+  const { mutate } = api.departure.update.useMutation()
 
-  const { data, isLoading } = api.departure.getDeparture.useQuery(
+  const { data, isLoading } = api.departure.getById.useQuery(
     {
       id
     },
@@ -45,7 +45,7 @@ export default function EditDeparture() {
                 },
                 {
                   onSuccess: () => {
-                    void utils.departure.getDeparture.invalidate({ id })
+                    void utils.departure.getById.invalidate({ id })
                     void router.push('/departure')
                   }
                 }

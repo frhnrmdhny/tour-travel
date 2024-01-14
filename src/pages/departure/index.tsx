@@ -7,13 +7,13 @@ import Layout from '~/components/Layout'
 import usePagination from '~/hooks/usePagination'
 import { api } from '~/utils/api'
 
-export default function Dashboard() {
+export default function Departure() {
   const router = useRouter()
   const { data: session } = useSession()
 
   const [paginationModel, setPaginationModel] = usePagination()
 
-  const { data, isLoading, refetch } = api.departure.getDepartures.useQuery(
+  const { data, isLoading, refetch } = api.departure.get.useQuery(
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
@@ -21,7 +21,7 @@ export default function Dashboard() {
     { enabled: !!session?.user }
   )
 
-  const { mutate } = api.departure.deleteDeparture.useMutation()
+  const { mutate } = api.departure.delete.useMutation()
 
   const columns = useMemo(
     () =>

@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
 
 export const customerRouter = createTRPCRouter({
-  getCustomers: protectedProcedure
+  get: protectedProcedure
     .input(
       z.object({
         page: z.number(),
@@ -31,7 +31,7 @@ export const customerRouter = createTRPCRouter({
       }
     }),
 
-  createCustomer: protectedProcedure
+  add: protectedProcedure
     .input(
       z.object({
         name: z.string(),
@@ -48,7 +48,7 @@ export const customerRouter = createTRPCRouter({
       })
     ),
 
-  deleteCustomer: protectedProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.string()
@@ -62,7 +62,7 @@ export const customerRouter = createTRPCRouter({
       })
     ),
 
-  getCustomer: protectedProcedure
+  getById: protectedProcedure
     .input(
       z.object({
         id: z.string()
@@ -76,7 +76,7 @@ export const customerRouter = createTRPCRouter({
       })
     ),
 
-  updateCustomer: protectedProcedure
+  update: protectedProcedure
     .input(
       z
         .object({

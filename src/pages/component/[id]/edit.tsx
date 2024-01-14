@@ -1,16 +1,16 @@
 import Layout from '~/components/Layout'
-import CustomerForm from '~/sections/customer-section/CustomerForm'
+import ComponentForm from '~/sections/component-section/ComponentForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
 
-export default function EditCustomer() {
+export default function EditComponent() {
   const router = useRouter()
 
   const id = router.query.id as string
 
-  const { mutate } = api.customer.update.useMutation()
+  const { mutate } = api.component.update.useMutation()
 
-  const { data, isLoading } = api.customer.getById.useQuery(
+  const { data, isLoading } = api.component.getById.useQuery(
     {
       id
     },
@@ -25,7 +25,7 @@ export default function EditCustomer() {
     <Layout>
       <>
         {data && !isLoading && (
-          <CustomerForm
+          <ComponentForm
             handleSubmitCallback={(data) => {
               mutate(
                 {
@@ -34,8 +34,8 @@ export default function EditCustomer() {
                 },
                 {
                   onSuccess: () => {
-                    void utils.customer.getById.invalidate({ id })
-                    void router.push('/customer')
+                    void utils.component.getById.invalidate({ id })
+                    void router.push('/component')
                   }
                 }
               )

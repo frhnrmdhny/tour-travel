@@ -1,19 +1,19 @@
 import Layout from '~/components/Layout'
-import CustomerForm from '~/sections/customer-section/CustomerForm'
+import ComponentForm from '~/sections/component-section/ComponentForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
 
-export default function CreateCustomer() {
+export default function CreateComponent() {
   const router = useRouter()
 
-  const { mutate } = api.customer.add.useMutation()
+  const { mutate } = api.component.add.useMutation()
 
   return (
     <Layout>
-      <CustomerForm
+      <ComponentForm
         handleSubmitCallback={(data) => {
           mutate(data, {
-            onSuccess: void router.push('/customer')
+            onSuccess: void router.push('/component')
           })
         }}
         mode="create"

@@ -28,6 +28,10 @@ export default function Layout({ children }: Props) {
       {
         href: '/departure',
         label: 'Departure'
+      },
+      {
+        href: '/component',
+        label: 'Component'
       }
     ],
     [session?.user.role]
