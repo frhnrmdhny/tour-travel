@@ -3,9 +3,11 @@ import useVerifySuperAdmin from '~/hooks/useVerifySuperAdmin'
 import { api } from '~/utils/api'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { useMemo } from 'react'
-import { type User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import usePagination from '~/hooks/usePagination'
+import { type RouterOutput } from '~/server/api/root'
+
+type UserGetOutput = RouterOutput['user']['get']
 
 export default function User() {
   const { data: session } = useSession()
@@ -63,7 +65,7 @@ export default function User() {
             )
           }
         }
-      ] satisfies GridColDef<User>[],
+      ] satisfies GridColDef<UserGetOutput['users'][0]>[],
     [mutate, session?.user.id, utils.user.get]
   )
 

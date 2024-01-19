@@ -103,8 +103,8 @@ model Product {
     stock              Int
     restockLevel       Int
     components         Component[]
-    ProductsComponents ProductsComponents[]
-    ProductCategory    ProductCategory      @relation(fields: [productCategoryId], references: [id])
+    productsComponents ProductsComponents[]
+    productCategory    ProductCategory      @relation(fields: [productCategoryId], references: [id])
     productCategoryId  String
     createdAt          DateTime             @default(now())
     updatedAt          DateTime             @updatedAt
@@ -118,7 +118,7 @@ model Component {
     stock              Int
     restockLevel       Int
     products           Product[]
-    ProductsComponents ProductsComponents[]
+    productsComponents ProductsComponents[]
     createdAt          DateTime             @default(now())
     updatedAt          DateTime             @updatedAt
 }
@@ -132,5 +132,5 @@ model ProductsComponents {
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
 
-    @@id([productId, componentId])
+    @@id(name: "id", fields: [productId, componentId])
 }

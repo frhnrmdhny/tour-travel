@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
 
-export const componentRouter = createTRPCRouter({
+export const productRouter = createTRPCRouter({
   get: protectedProcedure
     .input(
       z.object({
@@ -12,20 +12,27 @@ export const componentRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { pageSize, page } = input
 
-      const [components, totalComponents] = await ctx.db.$transaction([
-        ctx.db.component.findMany({
+      const [products, totalProducts] = await ctx.db.$transaction([
+        ctx.db.product.findMany({
           take: pageSize,
-          skip: page * pageSize
+          skip: page * pageSize,
+          include: {
+            productCategory: {
+              select: {
+                name: true
+              }
+            }
+          }
         }),
-        ctx.db.component.count()
+        ctx.db.product.count()
       ])
 
       return {
-        components,
+        products,
         pagination: {
           page,
           pageSize,
-          rowCount: totalComponents
+          rowCount: totalProducts
         }
       }
     }),
@@ -37,11 +44,12 @@ export const componentRouter = createTRPCRouter({
         description: z.string(),
         price: z.number(),
         stock: z.number(),
-        restockLevel: z.number()
+        restockLevel: z.number(),
+        productCategoryId: z.string()
       })
     )
     .mutation(({ ctx, input }) =>
-      ctx.db.component.create({
+      ctx.db.product.create({
         data: input
       })
     ),
@@ -53,7 +61,7 @@ export const componentRouter = createTRPCRouter({
       })
     )
     .mutation(({ ctx, input: { id } }) =>
-      ctx.db.component.delete({
+      ctx.db.product.delete({
         where: {
           id
         }
@@ -67,7 +75,7 @@ export const componentRouter = createTRPCRouter({
       })
     )
     .query(({ ctx, input: { id } }) =>
-      ctx.db.component.findUnique({
+      ctx.db.product.findUnique({
         where: {
           id
         }
@@ -82,7 +90,8 @@ export const componentRouter = createTRPCRouter({
           description: z.string(),
           price: z.number(),
           stock: z.number(),
-          restockLevel: z.number()
+          restockLevel: z.number(),
+          productCategoryId: z.string()
         })
         .partial()
         .merge(
@@ -92,7 +101,7 @@ export const componentRouter = createTRPCRouter({
         )
     )
     .mutation(({ ctx, input: { id, ...data } }) =>
-      ctx.db.component.update({
+      ctx.db.product.update({
         data,
         where: {
           id

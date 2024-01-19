@@ -16,7 +16,7 @@ export default function WaitingForVerification() {
           <button
             onClick={() =>
               signOut({
-                callbackUrl: '/'
+                callbackUrl: '/login'
               })
             }
             className="btn btn-sm btn-outline"

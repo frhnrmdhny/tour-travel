@@ -1,11 +1,13 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { type Component } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import Layout from '~/components/Layout'
 import usePagination from '~/hooks/usePagination'
+import { type RouterOutput } from '~/server/api/root'
 import { api } from '~/utils/api'
+
+type ComponentGetOutput = RouterOutput['component']['get']
 
 export default function Component() {
   const router = useRouter()
@@ -13,7 +15,7 @@ export default function Component() {
 
   const [paginationModel, setPaginationModel] = usePagination()
 
-  const { data, isLoading, refetch } = api.component.get.useQuery(
+  const { data, isLoading } = api.component.get.useQuery(
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
@@ -21,7 +23,9 @@ export default function Component() {
     { enabled: !!session?.user }
   )
 
-  const { mutate } = api.component.deleteComponent.useMutation()
+  const { mutate } = api.component.delete.useMutation()
+
+  const utils = api.useUtils()
 
   const columns = useMemo(
     () =>
@@ -60,7 +64,7 @@ export default function Component() {
                         id
                       },
                       {
-                        onSuccess: () => void refetch()
+                        onSuccess: () => void utils.component.get.invalidate()
                       }
                     )
                   }
@@ -78,8 +82,8 @@ export default function Component() {
             )
           }
         }
-      ] satisfies GridColDef<Component>[],
-    [mutate, refetch, router]
+      ] satisfies GridColDef<ComponentGetOutput['components'][0]>[],
+    [mutate, router, utils.component.get]
   )
 
   return (

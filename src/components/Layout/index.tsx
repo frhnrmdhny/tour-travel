@@ -32,6 +32,10 @@ export default function Layout({ children }: Props) {
       {
         href: '/component',
         label: 'Component'
+      },
+      {
+        href: '/product',
+        label: 'Product'
       }
     ],
     [session?.user.role]
@@ -61,7 +65,7 @@ export default function Layout({ children }: Props) {
           <button
             onClick={() =>
               signOut({
-                callbackUrl: '/'
+                callbackUrl: '/login'
               })
             }
             className="btn btn-secondary btn-outline btn-sm mt-8"

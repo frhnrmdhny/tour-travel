@@ -1,9 +1,9 @@
-import { type Departure } from '@prisma/client'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
+import { type RouterInput } from '~/server/api/root'
 
 type DepartureFormState = Omit<
-  Departure,
+  RouterInput['departure']['add'],
   'id' | 'departureDate' | 'returnDate'
 > & {
   departureDate: string | Date

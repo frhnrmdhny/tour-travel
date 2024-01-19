@@ -1,21 +1,22 @@
 import Layout from '~/components/Layout'
+import usePagination from '~/hooks/usePagination'
 import { api } from '~/utils/api'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { useMemo } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import usePagination from '~/hooks/usePagination'
-import { type RouterOutput } from '~/server/api/root'
+import { useMemo } from 'react'
 
-type CustomerGetOutput = RouterOutput['customer']['get']
+import type { RouterOutput } from '~/server/api/root'
 
-export default function Customer() {
+type ProductGetOutput = RouterOutput['product']['get']
+
+export default function Product() {
   const router = useRouter()
   const { data: session } = useSession()
 
   const [paginationModel, setPaginationModel] = usePagination()
 
-  const { data, isLoading } = api.customer.get.useQuery(
+  const { data, isLoading } = api.product.get.useQuery(
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
@@ -23,7 +24,7 @@ export default function Customer() {
     { enabled: !!session?.user }
   )
 
-  const { mutate } = api.customer.delete.useMutation()
+  const { mutate } = api.product.delete.useMutation()
 
   const utils = api.useUtils()
 
@@ -31,16 +32,30 @@ export default function Customer() {
     () =>
       [
         { field: 'name', headerName: 'Nama', flex: 1 },
-        { field: 'email', headerName: 'Email', flex: 1 },
-        { field: 'phoneNumber', headerName: 'No Telepon', flex: 1 },
-        { field: 'address', headerName: 'Alamat', flex: 1 },
-        { field: 'age', headerName: 'Umur', flex: 1 },
         {
-          field: 'gender',
-          headerName: 'Jenis Kelamin',
+          field: 'description',
+          headerName: 'Deskripsi',
+          flex: 1
+        },
+        { field: 'price', headerName: 'Harga', flex: 1 },
+        {
+          field: 'stock',
+          headerName: 'Stock',
+          flex: 1
+        },
+        {
+          field: 'restockLevel',
+          headerName: 'Restock Level',
+          flex: 1
+        },
+        {
+          field: 'category',
+          headerName: 'Category',
           flex: 1,
-          valueGetter: (params) =>
-            params.row.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'
+          valueGetter: (params) => {
+            const { row } = params
+            return row.productCategory.name
+          }
         },
         {
           field: 'id',
@@ -59,7 +74,7 @@ export default function Customer() {
                         id
                       },
                       {
-                        onSuccess: () => void utils.customer.get.invalidate()
+                        onSuccess: () => void utils.product.get.invalidate()
                       }
                     )
                   }
@@ -69,7 +84,7 @@ export default function Customer() {
 
                 <button
                   className="btn btn-sm btn-warning"
-                  onClick={() => router.push(`/customer/${id}/edit`)}
+                  onClick={() => router.push(`/product/${id}/edit`)}
                 >
                   Sunting
                 </button>
@@ -77,8 +92,8 @@ export default function Customer() {
             )
           }
         }
-      ] satisfies GridColDef<CustomerGetOutput['customers'][0]>[],
-    [mutate, router, utils.customer.get]
+      ] satisfies GridColDef<ProductGetOutput['products'][0]>[],
+    [mutate, router, utils.product.get]
   )
 
   return (
@@ -86,7 +101,7 @@ export default function Customer() {
       <>
         <div className="mb-2">
           <button
-            onClick={() => void router.push('/customer/create')}
+            onClick={() => void router.push('/product/create')}
             className="btn btn-primary btn-sm"
           >
             Tambahkan
@@ -94,7 +109,7 @@ export default function Customer() {
         </div>
 
         <DataGrid
-          rows={data?.customers ?? []}
+          rows={data?.products ?? []}
           columns={columns}
           loading={isLoading}
           pageSizeOptions={[5, 10, 25]}

@@ -1,7 +1,7 @@
-import { type Component } from '@prisma/client'
 import { useForm } from 'react-hook-form'
+import { type RouterInput } from '~/server/api/root'
 
-type ComponentFormState = Omit<Component, 'id' | 'createdAt' | 'updatedAt'>
+type ComponentFormState = RouterInput['component']['add']
 
 interface Props {
   handleSubmitCallback: (data: ComponentFormState) => void
