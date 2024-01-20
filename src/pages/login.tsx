@@ -74,11 +74,12 @@ export default function Login() {
 
             <div className="flex justify-center">
               <button
-                onClick={() =>
-                  signIn('google', {
+                onClick={(e) => {
+                  e.preventDefault()
+                  void signIn('google', {
                     callbackUrl: '/dashboard'
                   })
-                }
+                }}
                 className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full flex items-center"
               >
                 <svg

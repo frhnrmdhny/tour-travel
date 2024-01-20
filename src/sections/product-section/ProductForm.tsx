@@ -5,6 +5,8 @@ import { type RouterInput } from '~/server/api/root'
 import AddCategoryDialog from './AddCategoryDialog'
 import { FaEdit } from 'react-icons/fa'
 import ManageComponentDialog from './ManageComponentDialog'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 type ProductFormState = RouterInput['product']['add']
 
@@ -19,6 +21,11 @@ export default function ProductForm({
   defaultValues,
   mode
 }: Props) {
+  const { data: session } = useSession()
+
+  const router = useRouter()
+  const productId = router.query.id as string
+
   const addCategoryDialogRef = useRef<HTMLDialogElement>(null)
   const manageComponentDialogRef = useRef<HTMLDialogElement>(null)
 
@@ -34,6 +41,14 @@ export default function ProductForm({
     page: 0,
     pageSize: 100
   })
+
+  const { data: productComponents } =
+    api.productComponent.getByProductId.useQuery(
+      {
+        productId
+      },
+      { enabled: !!session?.user && productId ? true : false }
+    )
 
   return (
     <>
@@ -107,19 +122,47 @@ export default function ProductForm({
         )}
 
         {mode === 'edit' && (
-          <div className="flex gap-2 items-center">
-            <p>Components</p>
-            <button
-              onClick={(e) => {
-                e.preventDefault()
-                manageComponentDialogRef.current?.showModal()
-              }}
-              className="btn btn-xs"
-            >
-              Manage Component
-              <FaEdit />
-            </button>
-          </div>
+          <>
+            <div className="flex gap-2 items-center">
+              <p>Components</p>
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  manageComponentDialogRef.current?.showModal()
+                }}
+                className="btn btn-xs"
+              >
+                Manage Component
+                <FaEdit />
+              </button>
+            </div>
+
+            {productComponents && (
+              <div className="flex flex-col gap-2 mt-2">
+                {productComponents.map((item) => (
+                  <div
+                    className="card shadow-md px-4 py-2 flex flex-row justify-between items-center"
+                    key={`${item.productId}_${item.componentId}}`}
+                  >
+                    <p>{item.component.name}</p>
+
+                    <div className="flex gap-2">
+                      <button className="btn btn-circle btn-sm">-</button>
+                      <input
+                        type="number"
+                        className="input input-bordered input-sm w-[100px]"
+                        value={item.quantity}
+                        onChange={() => {
+                          console.log('test')
+                        }}
+                      />
+                      <button className="btn btn-circle btn-sm">+</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         <button

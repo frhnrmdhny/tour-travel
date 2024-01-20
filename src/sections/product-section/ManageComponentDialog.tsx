@@ -125,6 +125,9 @@ export default function ManageComponentDialog({
                     type="number"
                     className="input input-bordered input-sm w-[100px]"
                     value={item.quantity}
+                    onChange={() => {
+                      console.log('test')
+                    }}
                   />
                   <button className="btn btn-circle btn-sm">+</button>
                 </div>

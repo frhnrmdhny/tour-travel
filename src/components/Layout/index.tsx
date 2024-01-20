@@ -36,6 +36,10 @@ export default function Layout({ children }: Props) {
       {
         href: '/product',
         label: 'Product'
+      },
+      {
+        href: '/transaction',
+        label: 'Transaction'
       }
     ],
     [session?.user.role]
