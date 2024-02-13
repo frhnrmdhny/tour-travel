@@ -4,7 +4,7 @@ import { type RouterInput } from '~/server/api/root'
 
 type DepartureFormState = Omit<
   RouterInput['departure']['add'],
-  'id' | 'departureDate' | 'returnDate'
+  'departureDate' | 'returnDate'
 > & {
   departureDate: string | Date
   returnDate: string | Date
@@ -34,11 +34,9 @@ export default function DepartureForm({
       {
         ...defaultValues,
         departureDate: dayjs(defaultValues?.departureDate).format(
-          'YYYY-MM-DDTHH:mm:ss'
+          'YYYY-MM-DDTHH:mm'
         ),
-        returnDate: dayjs(defaultValues?.returnDate).format(
-          'YYYY-MM-DDTHH:mm:ss'
-        )
+        returnDate: dayjs(defaultValues?.returnDate).format('YYYY-MM-DDTHH:mm')
       } ?? fallbackDefaultValues
   })
 

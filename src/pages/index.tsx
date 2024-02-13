@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 export default function Home() {
   return (
     <div className="relative bg-cover bg-fixed overflow-hidden bg-[url('/assets/hero-2.jpg')]">

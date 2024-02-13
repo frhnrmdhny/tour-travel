@@ -59,16 +59,71 @@ model VerificationToken {
 }
 
 model Customer {
-    id          String        @id @default(cuid())
-    name        String
-    email       String
-    phoneNumber String
-    address     String
-    age         Int
-    gender      Gender
-    createdAt   DateTime      @default(now())
-    updatedAt   DateTime      @updatedAt
-    Transaction Transaction[]
+    id                   String        @id @default(cuid())
+    title                Title
+    name_vaccine         String
+    father_name          String
+    identity_type        IdentityType
+    identity_number      String
+    name_passport        String
+    passport_number      String
+    passport_issued_date DateTime
+    passport_city        String
+    birthplace           String
+    birthdate            DateTime
+    address              String
+    province             String
+    city                 String
+    subdistrict          String
+    ward                 String
+    phoneNumber          String
+    mobileNumber         String
+    nationality          Nationality
+    marital_status       MaritalStatus @relation(fields: [maritalStatusId], references: [id])
+    education            Education     @relation(fields: [educationId], references: [id])
+    occupation           Occupation    @relation(fields: [occupationId], references: [id])
+    createdAt            DateTime      @default(now())
+    updatedAt            DateTime      @updatedAt
+    Transaction          Transaction[]
+    maritalStatusId      String
+    educationId          String
+    occupationId         String
+}
+
+model MaritalStatus {
+    id       String     @id @default(cuid())
+    name     String
+    Customer Customer[]
+}
+
+model Education {
+    id       String     @id @default(cuid())
+    name     String
+    Customer Customer[]
+}
+
+model Occupation {
+    id       String     @id @default(cuid())
+    name     String
+    Customer Customer[]
+}
+
+enum Nationality {
+    WNI
+    WNA
+}
+
+enum Title {
+    TUAN
+    NONA
+    NYONYA
+}
+
+enum IdentityType {
+    NIK
+    KITAS
+    KITAP
+    PASPOR
 }
 
 enum Gender {

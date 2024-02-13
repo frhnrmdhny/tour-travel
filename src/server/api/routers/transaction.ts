@@ -19,7 +19,7 @@ export const transactionRouter = createTRPCRouter({
           include: {
             customer: {
               select: {
-                name: true
+                name_passport: true
               }
             },
             departure: {

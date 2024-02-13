@@ -34,12 +34,28 @@ export const customerRouter = createTRPCRouter({
   add: protectedProcedure
     .input(
       z.object({
-        name: z.string(),
-        email: z.string(),
-        phoneNumber: z.string(),
+        title: z.enum(['TUAN', 'NONA', 'NYONYA']),
+        name_vaccine: z.string(),
+        name_passport: z.string(),
+        passport_number: z.string(),
+        passport_issued_date: z.date(),
+        passport_city: z.string(),
+        father_name: z.string(),
+        identity_type: z.enum(['NIK', 'KITAS', 'KITAP', 'PASPOR']),
+        identity_number: z.string(),
+        birthplace: z.string(),
+        birthdate: z.date(),
         address: z.string(),
-        age: z.number(),
-        gender: z.enum(['MALE', 'FEMALE'])
+        province: z.string(),
+        city: z.string(),
+        subdistrict: z.string(),
+        ward: z.string(),
+        phoneNumber: z.string(),
+        mobileNumber: z.string(),
+        nationality: z.enum(['WNI', 'WNA']),
+        maritalStatusId: z.string(),
+        educationId: z.string(),
+        occupationId: z.string()
       })
     )
     .mutation(({ ctx, input }) =>
@@ -80,12 +96,28 @@ export const customerRouter = createTRPCRouter({
     .input(
       z
         .object({
-          name: z.string(),
-          email: z.string(),
-          phoneNumber: z.string(),
+          title: z.enum(['TUAN', 'NONA', 'NYONYA']),
+          name_vaccine: z.string(),
+          name_passport: z.string(),
+          passport_number: z.string(),
+          passport_issued_date: z.date(),
+          passport_city: z.string(),
+          father_name: z.string(),
+          identity_type: z.enum(['NIK', 'KITAS', 'KITAP', 'PASPOR']),
+          identity_number: z.string(),
+          birthplace: z.string(),
+          birthdate: z.date(),
           address: z.string(),
-          age: z.number(),
-          gender: z.enum(['MALE', 'FEMALE'])
+          province: z.string(),
+          city: z.string(),
+          subdistrict: z.string(),
+          ward: z.string(),
+          phoneNumber: z.string(),
+          mobileNumber: z.string(),
+          nationality: z.enum(['WNI', 'WNA']),
+          maritalStatusId: z.string(),
+          educationId: z.string(),
+          occupationId: z.string()
         })
         .partial()
         .merge(

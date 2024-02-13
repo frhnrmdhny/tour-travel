@@ -2,6 +2,8 @@ import Layout from '~/components/Layout'
 import CustomerForm from '~/sections/customer-section/CustomerForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
+import { transformStringToDate } from '~/utils/form'
+import { type RouterInput } from '~/server/api/root'
 
 export default function EditCustomer() {
   const router = useRouter()
@@ -26,19 +28,17 @@ export default function EditCustomer() {
       <>
         {data && !isLoading && (
           <CustomerForm
-            handleSubmitCallback={(data) => {
-              mutate(
-                {
-                  id,
-                  ...data
-                },
-                {
-                  onSuccess: () => {
-                    void utils.customer.getById.invalidate({ id })
-                    void router.push('/customer')
-                  }
+            handleEdit={(data) => {
+              const transformedData = transformStringToDate<
+                RouterInput['customer']['update']
+              >(['departureDate', 'returnDate'], { ...data, id })
+
+              mutate(transformedData, {
+                onSuccess: () => {
+                  void utils.customer.getById.invalidate({ id })
+                  void router.push('/customer')
                 }
-              )
+              })
             }}
             defaultValues={{
               ...data

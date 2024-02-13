@@ -56,7 +56,7 @@ export default function TransactionForm({
       >
         {customers.map((customer) => (
           <option key={customer.id} value={customer.id}>
-            {customer.name}
+            {customer.name_passport}
           </option>
         ))}
       </select>

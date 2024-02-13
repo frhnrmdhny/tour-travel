@@ -7,6 +7,9 @@ import { productRouter } from './routers/product'
 import { productCategoryRouter } from './routers/productCategory'
 import { productComponentRouter } from './routers/productComponent'
 import { transactionRouter } from './routers/transaction'
+import { maritalStatusRouter } from './routers/maritalStatus'
+import { educationRouter } from './routers/education'
+import { occupationRouter } from './routers/occupation'
 
 import type { inferRouterOutputs, inferRouterInputs } from '@trpc/server'
 
@@ -23,7 +26,10 @@ export const appRouter = createTRPCRouter({
   product: productRouter,
   productCategory: productCategoryRouter,
   productComponent: productComponentRouter,
-  transaction: transactionRouter
+  transaction: transactionRouter,
+  maritalStatus: maritalStatusRouter,
+  education: educationRouter,
+  occupation: occupationRouter
 })
 
 // export type definition of API

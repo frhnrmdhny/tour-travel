@@ -2,7 +2,8 @@ import Layout from '~/components/Layout'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
 import DepartureForm from '~/sections/departure-section/DepartureForm'
-import dayjs from 'dayjs'
+import { transformStringToDate } from '~/utils/form'
+import { type RouterInput } from '~/server/api/root'
 
 export default function EditDeparture() {
   const router = useRouter()
@@ -28,28 +29,16 @@ export default function EditDeparture() {
         {data && !isLoading && (
           <DepartureForm
             handleSubmitCallback={(data) => {
-              const { departureDate, returnDate, ...rest } = data
+              const transformedData = transformStringToDate<
+                RouterInput['departure']['update']
+              >(['departureDate', 'returnDate'], { ...data, id })
 
-              mutate(
-                {
-                  id,
-                  ...rest,
-                  departureDate:
-                    typeof departureDate === 'string'
-                      ? dayjs(departureDate).toDate()
-                      : departureDate,
-                  returnDate:
-                    typeof returnDate === 'string'
-                      ? dayjs(returnDate).toDate()
-                      : returnDate
-                },
-                {
-                  onSuccess: () => {
-                    void utils.departure.getById.invalidate({ id })
-                    void router.push('/departure')
-                  }
+              mutate(transformedData, {
+                onSuccess: () => {
+                  void utils.departure.getById.invalidate({ id })
+                  void router.push('/departure')
                 }
-              )
+              })
             }}
             defaultValues={{
               ...data

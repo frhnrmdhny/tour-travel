@@ -30,18 +30,13 @@ export default function Customer() {
   const columns = useMemo(
     () =>
       [
-        { field: 'name', headerName: 'Nama', flex: 1 },
-        { field: 'email', headerName: 'Email', flex: 1 },
-        { field: 'phoneNumber', headerName: 'No Telepon', flex: 1 },
-        { field: 'address', headerName: 'Alamat', flex: 1 },
-        { field: 'age', headerName: 'Umur', flex: 1 },
         {
-          field: 'gender',
-          headerName: 'Jenis Kelamin',
-          flex: 1,
-          valueGetter: (params) =>
-            params.row.gender === 'MALE' ? 'Laki-laki' : 'Perempuan'
+          field: 'title',
+          headerName: 'Title',
+          flex: 1
         },
+        { field: 'name_passport', headerName: 'Nama', flex: 1 },
+        { field: 'address', headerName: 'Alamat', flex: 1 },
         {
           field: 'id',
           headerName: '',
