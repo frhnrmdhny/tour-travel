@@ -59,35 +59,35 @@ model VerificationToken {
 }
 
 model Customer {
-    id                   String        @id @default(cuid())
-    title                Title
-    name_vaccine         String
-    father_name          String
-    identity_type        IdentityType
-    identity_number      String
-    name_passport        String
-    passport_number      String
-    passport_issued_date DateTime
-    passport_city        String
-    birthplace           String
-    birthdate            DateTime
-    address              String
-    province             String
-    city                 String
-    subdistrict          String
-    ward                 String
-    phoneNumber          String
-    mobileNumber         String
-    nationality          Nationality
-    marital_status       MaritalStatus @relation(fields: [maritalStatusId], references: [id])
-    education            Education     @relation(fields: [educationId], references: [id])
-    occupation           Occupation    @relation(fields: [occupationId], references: [id])
-    createdAt            DateTime      @default(now())
-    updatedAt            DateTime      @updatedAt
-    Transaction          Transaction[]
-    maritalStatusId      String
-    educationId          String
-    occupationId         String
+    id                 String        @id @default(cuid())
+    title              Title
+    nameVaccine        String
+    fatherName         String
+    identityType       IdentityType
+    identityNumber     String
+    namePassport       String
+    passportNumber     String
+    passportIssuedDate DateTime
+    passportCity       String
+    birthplace         String
+    birthdate          DateTime
+    address            String
+    province           String
+    city               String
+    subdistrict        String
+    ward               String
+    phoneNumber        String
+    mobileNumber       String
+    nationality        Nationality
+    maritalStatus      MaritalStatus @relation(fields: [maritalStatusId], references: [id])
+    education          Education     @relation(fields: [educationId], references: [id])
+    occupation         Occupation    @relation(fields: [occupationId], references: [id])
+    createdAt          DateTime      @default(now())
+    updatedAt          DateTime      @updatedAt
+    Transaction        Transaction[]
+    maritalStatusId    String
+    educationId        String
+    occupationId       String
 }
 
 model MaritalStatus {

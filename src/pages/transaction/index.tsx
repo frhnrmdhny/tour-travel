@@ -41,7 +41,7 @@ export default function Transaction() {
           flex: 1,
           valueGetter: (params) => {
             const { customer } = params.row
-            return customer.name_passport
+            return customer.namePassport
           }
         },
         {

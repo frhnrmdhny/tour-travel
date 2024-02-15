@@ -16,7 +16,24 @@ export const customerRouter = createTRPCRouter({
       const [customers, totalCustomers] = await ctx.db.$transaction([
         ctx.db.customer.findMany({
           take: pageSize,
-          skip: page * pageSize
+          skip: page * pageSize,
+          include: {
+            maritalStatus: {
+              select: {
+                name: true
+              }
+            },
+            education: {
+              select: {
+                name: true
+              }
+            },
+            occupation: {
+              select: {
+                name: true
+              }
+            }
+          }
         }),
         ctx.db.customer.count()
       ])
@@ -35,14 +52,14 @@ export const customerRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.enum(['TUAN', 'NONA', 'NYONYA']),
-        name_vaccine: z.string(),
-        name_passport: z.string(),
-        passport_number: z.string(),
-        passport_issued_date: z.date(),
-        passport_city: z.string(),
-        father_name: z.string(),
-        identity_type: z.enum(['NIK', 'KITAS', 'KITAP', 'PASPOR']),
-        identity_number: z.string(),
+        nameVaccine: z.string(),
+        namePassport: z.string(),
+        passportNumber: z.string(),
+        passportIssuedDate: z.date(),
+        passportCity: z.string(),
+        fatherName: z.string(),
+        identityType: z.enum(['NIK', 'KITAS', 'KITAP', 'PASPOR']),
+        identityNumber: z.string(),
         birthplace: z.string(),
         birthdate: z.date(),
         address: z.string(),
@@ -97,14 +114,14 @@ export const customerRouter = createTRPCRouter({
       z
         .object({
           title: z.enum(['TUAN', 'NONA', 'NYONYA']),
-          name_vaccine: z.string(),
-          name_passport: z.string(),
-          passport_number: z.string(),
-          passport_issued_date: z.date(),
-          passport_city: z.string(),
-          father_name: z.string(),
-          identity_type: z.enum(['NIK', 'KITAS', 'KITAP', 'PASPOR']),
-          identity_number: z.string(),
+          nameVaccine: z.string(),
+          namePassport: z.string(),
+          passportNumber: z.string(),
+          passportIssuedDate: z.date(),
+          passportCity: z.string(),
+          fatherName: z.string(),
+          identityType: z.enum(['NIK', 'KITAS', 'KITAP', 'PASPOR']),
+          identityNumber: z.string(),
           birthplace: z.string(),
           birthdate: z.date(),
           address: z.string(),

@@ -8,10 +8,10 @@ import BackButton from '~/components/BackButton'
 
 type CustomerFormState = Omit<
   RouterInput['customer']['add'],
-  'birthdate' | 'passport_issued_date'
+  'birthdate' | 'passportIssuedDate'
 > & {
   birthdate: string | Date
-  passport_issued_date: string | Date
+  passportIssuedDate: string | Date
 }
 
 interface Props {
@@ -23,7 +23,7 @@ interface Props {
 
 const fallbackDefaultValues: Partial<CustomerFormState> = {
   title: 'TUAN',
-  identity_type: 'NIK',
+  identityType: 'NIK',
   nationality: 'WNI'
 }
 
@@ -42,7 +42,7 @@ export default function CustomerForm({
       {
         ...defaultValues,
         birthdate: dayjs(defaultValues?.birthdate).format('YYYY-MM-DD'),
-        passport_issued_date: dayjs(defaultValues?.passport_issued_date).format(
+        passportIssuedDate: dayjs(defaultValues?.passportIssuedDate).format(
           'YYYY-MM-DD'
         )
       } ?? fallbackDefaultValues
@@ -88,32 +88,32 @@ export default function CustomerForm({
         <p>Nama Jamaah (sesuai pada kartu vaksin)</p>
         <input
           className="input input-bordered input-sm"
-          {...register('name_vaccine', { required: true })}
+          {...register('nameVaccine', { required: true })}
         />
 
         <p>Nama Paspor</p>
         <input
           className="input input-bordered input-sm"
-          {...register('name_passport', { required: true })}
+          {...register('namePassport', { required: true })}
         />
 
         <p>No Paspor</p>
         <input
           className="input input-bordered input-sm"
-          {...register('passport_number', { required: true })}
+          {...register('passportNumber', { required: true })}
         />
 
         <p>Kota Paspor</p>
         <input
           className="input input-bordered input-sm"
-          {...register('passport_city', { required: true })}
+          {...register('passportCity', { required: true })}
         />
 
         <p>Tanggal Paspor Dikeluarkan</p>
         <input
           className="input input-bordered input-sm"
           type="date"
-          {...register('passport_issued_date', {
+          {...register('passportIssuedDate', {
             required: true,
             valueAsDate: true
           })}
@@ -122,12 +122,12 @@ export default function CustomerForm({
         <p>Nama Ayah</p>
         <input
           className="input input-bordered input-sm"
-          {...register('father_name', { required: true })}
+          {...register('fatherName', { required: true })}
         />
 
         <p>Jenis Identitas</p>
         <select
-          {...register('identity_type', { required: true })}
+          {...register('identityType', { required: true })}
           className="select select-bordered select-sm"
         >
           {['NIK', 'KITAS', 'KITAP', 'PASPOR'].map((item) => (
@@ -140,7 +140,7 @@ export default function CustomerForm({
         <p>No Identitas</p>
         <input
           className="input input-bordered input-sm"
-          {...register('identity_number', { required: true })}
+          {...register('identityNumber', { required: true })}
         />
 
         <p>Tempat Lahir</p>
