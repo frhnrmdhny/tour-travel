@@ -1,32 +1,49 @@
+import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
+import { getDirtyFields } from '~/utils/form'
 
 type ComponentFormState = RouterInput['component']['add']
 
 interface Props {
-  handleSubmitCallback: (data: ComponentFormState) => void
+  handleCreate?: (data: ComponentFormState) => void
+  handleEdit?: (data: Partial<ComponentFormState>) => void
   defaultValues?: ComponentFormState
   mode: 'edit' | 'create'
 }
 
 export default function ComponentForm({
-  handleSubmitCallback,
+  handleCreate,
+  handleEdit,
   defaultValues,
   mode
 }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { isDirty }
+    formState: { dirtyFields }
   } = useForm<ComponentFormState>({
     defaultValues: defaultValues
   })
 
+  const onSubmit = useCallback(
+    (data: ComponentFormState) => {
+      if (mode === 'edit') {
+        handleEdit?.(getDirtyFields(dirtyFields, data))
+      } else {
+        handleCreate?.(data)
+      }
+    },
+    [dirtyFields, handleCreate, handleEdit, mode]
+  )
+
+  const isDirty = useMemo(
+    () => Object.keys(dirtyFields).length > 0,
+    [dirtyFields]
+  )
+
   return (
-    <form
-      onSubmit={handleSubmit(handleSubmitCallback)}
-      className="flex flex-col gap-2"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <p>Nama</p>
       <input
         className="input input-bordered input-sm"

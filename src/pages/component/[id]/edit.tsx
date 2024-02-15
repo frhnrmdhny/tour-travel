@@ -26,7 +26,7 @@ export default function EditComponent() {
       <>
         {data && !isLoading && (
           <ComponentForm
-            handleSubmitCallback={(data) => {
+            handleEdit={(data) => {
               mutate(
                 {
                   id,

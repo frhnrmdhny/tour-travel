@@ -11,7 +11,7 @@ export default function CreateComponent() {
   return (
     <Layout>
       <ComponentForm
-        handleSubmitCallback={(data) => {
+        handleCreate={(data) => {
           mutate(data, {
             onSuccess: void router.push('/component')
           })

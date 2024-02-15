@@ -26,7 +26,7 @@ export default function EditProduct() {
       <>
         {data && !isLoading && (
           <ProductForm
-            handleSubmitCallback={(data) => {
+            handleEdit={(data) => {
               mutate(
                 {
                   id,

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { api } from '~/utils/api'
 import { type RouterInput } from '~/server/api/root'
@@ -7,17 +7,20 @@ import { FaEdit } from 'react-icons/fa'
 import ManageComponentDialog from './ManageComponentDialog'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { getDirtyFields } from '~/utils/form'
 
 type ProductFormState = RouterInput['product']['add']
 
 interface Props {
-  handleSubmitCallback: (data: ProductFormState) => void
+  handleCreate?: (data: ProductFormState) => void
+  handleEdit?: (data: Partial<ProductFormState>) => void
   defaultValues?: ProductFormState
   mode: 'edit' | 'create'
 }
 
 export default function ProductForm({
-  handleSubmitCallback,
+  handleCreate,
+  handleEdit,
   defaultValues,
   mode
 }: Props) {
@@ -32,7 +35,7 @@ export default function ProductForm({
   const {
     register,
     handleSubmit,
-    formState: { isDirty }
+    formState: { dirtyFields }
   } = useForm<ProductFormState>({
     defaultValues: defaultValues
   })
@@ -50,6 +53,22 @@ export default function ProductForm({
       { enabled: !!session?.user && productId ? true : false }
     )
 
+  const onSubmit = useCallback(
+    (data: ProductFormState) => {
+      if (mode === 'edit') {
+        handleEdit?.(getDirtyFields(dirtyFields, data))
+      } else {
+        handleCreate?.(data)
+      }
+    },
+    [dirtyFields, handleCreate, handleEdit, mode]
+  )
+
+  const isDirty = useMemo(
+    () => Object.keys(dirtyFields).length > 0,
+    [dirtyFields]
+  )
+
   return (
     <>
       <AddCategoryDialog addCategoryDialogRef={addCategoryDialogRef} />
@@ -60,10 +79,7 @@ export default function ProductForm({
         />
       )}
 
-      <form
-        onSubmit={handleSubmit(handleSubmitCallback)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <p>Nama</p>
         <input
           className="input input-bordered input-sm"

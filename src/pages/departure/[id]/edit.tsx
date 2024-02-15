@@ -28,7 +28,7 @@ export default function EditDeparture() {
       <>
         {data && !isLoading && (
           <DepartureForm
-            handleSubmitCallback={(data) => {
+            handleEdit={(data) => {
               const transformedData = transformStringToDate<
                 RouterInput['departure']['update']
               >(['departureDate', 'returnDate'], { ...data, id })

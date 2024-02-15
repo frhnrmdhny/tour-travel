@@ -1,24 +1,28 @@
+import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
 import { api } from '~/utils/api'
+import { getDirtyFields } from '~/utils/form'
 
 type TransactionFormState = RouterInput['transaction']['add']
 
 interface Props {
-  handleSubmitCallback: (data: TransactionFormState) => void
+  handleCreate?: (data: TransactionFormState) => void
+  handleEdit?: (data: Partial<TransactionFormState>) => void
   defaultValues?: TransactionFormState
   mode: 'edit' | 'create'
 }
 
 export default function TransactionForm({
-  handleSubmitCallback,
+  handleCreate,
+  handleEdit,
   defaultValues,
   mode
 }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { isDirty }
+    formState: { dirtyFields }
   } = useForm<TransactionFormState>({
     defaultValues: defaultValues
   })
@@ -38,6 +42,22 @@ export default function TransactionForm({
     pageSize: 100
   })
 
+  const onSubmit = useCallback(
+    (data: TransactionFormState) => {
+      if (mode === 'edit') {
+        handleEdit?.(getDirtyFields(dirtyFields, data))
+      } else {
+        handleCreate?.(data)
+      }
+    },
+    [dirtyFields, handleCreate, handleEdit, mode]
+  )
+
+  const isDirty = useMemo(
+    () => Object.keys(dirtyFields).length > 0,
+    [dirtyFields]
+  )
+
   if (!customersData || !departuresData || !productsData) return null
 
   const { customers } = customersData
@@ -45,10 +65,7 @@ export default function TransactionForm({
   const { products } = productsData
 
   return (
-    <form
-      onSubmit={handleSubmit(handleSubmitCallback)}
-      className="flex flex-col gap-2"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <p>Customer</p>
       <select
         {...register('customerId', { required: true })}
@@ -86,7 +103,7 @@ export default function TransactionForm({
       </select>
 
       <button
-        disabled={mode === 'edit' ? !isDirty : false}
+        disabled={!isDirty}
         className="btn btn-primary btn-sm mt-4"
         type="submit"
       >

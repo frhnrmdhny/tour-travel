@@ -11,7 +11,7 @@ export default function CreateTransaction() {
   return (
     <Layout>
       <TransactionForm
-        handleSubmitCallback={(data) => {
+        handleCreate={(data) => {
           mutate(data, {
             onSuccess: void router.push('/transaction')
           })

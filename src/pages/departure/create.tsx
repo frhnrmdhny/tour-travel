@@ -13,7 +13,7 @@ export default function CreateDeparture() {
   return (
     <Layout>
       <DepartureForm
-        handleSubmitCallback={(data) => {
+        handleCreate={(data) => {
           const transformedData = transformStringToDate<
             RouterInput['departure']['add']
           >(['departureDate', 'returnDate'], data)

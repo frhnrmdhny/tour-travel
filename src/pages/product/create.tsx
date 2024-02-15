@@ -11,7 +11,7 @@ export default function CreateProduct() {
   return (
     <Layout>
       <ProductForm
-        handleSubmitCallback={(data) => {
+        handleCreate={(data) => {
           mutate(data, {
             onSuccess: void router.push('/product')
           })
