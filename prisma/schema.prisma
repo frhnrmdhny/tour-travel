@@ -214,3 +214,22 @@ model Transaction {
 
     @@unique([customerId, departureId])
 }
+
+model Partner {
+    id             String        @id @default(cuid())
+    name           String
+    email          String
+    address        String
+    identityNumber String
+    bankAccount    BankAccount[]
+    balance        Int
+}
+
+model BankAccount {
+    id            String   @id @default(cuid())
+    bankName      String
+    ownerName     String
+    accountNumber String
+    Partner       Partner? @relation(fields: [partnerId], references: [id])
+    partnerId     String?
+}
