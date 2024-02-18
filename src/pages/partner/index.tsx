@@ -65,7 +65,7 @@ export default function Partner() {
 
                 <button
                   className="btn btn-sm btn-warning"
-                  onClick={() => router.push(`/Partner/${id}/edit`)}
+                  onClick={() => router.push(`/partner/${id}/edit`)}
                 >
                   Sunting
                 </button>

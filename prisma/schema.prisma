@@ -226,10 +226,10 @@ model Partner {
 }
 
 model BankAccount {
-    id            String   @id @default(cuid())
+    id            String  @id @default(cuid())
     bankName      String
     ownerName     String
     accountNumber String
-    Partner       Partner? @relation(fields: [partnerId], references: [id])
-    partnerId     String?
+    Partner       Partner @relation(fields: [partnerId], references: [id])
+    partnerId     String
 }

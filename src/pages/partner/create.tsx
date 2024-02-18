@@ -7,13 +7,17 @@ export default function Createpartner() {
   const router = useRouter()
 
   const { mutate } = api.partner.add.useMutation()
+  const utils = api.useUtils()
 
   return (
     <Layout>
       <PartnerForm
         handleCreate={(data) => {
           mutate(data, {
-            onSuccess: void router.push('/partner')
+            onSuccess: (data) => {
+              void utils.partner.get.invalidate()
+              void router.push(`/partner/${data.id}/edit`)
+            }
           })
         }}
         mode="create"

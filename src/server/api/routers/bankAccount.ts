@@ -35,7 +35,8 @@ export const bankAccountRouter = createTRPCRouter({
       z.object({
         bankName: z.string(),
         ownerName: z.string(),
-        accountNumber: z.string()
+        accountNumber: z.string(),
+        partnerId: z.string()
       })
     )
     .mutation(({ ctx, input }) =>
@@ -92,6 +93,23 @@ export const bankAccountRouter = createTRPCRouter({
         data,
         where: {
           id
+        }
+      })
+    ),
+
+  getByPartnerId: protectedProcedure
+    .input(
+      z.object({
+        partnerId: z.string()
+      })
+    )
+    .query(({ ctx, input: { partnerId } }) =>
+      ctx.db.bankAccount.findMany({
+        where: {
+          partnerId
+        },
+        include: {
+          Partner: true
         }
       })
     )

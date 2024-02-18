@@ -1,7 +1,9 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
+import AddBankAccountDialog from './AddBankAccountDialog'
+import AccountDetail from './AccountDetail'
 
 type PartnerFormState = RouterInput['partner']['add']
 
@@ -26,6 +28,8 @@ export default function PartnerForm({
     defaultValues: defaultValues
   })
 
+  const addBankAccountDialogRef = useRef<HTMLDialogElement>(null)
+
   const onSubmit = useCallback(
     (data: PartnerFormState) => {
       if (mode === 'edit') {
@@ -43,39 +47,54 @@ export default function PartnerForm({
   )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <p>Nama</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('name', { required: true })}
-      />
+    <>
+      <AddBankAccountDialog addBankAccountDialogRef={addBankAccountDialogRef} />
 
-      <p>Email</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('email', { required: true })}
-      />
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-2">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-2"
+          >
+            <p>Nama</p>
+            <input
+              className="input input-bordered input-sm"
+              {...register('name', { required: true })}
+            />
 
-      <p>Alamat</p>
-      <textarea
-        className="textarea textarea-bordered textarea-sm"
-        {...register('address', { required: true })}
-        rows={2}
-      />
+            <p>NIK</p>
+            <input
+              className="input input-bordered input-sm"
+              {...register('identityNumber', { required: true })}
+            />
 
-      <p>NIK</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('identityNumber', { required: true })}
-      />
+            <p>Email</p>
+            <input
+              className="input input-bordered input-sm"
+              {...register('email', { required: true })}
+            />
 
-      <button
-        disabled={!isDirty}
-        className="btn btn-primary btn-sm mt-4"
-        type="submit"
-      >
-        {mode === 'create' ? 'Tambahkan' : 'Sunting'}
-      </button>
-    </form>
+            <p>Alamat</p>
+            <textarea
+              className="textarea textarea-bordered textarea-sm"
+              {...register('address', { required: true })}
+              rows={2}
+            />
+
+            <button
+              disabled={!isDirty}
+              className="btn btn-primary btn-sm mt-4"
+              type="submit"
+            >
+              {mode === 'create' ? 'Tambahkan' : 'Sunting'}
+            </button>
+          </form>
+        </div>
+
+        {mode === 'edit' && (
+          <AccountDetail addBankAccountDialogRef={addBankAccountDialogRef} />
+        )}
+      </div>
+    </>
   )
 }
