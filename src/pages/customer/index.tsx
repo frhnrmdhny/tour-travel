@@ -17,7 +17,7 @@ const TABLE_HEAD_LABEL = {
   identityNumber: 'No Identitas',
   namePassport: 'Nama Paspor',
   passportNumber: 'No Paspor',
-  passportIssued_date: 'Tanggal Dikeluarkan Paspor(yyyy-mm-dd)',
+  passportIssuedDate: 'Tanggal Dikeluarkan Paspor(yyyy-mm-dd)',
   passportCity: 'Kota Paspor',
   birthplace: 'Tempat Lahir',
   birthdate: 'Tanggal Lahir(yyyy-mm-dd)',
@@ -122,7 +122,7 @@ export default function Customer() {
           ...rest
         } = customer
 
-        const actualCustomer = {
+        const actualCustomer: Record<string, string> = {
           ...rest,
           maritalStatus: maritalStatus.name,
           education: education.name,
@@ -131,7 +131,14 @@ export default function Customer() {
           birthdate: dayjs(birthdate).format('YYYY-MM-DD')
         }
 
-        return actualCustomer
+        const sortedCustomer: Record<string, string> = {}
+
+        Object.keys(TABLE_HEAD_LABEL).forEach((key) => {
+          const value = actualCustomer[key]
+          if (value) sortedCustomer[key] = value
+        })
+
+        return sortedCustomer
       })
 
       const worksheet = xlsx.utils.json_to_sheet(customers)

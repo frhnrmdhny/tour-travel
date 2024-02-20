@@ -12,22 +12,17 @@ export default function Home() {
               <ul className="flex space-x-4">
                 <li>
                   <a href="#" className="text-white hover:text-gray-200">
-                    Home
+                    Daftar Harga
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white hover:text-gray-200">
-                    Tours
+                    Kontak
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-white hover:text-gray-200">
-                    Travel
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-white hover:text-gray-200">
-                    Contact
+                    Tentang Kami
                   </a>
                 </li>
               </ul>
