@@ -12,6 +12,7 @@ import { educationRouter } from './routers/education'
 import { occupationRouter } from './routers/occupation'
 import { partnerRouter } from './routers/partner'
 import { bankAccountRouter } from './routers/bankAccount'
+import { customerBalanceHistoryRouter } from './routers/customerBalanceHistory'
 
 import type { inferRouterOutputs, inferRouterInputs } from '@trpc/server'
 
@@ -33,7 +34,8 @@ export const appRouter = createTRPCRouter({
   education: educationRouter,
   occupation: occupationRouter,
   partner: partnerRouter,
-  bankAccount: bankAccountRouter
+  bankAccount: bankAccountRouter,
+  customerBalanceHistory: customerBalanceHistoryRouter
 })
 
 // export type definition of API

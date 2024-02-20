@@ -7,8 +7,8 @@ import { type RouterInput } from '~/server/api/root'
 
 export default function CreateCustomer() {
   const router = useRouter()
-
   const { mutate } = api.customer.add.useMutation()
+  const utils = api.useUtils()
 
   return (
     <Layout>
@@ -19,7 +19,11 @@ export default function CreateCustomer() {
           >(['departureDate', 'returnDate'], data)
 
           mutate(transformedData, {
-            onSuccess: void router.push('/customer')
+            onSuccess: () => {
+              void utils.customer.get
+                .invalidate()
+                .then(() => router.push('/customer'))
+            }
           })
         }}
         mode="create"

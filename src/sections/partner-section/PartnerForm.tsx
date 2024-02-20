@@ -51,7 +51,7 @@ export default function PartnerForm({
       <AddBankAccountDialog addBankAccountDialogRef={addBankAccountDialogRef} />
 
       <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2">
+        <div className={`${mode === 'edit' ? 'col-span-2' : 'col-span-3'}`}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-2"

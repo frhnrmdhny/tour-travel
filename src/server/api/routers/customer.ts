@@ -180,5 +180,23 @@ export const customerRouter = createTRPCRouter({
       customerGrowth,
       thisMonthCustomerCount
     }
-  })
+  }),
+
+  getAdditionalInformation: protectedProcedure
+    .input(
+      z.object({
+        id: z.string()
+      })
+    )
+    .query(({ ctx, input: { id } }) =>
+      ctx.db.customer.findUnique({
+        where: {
+          id
+        },
+        select: {
+          id: true,
+          balanceHistory: true
+        }
+      })
+    )
 })

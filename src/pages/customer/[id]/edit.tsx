@@ -35,8 +35,9 @@ export default function EditCustomer() {
 
               mutate(transformedData, {
                 onSuccess: () => {
-                  void utils.customer.getById.invalidate({ id })
-                  void router.push('/customer')
+                  void utils.customer.getById
+                    .invalidate({ id })
+                    .then(() => router.push('/customer'))
                 }
               })
             }}
