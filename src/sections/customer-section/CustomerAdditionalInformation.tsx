@@ -63,14 +63,12 @@ export default function CustomerAdditionalInformation() {
                 key={history.id}
                 className="card bg-base-content text-base shadow-2xl p-4 mt-2"
               >
-                <div className="flex justify-between items-end">
-                  <div className="max-w-48">
-                    <p>{history.createdAt.toLocaleString()}</p>
-                    <p>{history.type}</p>
-                    <p>{history.description}</p>
-                  </div>
-                  <p>Rp. {history.amount.toLocaleString()}</p>
-                </div>
+                <p>{history.createdAt.toLocaleString()}</p>
+                <p>{history.type}</p>
+                <p>{history.description}</p>
+                <p className="text text-right">
+                  Rp. {history.amount.toLocaleString()}
+                </p>
               </div>
             ))}
           </div>

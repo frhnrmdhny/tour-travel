@@ -22,6 +22,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@fontsource-variable/figtree": "^5.0.19",
     "@mui/material": "^5.15.10",
     "@mui/material-nextjs": "^5.15.9",
     "@mui/x-data-grid": "^6.19.4",
