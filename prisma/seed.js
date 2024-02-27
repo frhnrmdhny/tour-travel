@@ -13,17 +13,20 @@ const OCCUPATION_DATA = [
 ]
 
 async function seedOccupation() {
-  const occupationInDatabase = (await prisma.occupation.findMany()).map(
-    (occupation) => occupation.name
+  const created = await Promise.all(
+    OCCUPATION_DATA.map((data) =>
+      prisma.occupation.upsert({
+        where: {
+          name: data
+        },
+        update: {},
+        create: {
+          name: data
+        }
+      })
+    )
   )
-  const notExistOccupation = OCCUPATION_DATA.filter(
-    (occupation) => !occupationInDatabase.includes(occupation)
-  )
-  const created = await prisma.occupation.createMany({
-    data: notExistOccupation.map((occupation) => ({
-      name: occupation
-    }))
-  })
+
   console.log(created, 'occupation')
 }
 
@@ -41,41 +44,45 @@ const EDUCATION_DATA = [
 ]
 
 async function seedEducation() {
-  const educationInDatabase = (await prisma.education.findMany()).map(
-    (education) => education.name
+  const created = await Promise.all(
+    EDUCATION_DATA.map((data) =>
+      prisma.education.upsert({
+        where: {
+          name: data
+        },
+        update: {},
+        create: {
+          name: data
+        }
+      })
+    )
   )
-  const notExistEducation = EDUCATION_DATA.filter(
-    (education) => !educationInDatabase.includes(education)
-  )
-  const created = await prisma.education.createMany({
-    data: notExistEducation.map((education) => ({
-      name: education
-    }))
-  })
+
   console.log(created, 'education')
 }
 
 const MARITAL_STATUS_DATA = ['BELUM MENIKAH', 'MENIKAH', 'JANDA / DUDA']
 
 async function seedMaritalStatus() {
-  const maritalStatusInDatabase = (await prisma.maritalStatus.findMany()).map(
-    (maritalStatus) => maritalStatus.name
+  const created = await Promise.all(
+    MARITAL_STATUS_DATA.map((data) =>
+      prisma.maritalStatus.upsert({
+        where: {
+          name: data
+        },
+        update: {},
+        create: {
+          name: data
+        }
+      })
+    )
   )
-  const notExistMaritalStatus = MARITAL_STATUS_DATA.filter(
-    (maritalStatus) => !maritalStatusInDatabase.includes(maritalStatus)
-  )
-  const created = await prisma.maritalStatus.createMany({
-    data: notExistMaritalStatus.map((maritalStatus) => ({
-      name: maritalStatus
-    }))
-  })
+
   console.log(created, 'maritalStatus')
 }
 
 async function main() {
-  await seedOccupation()
-  await seedEducation()
-  await seedMaritalStatus()
+  await Promise.all([seedOccupation(), seedEducation(), seedMaritalStatus()])
 }
 main()
   .then(async () => {
