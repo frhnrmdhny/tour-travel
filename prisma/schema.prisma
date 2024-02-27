@@ -112,19 +112,19 @@ enum CustomerBalanceHistoryType {
 
 model MaritalStatus {
     id       String     @id @default(cuid())
-    name     String
+    name     String     @unique
     Customer Customer[]
 }
 
 model Education {
     id       String     @id @default(cuid())
-    name     String
+    name     String     @unique
     Customer Customer[]
 }
 
 model Occupation {
     id       String     @id @default(cuid())
-    name     String
+    name     String     @unique
     Customer Customer[]
 }
 
@@ -247,4 +247,31 @@ model BankAccount {
     accountNumber String
     Partner       Partner @relation(fields: [partnerId], references: [id])
     partnerId     String
+}
+
+model Employee {
+    id          String     @id @default(cuid())
+    name        String
+    title       String
+    email       String
+    description String
+    managerId   String?    @unique
+    manager     Employee?  @relation("colleague", fields: [managerId], references: [id])
+    subordinate Employee[] @relation("colleague")
+    paySlip     PaySlip?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model PaySlip {
+    id         String   @id @default(cuid())
+    Employee   Employee @relation(fields: [employeeId], references: [id])
+    employeeId String   @unique
+    grossPay   Int
+    deductions Int
+    netPay     Int
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
