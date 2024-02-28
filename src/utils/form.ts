@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 export function getDirtyFields<T>(
   dirtyFields: Record<string, boolean>,
-  formValues: Record<string, string | Date | number>
+  formValues: Record<string, string | Date | number | null>
 ) {
   return Object.keys(dirtyFields).reduce<
     Record<string, string | Date | number>

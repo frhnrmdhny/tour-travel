@@ -1,22 +1,23 @@
 import Layout from '~/components/Layout'
-import ProductForm from '~/sections/product-section/ProductForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
+import EmployeeForm from '~/sections/employee-section/EmployeeForm'
 
-export default function CreateProduct() {
+export default function CreateEmployee() {
   const router = useRouter()
 
-  const { mutate } = api.product.add.useMutation()
+  const { mutate } = api.employee.add.useMutation()
+
   const utils = api.useUtils()
 
   return (
     <Layout>
-      <ProductForm
+      <EmployeeForm
         handleCreate={(data) => {
           mutate(data, {
             onSuccess: () => {
-              void utils.product.get.invalidate()
-              void router.push('/product')
+              void utils.employee.get.invalidate()
+              void router.push(`/employee`)
             }
           })
         }}

@@ -1,16 +1,16 @@
 import Layout from '~/components/Layout'
-import ProductForm from '~/sections/product-section/ProductForm'
+import EmployeeForm from '~/sections/employee-section/EmployeeForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
 
-export default function EditProduct() {
+export default function EditEmployee() {
   const router = useRouter()
 
   const id = router.query.id as string
 
-  const { mutate } = api.product.update.useMutation()
+  const { mutate } = api.employee.update.useMutation()
 
-  const { data, isLoading } = api.product.getById.useQuery(
+  const { data, isLoading } = api.employee.getById.useQuery(
     {
       id
     },
@@ -25,7 +25,7 @@ export default function EditProduct() {
     <Layout>
       <>
         {data && !isLoading && (
-          <ProductForm
+          <EmployeeForm
             handleEdit={(data) => {
               mutate(
                 {
@@ -34,9 +34,9 @@ export default function EditProduct() {
                 },
                 {
                   onSuccess: () => {
-                    void utils.product.getById.invalidate({ id })
-                    void utils.product.get.invalidate()
-                    void router.push('/product')
+                    void utils.employee.getById.invalidate({ id })
+                    void utils.employee.get.invalidate()
+                    void router.push('/employee')
                   }
                 }
               )

@@ -37,7 +37,7 @@ export const employeeRouter = createTRPCRouter({
         title: z.string(),
         email: z.string(),
         description: z.string(),
-        managerId: z.string().nullable()
+        managerId: z.string().optional().nullable()
       })
     )
     .mutation(({ ctx, input }) =>
@@ -82,7 +82,7 @@ export const employeeRouter = createTRPCRouter({
           title: z.string(),
           email: z.string(),
           description: z.string(),
-          managerId: z.string().nullable()
+          managerId: z.string().optional().nullable()
         })
         .partial()
         .merge(

@@ -35,6 +35,7 @@ export default function EditComponent() {
                 {
                   onSuccess: () => {
                     void utils.component.getById.invalidate({ id })
+                    void utils.component.get.invalidate()
                     void router.push('/component')
                   }
                 }

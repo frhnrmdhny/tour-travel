@@ -36,6 +36,7 @@ export default function EditDeparture() {
               mutate(transformedData, {
                 onSuccess: () => {
                   void utils.departure.getById.invalidate({ id })
+                  void utils.departure.get.invalidate()
                   void router.push('/departure')
                 }
               })

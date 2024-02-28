@@ -35,6 +35,7 @@ export default function EditPartner() {
                 {
                   onSuccess: () => {
                     void utils.partner.getById.invalidate({ id })
+                    void utils.partner.get.invalidate()
                     void router.push('/partner')
                   }
                 }

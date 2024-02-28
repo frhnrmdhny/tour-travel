@@ -44,6 +44,10 @@ export default function Layout({ children }: Props) {
       {
         href: '/partner',
         label: 'Mitra'
+      },
+      {
+        href: '/employee',
+        label: 'Karyawan'
       }
     ],
     [session?.user.role]

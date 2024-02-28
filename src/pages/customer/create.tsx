@@ -20,9 +20,8 @@ export default function CreateCustomer() {
 
           mutate(transformedData, {
             onSuccess: () => {
-              void utils.customer.get
-                .invalidate()
-                .then(() => router.push('/customer'))
+              void utils.customer.get.invalidate()
+              void router.push('/customer')
             }
           })
         }}

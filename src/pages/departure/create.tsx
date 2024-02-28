@@ -9,6 +9,7 @@ export default function CreateDeparture() {
   const router = useRouter()
 
   const { mutate } = api.departure.add.useMutation()
+  const utils = api.useUtils()
 
   return (
     <Layout>
@@ -19,7 +20,10 @@ export default function CreateDeparture() {
           >(['departureDate', 'returnDate'], data)
 
           mutate(transformedData, {
-            onSuccess: void router.push('/departure')
+            onSuccess: () => {
+              void utils.departure.get.invalidate()
+              void router.push('/departure')
+            }
           })
         }}
         mode="create"
