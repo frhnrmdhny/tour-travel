@@ -96,5 +96,19 @@ export const paySlipRouter = createTRPCRouter({
           id
         }
       })
+    ),
+
+  getByEmployeeId: protectedProcedure
+    .input(
+      z.object({
+        employeeId: z.string()
+      })
+    )
+    .query(({ ctx, input: { employeeId } }) =>
+      ctx.db.paySlip.findMany({
+        where: {
+          employeeId
+        }
+      })
     )
 })

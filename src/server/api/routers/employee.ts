@@ -37,6 +37,8 @@ export const employeeRouter = createTRPCRouter({
         title: z.string(),
         email: z.string(),
         description: z.string(),
+        salary: z.number(),
+        bankAccount: z.string(),
         managerId: z.string().optional().nullable()
       })
     )
@@ -82,6 +84,8 @@ export const employeeRouter = createTRPCRouter({
           title: z.string(),
           email: z.string(),
           description: z.string(),
+          salary: z.number(),
+          bankAccount: z.string(),
           managerId: z.string().optional().nullable()
         })
         .partial()

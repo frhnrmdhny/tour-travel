@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
+import EmployeePayroll from './EmployeePayroll'
 
 type EmployeeFormState = Omit<
   RouterInput['employee']['add'],
@@ -48,38 +49,55 @@ export default function EmployeeForm({
   )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <p>Nama</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('name', { required: true })}
-      />
+    <div className="grid grid-cols-3 gap-4">
+      <div className={`${mode === 'edit' ? 'col-span-2' : 'col-span-3'}`}>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+          <p>Nama</p>
+          <input
+            className="input input-bordered input-sm"
+            {...register('name', { required: true })}
+          />
 
-      <p>Title</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('title', { required: true })}
-      />
+          <p>Title</p>
+          <input
+            className="input input-bordered input-sm"
+            {...register('title', { required: true })}
+          />
 
-      <p>Email</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('email', { required: true })}
-      />
+          <p>Email</p>
+          <input
+            className="input input-bordered input-sm"
+            {...register('email', { required: true })}
+          />
 
-      <p>Description</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('description', { required: true })}
-      />
+          <p>Description</p>
+          <input
+            className="input input-bordered input-sm"
+            {...register('description', { required: true })}
+          />
 
-      <button
-        disabled={!isDirty}
-        className="btn btn-primary btn-sm mt-4"
-        type="submit"
-      >
-        {mode === 'create' ? 'Tambahkan' : 'Sunting'}
-      </button>
-    </form>
+          <p>Salary</p>
+          <input
+            className="input input-bordered input-sm"
+            {...register('salary', { required: true, valueAsNumber: true })}
+          />
+
+          <p>Bank Account</p>
+          <input
+            className="input input-bordered input-sm"
+            {...register('bankAccount', { required: true })}
+          />
+
+          <button
+            disabled={!isDirty}
+            className="btn btn-primary btn-sm mt-4"
+            type="submit"
+          >
+            {mode === 'create' ? 'Tambahkan' : 'Sunting'}
+          </button>
+        </form>
+      </div>
+      {mode === 'edit' && <EmployeePayroll />}
+    </div>
   )
 }

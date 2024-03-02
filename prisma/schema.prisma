@@ -255,10 +255,12 @@ model Employee {
     title       String
     email       String
     description String
+    salary      Int
+    bankAccount String
     managerId   String?    @unique
     manager     Employee?  @relation("colleague", fields: [managerId], references: [id])
     subordinate Employee[] @relation("colleague")
-    paySlip     PaySlip?
+    paySlip     PaySlip[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
