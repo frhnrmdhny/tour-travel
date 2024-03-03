@@ -29,41 +29,45 @@ export default function EditBankAccountDialog({
 
   if (!data) return null
 
-  return createPortal(
-    <dialog className="modal" ref={editBankAccountDialogRef}>
-      <div className="modal-box">
-        <h3 className="font-bold text-lg mb-2">Edit Bank Account</h3>
-        <div className="modal-action">
-          <BankAccountForm
-            handleEdit={(data) => {
-              mutate(
-                {
-                  id: bankAccountId,
-                  ...data
-                },
-                {
-                  onSuccess: () =>
-                    void utils.bankAccount.getByPartnerId
-                      .invalidate({
-                        partnerId
-                      })
-                      .then(() => close())
-                }
-              )
-            }}
-            mode="edit"
-            defaultValues={{
-              accountNumber: data.accountNumber,
-              bankName: data.bankName,
-              ownerName: data.ownerName,
-              partnerId: data.partnerId
-            }}
-            close={close}
-          />
+  if (typeof window === 'object') {
+    return createPortal(
+      <dialog className="modal" ref={editBankAccountDialogRef}>
+        <div className="modal-box">
+          <h3 className="font-bold text-lg mb-2">Edit Bank Account</h3>
+          <div className="modal-action">
+            <BankAccountForm
+              handleEdit={(data) => {
+                mutate(
+                  {
+                    id: bankAccountId,
+                    ...data
+                  },
+                  {
+                    onSuccess: () =>
+                      void utils.bankAccount.getByPartnerId
+                        .invalidate({
+                          partnerId
+                        })
+                        .then(() => close())
+                  }
+                )
+              }}
+              mode="edit"
+              defaultValues={{
+                accountNumber: data.accountNumber,
+                bankName: data.bankName,
+                ownerName: data.ownerName,
+                partnerId: data.partnerId
+              }}
+              close={close}
+            />
+          </div>
         </div>
-      </div>
-    </dialog>,
-    document.body,
-    bankAccountId
-  )
+      </dialog>,
+      document.body,
+      bankAccountId
+    )
+  }
+
+  return null
 }

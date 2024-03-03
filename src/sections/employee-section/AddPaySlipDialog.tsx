@@ -59,41 +59,45 @@ export default function AddPaySlipDialog({ addPaySlipDialogRef }: Props) {
     utils.paySlip.getByEmployeeId
   ])
 
-  return createPortal(
-    <dialog className="modal" ref={addPaySlipDialogRef}>
-      <div className="modal-box">
-        <h3 className="font-bold text-lg mb-2">Generate Paycheck</h3>
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between">
-            <p>Salary</p> <p>{data?.salary}</p>
+  if (typeof window === 'object') {
+    return createPortal(
+      <dialog className="modal" ref={addPaySlipDialogRef}>
+        <div className="modal-box">
+          <h3 className="font-bold text-lg mb-2">Generate Paycheck</h3>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <p>Salary</p> <p>{data?.salary}</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p>Deductions</p>{' '}
+              <input
+                value={deductions}
+                onChange={(e) => {
+                  const newValue = parseInt(e.target.value)
+                  if (isNaN(newValue)) return
+                  setDeductions(newValue)
+                }}
+                type="number"
+                className="input input-bordered input-sm"
+              />
+            </div>
+            <div className="flex justify-between">
+              <p>Net Pay</p> <p>{netPay}</p>
+            </div>
           </div>
-          <div className="flex justify-between items-center">
-            <p>Deductions</p>{' '}
-            <input
-              value={deductions}
-              onChange={(e) => {
-                const newValue = parseInt(e.target.value)
-                if (isNaN(newValue)) return
-                setDeductions(newValue)
-              }}
-              type="number"
-              className="input input-bordered input-sm"
-            />
-          </div>
-          <div className="flex justify-between">
-            <p>Net Pay</p> <p>{netPay}</p>
+          <div className="modal-action">
+            <button
+              onClick={generatePayslip}
+              className="btn btn-primary btn-sm mt-4"
+            >
+              Generate
+            </button>
           </div>
         </div>
-        <div className="modal-action">
-          <button
-            onClick={generatePayslip}
-            className="btn btn-primary btn-sm mt-4"
-          >
-            Generate
-          </button>
-        </div>
-      </div>
-    </dialog>,
-    document.body
-  )
+      </dialog>,
+      document.body
+    )
+  }
+
+  return null
 }

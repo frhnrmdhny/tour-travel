@@ -23,34 +23,38 @@ export default function AddCustomerBalanceHistoryDialog({
     addCustomerBalanceHistoryDialogRef.current?.close()
   }, [addCustomerBalanceHistoryDialogRef])
 
-  return createPortal(
-    <dialog className="modal" ref={addCustomerBalanceHistoryDialogRef}>
-      <div className="modal-box">
-        <h3 className="font-bold text-lg mb-2">Add Bank Account</h3>
-        <div className="modal-action">
-          <CustomerBalanceHistoryForm
-            handleCreate={(data) => {
-              mutate(data, {
-                onSuccess: () =>
-                  void utils.customerBalanceHistory.getByCustomerId
-                    .invalidate({
-                      customerId
-                    })
-                    .then(() =>
-                      addCustomerBalanceHistoryDialogRef.current?.close()
-                    )
-              })
-            }}
-            mode="create"
-            defaultValues={{
-              customerId,
-              type
-            }}
-            close={close}
-          />
+  if (typeof window === 'object') {
+    return createPortal(
+      <dialog className="modal" ref={addCustomerBalanceHistoryDialogRef}>
+        <div className="modal-box">
+          <h3 className="font-bold text-lg mb-2">Add Bank Account</h3>
+          <div className="modal-action">
+            <CustomerBalanceHistoryForm
+              handleCreate={(data) => {
+                mutate(data, {
+                  onSuccess: () =>
+                    void utils.customerBalanceHistory.getByCustomerId
+                      .invalidate({
+                        customerId
+                      })
+                      .then(() =>
+                        addCustomerBalanceHistoryDialogRef.current?.close()
+                      )
+                })
+              }}
+              mode="create"
+              defaultValues={{
+                customerId,
+                type
+              }}
+              close={close}
+            />
+          </div>
         </div>
-      </div>
-    </dialog>,
-    document.body
-  )
+      </dialog>,
+      document.body
+    )
+  }
+
+  return null
 }
