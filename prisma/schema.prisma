@@ -1,280 +1,292 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("DATABASE_PRISMA_URL") // uses connection pooling
-    directUrl = env("DATABASE_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("DATABASE_PRISMA_URL") // uses connection pooling
+  directUrl = env("DATABASE_URL_NON_POOLING") // uses a direct connection
 }
 
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String?
-    access_token      String?
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String?
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    role          Role      @default(USER)
-    accounts      Account[]
-    sessions      Session[]
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role         @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  LogHistory    LogHistory[]
 }
 
 enum Role {
-    SUPERADMIN
-    ADMIN
-    USER
+  SUPERADMIN
+  ADMIN
+  USER
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }
 
 model Customer {
-    id                 String                   @id @default(cuid())
-    title              Title
-    nameVaccine        String
-    fatherName         String
-    identityType       IdentityType
-    identityNumber     String
-    namePassport       String
-    passportNumber     String
-    passportIssuedDate DateTime
-    passportCity       String
-    birthplace         String
-    birthdate          DateTime
-    address            String
-    province           String
-    city               String
-    subdistrict        String
-    ward               String
-    phoneNumber        String
-    mobileNumber       String
-    nationality        Nationality
-    maritalStatus      MaritalStatus            @relation(fields: [maritalStatusId], references: [id])
-    education          Education                @relation(fields: [educationId], references: [id])
-    occupation         Occupation               @relation(fields: [occupationId], references: [id])
-    Transaction        Transaction[]
-    maritalStatusId    String
-    educationId        String
-    occupationId       String
-    balanceHistory     CustomerBalanceHistory[]
+  id                 String                   @id @default(cuid())
+  title              Title
+  nameVaccine        String
+  fatherName         String
+  identityType       IdentityType
+  identityNumber     String
+  namePassport       String
+  passportNumber     String
+  passportIssuedDate DateTime
+  passportCity       String
+  birthplace         String
+  birthdate          DateTime
+  address            String
+  province           String
+  city               String
+  subdistrict        String
+  ward               String
+  phoneNumber        String
+  mobileNumber       String
+  nationality        Nationality
+  maritalStatus      MaritalStatus            @relation(fields: [maritalStatusId], references: [id])
+  education          Education                @relation(fields: [educationId], references: [id])
+  occupation         Occupation               @relation(fields: [occupationId], references: [id])
+  Transaction        Transaction[]
+  maritalStatusId    String
+  educationId        String
+  occupationId       String
+  balanceHistory     CustomerBalanceHistory[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CustomerBalanceHistory {
-    id          String                     @id @default(cuid())
-    type        CustomerBalanceHistoryType
-    amount      Int
-    description String
-    Customer    Customer                   @relation(fields: [customerId], references: [id])
-    customerId  String
+  id          String                     @id @default(cuid())
+  type        CustomerBalanceHistoryType
+  amount      Int
+  description String
+  Customer    Customer                   @relation(fields: [customerId], references: [id])
+  customerId  String
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum CustomerBalanceHistoryType {
-    DEPOSIT
-    WITHDRAW
-    TRANSACTION
+  DEPOSIT
+  WITHDRAW
+  TRANSACTION
 }
 
 model MaritalStatus {
-    id       String     @id @default(cuid())
-    name     String     @unique
-    Customer Customer[]
+  id       String     @id @default(cuid())
+  name     String     @unique
+  Customer Customer[]
 }
 
 model Education {
-    id       String     @id @default(cuid())
-    name     String     @unique
-    Customer Customer[]
+  id       String     @id @default(cuid())
+  name     String     @unique
+  Customer Customer[]
 }
 
 model Occupation {
-    id       String     @id @default(cuid())
-    name     String     @unique
-    Customer Customer[]
+  id       String     @id @default(cuid())
+  name     String     @unique
+  Customer Customer[]
 }
 
 enum Nationality {
-    WNI
-    WNA
+  WNI
+  WNA
 }
 
 enum Title {
-    TUAN
-    NONA
-    NYONYA
+  TUAN
+  NONA
+  NYONYA
 }
 
 enum IdentityType {
-    NIK
-    KITAS
-    KITAP
-    PASPOR
+  NIK
+  KITAS
+  KITAP
+  PASPOR
 }
 
 model Departure {
-    id            String          @id @default(cuid())
-    name          String
-    departureDate DateTime
-    returnDate    DateTime
-    status        DepartureStatus @default(PREPARING)
-    Transaction   Transaction[]
+  id            String          @id @default(cuid())
+  name          String
+  departureDate DateTime
+  returnDate    DateTime
+  status        DepartureStatus @default(PREPARING)
+  Transaction   Transaction[]
 }
 
 enum DepartureStatus {
-    PREPARING
-    ONGOING
-    FINISH
+  PREPARING
+  ONGOING
+  FINISH
 }
 
 model ProductCategory {
-    id      String    @id @default(cuid())
-    name    String
-    Product Product[]
+  id      String    @id @default(cuid())
+  name    String
+  Product Product[]
 }
 
 model Product {
-    id                 String               @id @default(cuid())
-    name               String
-    description        String
-    price              Int
-    stock              Int
-    restockLevel       Int
-    components         Component[]
-    productsComponents ProductsComponents[]
-    productCategory    ProductCategory      @relation(fields: [productCategoryId], references: [id])
-    productCategoryId  String
-    createdAt          DateTime             @default(now())
-    updatedAt          DateTime             @updatedAt
-    Transaction        Transaction[]
+  id                 String               @id @default(cuid())
+  name               String
+  description        String
+  price              Int
+  stock              Int
+  restockLevel       Int
+  components         Component[]
+  productsComponents ProductsComponents[]
+  productCategory    ProductCategory      @relation(fields: [productCategoryId], references: [id])
+  productCategoryId  String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Transaction        Transaction[]
 }
 
 model Component {
-    id                 String               @id @default(cuid())
-    name               String
-    description        String
-    price              Int
-    stock              Int
-    restockLevel       Int
-    products           Product[]
-    productsComponents ProductsComponents[]
-    createdAt          DateTime             @default(now())
-    updatedAt          DateTime             @updatedAt
+  id                 String               @id @default(cuid())
+  name               String
+  description        String
+  price              Int
+  stock              Int
+  restockLevel       Int
+  products           Product[]
+  productsComponents ProductsComponents[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 }
 
 model ProductsComponents {
-    product     Product   @relation(fields: [productId], references: [id])
-    productId   String
-    component   Component @relation(fields: [componentId], references: [id])
-    componentId String
-    quantity    Int
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   String
+  component   Component @relation(fields: [componentId], references: [id])
+  componentId String
+  quantity    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-    @@id(name: "id", fields: [productId, componentId])
+  @@id(name: "id", fields: [productId, componentId])
 }
 
 enum TransactionStatus {
-    NEW
-    IN_PROCESS
-    SETTLE
-    CANCEL
+  NEW
+  IN_PROCESS
+  SETTLE
+  CANCEL
 }
 
 model Transaction {
-    id          String            @id @default(cuid())
-    status      TransactionStatus @default(NEW)
-    customer    Customer          @relation(fields: [customerId], references: [id])
-    customerId  String
-    departure   Departure         @relation(fields: [departureId], references: [id])
-    departureId String
-    product     Product           @relation(fields: [productId], references: [id])
-    productId   String
-    createdAt   DateTime          @default(now())
-    updatedAt   DateTime          @updatedAt
+  id          String            @id @default(cuid())
+  status      TransactionStatus @default(NEW)
+  customer    Customer          @relation(fields: [customerId], references: [id])
+  customerId  String
+  departure   Departure         @relation(fields: [departureId], references: [id])
+  departureId String
+  product     Product           @relation(fields: [productId], references: [id])
+  productId   String
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 
-    @@unique([customerId, departureId])
+  @@unique([customerId, departureId])
 }
 
 model Partner {
-    id             String        @id @default(cuid())
-    name           String
-    email          String
-    address        String
-    identityNumber String
-    bankAccount    BankAccount[]
-    balance        Int
+  id             String        @id @default(cuid())
+  name           String
+  email          String
+  address        String
+  identityNumber String
+  bankAccount    BankAccount[]
+  balance        Int
 }
 
 model BankAccount {
-    id            String  @id @default(cuid())
-    bankName      String
-    ownerName     String
-    accountNumber String
-    Partner       Partner @relation(fields: [partnerId], references: [id])
-    partnerId     String
+  id            String  @id @default(cuid())
+  bankName      String
+  ownerName     String
+  accountNumber String
+  Partner       Partner @relation(fields: [partnerId], references: [id])
+  partnerId     String
 }
 
 model Employee {
-    id          String     @id @default(cuid())
-    name        String
-    title       String
-    email       String
-    description String
-    salary      Int
-    bankAccount String
-    managerId   String?    @unique
-    manager     Employee?  @relation("colleague", fields: [managerId], references: [id])
-    subordinate Employee[] @relation("colleague")
-    paySlip     PaySlip[]
+  id          String     @id @default(cuid())
+  name        String
+  title       String
+  email       String
+  description String
+  salary      Int
+  bankAccount String
+  managerId   String?    @unique
+  manager     Employee?  @relation("colleague", fields: [managerId], references: [id])
+  subordinate Employee[] @relation("colleague")
+  paySlip     PaySlip[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PaySlip {
-    id         String   @id @default(cuid())
-    Employee   Employee @relation(fields: [employeeId], references: [id])
-    employeeId String   @unique
-    grossPay   Int
-    deductions Int
-    netPay     Int
+  id         String   @id @default(cuid())
+  Employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String   @unique
+  grossPay   Int
+  deductions Int
+  netPay     Int
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LogHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  path      String
+  input     String
+  output    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
 }

@@ -48,6 +48,10 @@ export default function Layout({ children }: Props) {
       {
         href: '/employee',
         label: 'Karyawan'
+      },
+      {
+        href: '/access-history',
+        label: 'Access History'
       }
     ],
     [session?.user.role]

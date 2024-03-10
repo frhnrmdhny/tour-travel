@@ -15,6 +15,7 @@ import { ZodError } from 'zod'
 
 import { getServerAuthSession } from '~/server/auth'
 import { db } from '~/server/db'
+import { logger } from './logger/logger'
 
 /**
  * 1. CONTEXT
@@ -107,18 +108,26 @@ export const createTRPCRouter = t.router
 export const publicProcedure = t.procedure
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session?.user || ctx.session?.user.role === 'USER') {
-    throw new TRPCError({ code: 'UNAUTHORIZED' })
-  }
-
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user }
+const enforceUserIsAuthed = t.middleware(
+  async ({ ctx, next, type, rawInput, path }) => {
+    if (!ctx.session?.user || ctx.session?.user.role === 'USER') {
+      throw new TRPCError({ code: 'UNAUTHORIZED' })
     }
-  })
-})
+
+    const res = await next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user }
+      }
+    })
+
+    if ('data' in res) {
+      await logger(ctx, type, rawInput, path, JSON.stringify(res.data))
+    }
+
+    return res
+  }
+)
 
 /**
  * Protected (authenticated) procedure
