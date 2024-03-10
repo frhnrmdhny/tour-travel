@@ -9,18 +9,18 @@ export const customerRouter = createTRPCRouter({
       z.object({
         page: z.number(),
         pageSize: z.number(),
-        orderBy: z.string().optional().default('')
+        sorts: z.string().optional().default('')
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page, orderBy } = input
-      const orderByOptions = applyOrderBy(orderBy)
+      const { pageSize, page, sorts } = input
+      const sortsObject = applyOrderBy(sorts)
 
       const [customers, totalCustomers] = await ctx.db.$transaction([
         ctx.db.customer.findMany({
           take: pageSize,
           skip: page * pageSize,
-          orderBy: orderByOptions,
+          orderBy: sortsObject,
           include: {
             maritalStatus: {
               select: {

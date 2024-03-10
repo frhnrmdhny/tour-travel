@@ -44,7 +44,7 @@ export default function Customer() {
     {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize,
-      orderBy: 'namePassport'
+      sorts: 'namePassport'
     },
     { enabled: !!session?.user }
   )
