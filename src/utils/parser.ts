@@ -1,4 +1,4 @@
-export function applyOrderBy(orderBy: string) {
+export function sortsStringToObject(orderBy: string) {
   const orderByArray = orderBy.split(',').map((order) => order.trim())
   if (orderBy) {
     return orderByArray.map((order) => {

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
-import { applyOrderBy } from '~/utils/applyOrderBy'
+import { sortsStringToObject } from '~/utils/parser'
 
 export const customerRouter = createTRPCRouter({
   get: protectedProcedure
@@ -14,7 +14,7 @@ export const customerRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { pageSize, page, sorts } = input
-      const sortsObject = applyOrderBy(sorts)
+      const sortsObject = sortsStringToObject(sorts)
 
       const [customers, totalCustomers] = await ctx.db.$transaction([
         ctx.db.customer.findMany({
