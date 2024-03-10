@@ -43,7 +43,8 @@ export default function Customer() {
   const { data, isLoading } = api.customer.get.useQuery(
     {
       page: paginationModel.page,
-      pageSize: paginationModel.pageSize
+      pageSize: paginationModel.pageSize,
+      orderBy: 'namePassport'
     },
     { enabled: !!session?.user }
   )

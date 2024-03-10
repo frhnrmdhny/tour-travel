@@ -1,22 +1,26 @@
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
+import { applyOrderBy } from '~/utils/applyOrderBy'
 
 export const customerRouter = createTRPCRouter({
   get: protectedProcedure
     .input(
       z.object({
         page: z.number(),
-        pageSize: z.number()
+        pageSize: z.number(),
+        orderBy: z.string().optional().default('')
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page } = input
+      const { pageSize, page, orderBy } = input
+      const orderByOptions = applyOrderBy(orderBy)
 
       const [customers, totalCustomers] = await ctx.db.$transaction([
         ctx.db.customer.findMany({
           take: pageSize,
           skip: page * pageSize,
+          orderBy: orderByOptions,
           include: {
             maritalStatus: {
               select: {
