@@ -76,7 +76,8 @@ export const customerRouter = createTRPCRouter({
         nationality: z.enum(['WNI', 'WNA']),
         maritalStatusId: z.string(),
         educationId: z.string(),
-        occupationId: z.string()
+        occupationId: z.string(),
+        profilePictureUrl: z.string()
       })
     )
     .mutation(({ ctx, input }) =>
@@ -138,7 +139,8 @@ export const customerRouter = createTRPCRouter({
           nationality: z.enum(['WNI', 'WNA']),
           maritalStatusId: z.string(),
           educationId: z.string(),
-          occupationId: z.string()
+          occupationId: z.string(),
+          profilePictureUrl: z.string()
         })
         .partial()
         .merge(

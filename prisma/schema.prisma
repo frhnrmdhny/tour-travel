@@ -89,6 +89,7 @@ model Customer {
   educationId        String
   occupationId       String
   balanceHistory     CustomerBalanceHistory[]
+  profilePictureUrl  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

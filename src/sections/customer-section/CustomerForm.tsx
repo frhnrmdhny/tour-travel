@@ -6,6 +6,7 @@ import { api } from '~/utils/api'
 import { getDirtyFields } from '~/utils/form'
 import BackButton from '~/components/BackButton'
 import CustomerAdditionalInformation from './CustomerAdditionalInformation'
+import ProfilePictureUpload from './ProfilePictureUpload'
 
 type CustomerFormState = Omit<
   RouterInput['customer']['add'],
@@ -37,6 +38,7 @@ export default function CustomerForm({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { dirtyFields }
   } = useForm<CustomerFormState>({
     defaultValues:
@@ -75,6 +77,17 @@ export default function CustomerForm({
 
       <div className="grid grid-cols-3 gap-4">
         <div className={`${mode === 'edit' ? 'col-span-2' : 'col-span-3'}`}>
+          <ProfilePictureUpload
+            onUrlChange={(url) =>
+              setValue('profilePictureUrl', url, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+              })
+            }
+            currentProfilePictureUrl={defaultValues?.profilePictureUrl}
+          />
+
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-2"
