@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-export default function Home() {
+export default function Home(props) {
   return (
     <div className="relative bg-cover bg-fixed overflow-hidden bg-[url('/assets/hero-2.jpg')]">
       <div className="h-[70vh]">
