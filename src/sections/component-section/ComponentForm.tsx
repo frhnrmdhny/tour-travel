@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
+import BackButton from '~/components/BackButton'
 
 type ComponentFormState = RouterInput['component']['add']
 
@@ -43,44 +44,55 @@ export default function ComponentForm({
   )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <p>Nama</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('name', { required: true })}
-      />
+    <>
+      <div className='py-2 flex'>
+        <BackButton />
+        <div className='px-2 items-center'>
+          <h1 className="font-bold text-gray-800 text-poppins">Tambah Component</h1>
+          <h3 className="text-sm text-slate-500">Pages / Component / Tambah Component</h3>
+        </div>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        <p className='text-gray-700 font-medium'>Nama <span className='text-red-600'> *</span></p>
+        <input
+          className="input input-bordered input-md" placeholder='Masukkan Nama'
+          {...register('name', { required: true })}
+        />
 
-      <p>Deskripsi</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('description', { required: true })}
-      />
+        <p className='text-gray-700 font-medium'>Deskripsi  <span className='text-red-600'> *</span></p>
+        <textarea
+          className="textarea textarea-bordered textarea-md w-full" placeholder='Masukkan deskripsi'
+          {...register('description', { required: true })}
+        />
 
-      <p>Harga</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('price', { required: true, valueAsNumber: true })}
-      />
+        <p className='text-gray-700 font-medium'>Harga <span className='text-red-600'> *</span></p>
+        <label className="input input-bordered input-md flex items-center gap-2">
+          Rp
+          <input type="text" className="grow" placeholder="1.000.000"
+            {...register('price', { required: true, valueAsNumber: true })}
+          />
+        </label>
 
-      <p>Stock</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('stock', { required: true, valueAsNumber: true })}
-      />
+        <p className='text-gray-700 font-medium'>Stock <span className='text-red-600'> *</span></p>
+        <input
+          className="input input-bordered input-md" placeholder='1'
+          {...register('stock', { required: true, valueAsNumber: true })}
+        />
 
-      <p>Restock Level</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('restockLevel', { required: true, valueAsNumber: true })}
-      />
+        <p className='text-gray-700 font-medium'>Restock Level <span className='text-red-600'> *</span></p>
+        <input
+          className="input input-bordered input-md" placeholder='Masukkan restock level'
+          {...register('restockLevel', { required: true, valueAsNumber: true })}
+        />
 
-      <button
-        disabled={!isDirty}
-        className="btn btn-primary btn-sm mt-4"
-        type="submit"
-      >
-        {mode === 'create' ? 'Tambahkan' : 'Sunting'}
-      </button>
-    </form>
+        <button
+          disabled={!isDirty}
+          className="btn bg-[#01B9DE] hover:bg-sky-400 btn-md mt-4"
+          type="submit"
+        >
+          {mode === 'create' ? 'Tambahkan' : 'Sunting'}
+        </button>
+      </form>
+    </>
   )
 }

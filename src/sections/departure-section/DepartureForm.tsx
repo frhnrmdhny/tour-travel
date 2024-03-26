@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
+import BackButton from '~/components/BackButton'
 
 type DepartureFormState = Omit<
   RouterInput['departure']['add'],
@@ -61,47 +62,57 @@ export default function DepartureForm({
   )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <p>Nama</p>
-      <input
-        className="input input-bordered input-sm"
-        {...register('name', { required: true })}
-      />
+    <>
+      <div className='py-2 flex'>
+        <BackButton />
+        <div className='px-2 items-center'>
+          <h1 className="font-bold text-gray-800 text-poppins">Tambah Departure</h1>
+          <h3 className="text-sm text-slate-500">Pages / Departure / Tambah Departure</h3>
+        </div>
+      </div>
 
-      <p>Tanggal Keberangkatan</p>
-      <input
-        className="input input-bordered input-sm"
-        type="datetime-local"
-        {...register('departureDate', {
-          required: true,
-          valueAsDate: true
-        })}
-      />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        <p className='text-gray-700'>Nama <span className='text-red-600'> *</span></p>
+        <input
+          className="input input-bordered input-sm" placeholder='Masukkan Keberangkatan'
+          {...register('name', { required: true })}
+        />
 
-      <p>Tanggal Kembali</p>
-      <input
-        className="input input-bordered input-sm"
-        type="datetime-local"
-        {...register('returnDate', { required: true, valueAsDate: true })}
-      />
+        <p className='text-gray-700'>Tanggal Keberangkatan <span className='text-red-600'> *</span></p>
+        <input
+          className="input input-bordered input-sm"
+          type="datetime-local"
+          {...register('departureDate', {
+            required: true,
+            valueAsDate: true
+          })}
+        />
 
-      <p>Status</p>
-      <select
-        {...register('status', { required: true })}
-        className="select select-bordered select-sm"
-      >
-        <option value="PREPARING">Persiapan</option>
-        <option value="ONGOING">Dalam Perjalanan</option>
-        <option value="FINISH">Selesai</option>
-      </select>
+        <p className='text-gray-700'>Tanggal Kembali <span className='text-red-600'> *</span></p>
+        <input
+          className="input input-bordered input-sm"
+          type="datetime-local"
+          {...register('returnDate', { required: true, valueAsDate: true })}
+        />
 
-      <button
-        disabled={!isDirty}
-        className="btn btn-primary btn-sm mt-4"
-        type="submit"
-      >
-        {mode === 'create' ? 'Tambahkan' : 'Sunting'}
-      </button>
-    </form>
+        <p className='text-gray-700'>Status <span className='text-red-600'> *</span></p>
+        <select
+          {...register('status', { required: true })}
+          className="select select-bordered select-sm" aria-placeholder='Persiapan'
+        >
+          <option value="PREPARING">Persiapan</option>
+          <option value="ONGOING">Dalam Perjalanan</option>
+          <option value="FINISH">Selesai</option>
+        </select>
+
+        <button
+          disabled={!isDirty}
+          className="btn bg-[#01B9DE] hover:bg-sky-400 btn-sm mt-4"
+          type="submit"
+        >
+          {mode === 'create' ? 'Tambahkan' : 'Sunting'}
+        </button>
+      </form>
+    </>
   )
 }

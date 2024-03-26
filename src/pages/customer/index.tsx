@@ -56,13 +56,17 @@ export default function Customer() {
   const columns = useMemo(
     () =>
       [
+
         {
           field: 'title',
           headerName: 'Title',
-          flex: 1
+          flex: 1,
+
         },
         { field: 'namePassport', headerName: 'Nama', flex: 1 },
         { field: 'address', headerName: 'Alamat', flex: 1 },
+        { field: 'action', headerName: 'Action', flex: 1 },
+
         {
           field: 'id',
           headerName: '',
@@ -160,17 +164,27 @@ export default function Customer() {
   return (
     <Layout>
       <>
-        <div className="mb-2 flex gap-2">
-          <button
-            onClick={() => void router.push('/customer/create')}
-            className="btn btn-primary btn-sm"
-          >
-            Tambahkan
-          </button>
+        <div className="mb-2">
+          <h1 className="font-bold text-gray-800">Customer</h1>
+          <h3 className="text-sm text-slate-500">Pages / Customer</h3>
+        </div>
+        <div className="mb-2 flex gap-2 justify-between">
+          <label className="input input-bordered flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
+            <input type="text" className="grow" placeholder="Cari customer ..." />
+          </label>
+          <div className="gap-2 flex justify-end">
+            <button
+              onClick={() => void router.push('/customer/create')}
+              className="btn btn-primary btn-md rounded-full bg-[#01B9DE] hover:bg-sky-600 text-white"
+            >
+             + Tambah Customer 
+            </button>
 
-          <button onClick={createXls} className="btn btn-secondary btn-sm">
-            Unduh XLSM
-          </button>
+            <button onClick={createXls} className="btn btn-secondary bg-[#01B9DE] hover:bg-[#01B9DE] hover:bg-sky-600 btn-md rounded-full text-white">
+              Unduh XLSM
+            </button>
+          </div>
         </div>
 
         <DataGrid
@@ -184,6 +198,12 @@ export default function Customer() {
           rowCount={data?.pagination.rowCount ?? 0}
           rowSelection={false}
         />
+        <div className="">
+          <button className="btn btn-outline btn-sm"> Previous </button>
+          <button className="btn btn-outline btn-sm"> Next </button>
+        </div>
+
+
       </>
     </Layout>
   )
