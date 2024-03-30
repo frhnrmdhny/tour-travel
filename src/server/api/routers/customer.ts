@@ -1,7 +1,9 @@
+import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
 import { sortsStringToObject } from '~/utils/parser'
+import { validateAttributeFilters } from '~/utils/validator'
 
 export const customerRouter = createTRPCRouter({
   get: protectedProcedure
@@ -9,11 +11,14 @@ export const customerRouter = createTRPCRouter({
       z.object({
         page: z.number(),
         pageSize: z.number(),
-        sorts: z.string().optional().default('')
+        sorts: z.string().optional().default(''),
+        filters: z.record(z.unknown()).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page, sorts } = input
+      const { pageSize, page, sorts, filters } = input;
+      const where = validateAttributeFilters(filters, Prisma.CustomerScalarFieldEnum);
+      console.log(where)
       const sortsObject = sortsStringToObject(sorts)
 
       const [customers, totalCustomers] = await ctx.db.$transaction([
@@ -21,6 +26,7 @@ export const customerRouter = createTRPCRouter({
           take: pageSize,
           skip: page * pageSize,
           orderBy: sortsObject,
+          where,
           include: {
             maritalStatus: {
               select: {

@@ -6,7 +6,7 @@ export const productRouter = createTRPCRouter({
     .input(
       z.object({
         page: z.number(),
-        pageSize: z.number()
+        pageSize: z.number(),
       })
     )
     .query(async ({ ctx, input }) => {
