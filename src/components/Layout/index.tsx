@@ -38,6 +38,10 @@ export default function Layout({ children }: Props) {
         label: 'Product'
       },
       {
+        href: '/purchase-order',
+        label: 'Purchase Order'
+      },
+      {
         href: '/transaction',
         label: 'Transaction'
       },

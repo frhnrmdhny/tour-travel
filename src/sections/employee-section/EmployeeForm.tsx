@@ -4,10 +4,7 @@ import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
 import EmployeePayroll from './EmployeePayroll'
 
-type EmployeeFormState = Omit<
-  RouterInput['employee']['add'],
-  'employeeDate' | 'returnDate'
->
+type EmployeeFormState = RouterInput['employee']['add']
 
 interface Props {
   handleCreate?: (data: EmployeeFormState) => void

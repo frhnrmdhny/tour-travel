@@ -195,8 +195,10 @@ model Component {
   restockLevel       Int
   products           Product[]
   productsComponents ProductsComponents[]
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  LineItem           LineItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProductsComponents {
@@ -290,4 +292,28 @@ model LogHistory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model PurchaseOrder {
+  id       String     @id @default(cuid())
+  name     String
+  total    Int
+  LineItem LineItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LineItem {
+  id              String        @id @default(cuid())
+  PurchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrderId String
+  Component       Component     @relation(fields: [ComponentId], references: [id])
+  ComponentId     String
+  quantity        Int
+  price           Int
+  total           Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
