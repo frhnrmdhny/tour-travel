@@ -34,7 +34,9 @@ export const purchaseOrderRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        total: z.number()
+        total: z.number(),
+        status: z.enum(['NEW', 'APPROVED', 'IN_PROGRESS', 'COMPLETED']),
+        completedDate: z.date().optional().nullable()
       })
     )
     .mutation(({ ctx, input }) =>
@@ -76,7 +78,9 @@ export const purchaseOrderRouter = createTRPCRouter({
       z
         .object({
           name: z.string(),
-          total: z.number()
+          total: z.number(),
+          status: z.enum(['NEW', 'APPROVED', 'IN_PROGRESS', 'COMPLETED']),
+          completedDate: z.date().optional().nullable()
         })
         .partial()
         .merge(

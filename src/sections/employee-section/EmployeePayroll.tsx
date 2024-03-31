@@ -3,18 +3,20 @@ import { useCallback, useRef } from 'react'
 import { api } from '~/utils/api'
 import AddPaySlipDialog from './AddPaySlipDialog'
 import { FaTrash } from 'react-icons/fa'
+import { useSession } from 'next-auth/react'
 
 export default function EmployeePayroll() {
   const router = useRouter()
   const employeeId = router.query.id as string
   const generatePayrollDialogRef = useRef<HTMLDialogElement>(null)
   const utils = api.useUtils()
+  const { data: session } = useSession()
   const { data } = api.paySlip.getByEmployeeId.useQuery(
     {
       employeeId
     },
     {
-      enabled: !!employeeId
+      enabled: !!employeeId && !!session?.user
     }
   )
   const { mutateAsync: deletePayslip } = api.paySlip.delete.useMutation()

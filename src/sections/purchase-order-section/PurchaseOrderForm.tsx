@@ -2,8 +2,15 @@ import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
+import PurchaseOrderLineItem from './PurchaseOrderLineItem'
+import PurchaseOrderTotal from './PurchaseOrderTotal'
 
-type PurchaseOrderFormState = RouterInput['purchaseOrder']['add']
+type PurchaseOrderFormState = Omit<
+  RouterInput['purchaseOrder']['add'],
+  'completedDate'
+> & {
+  completedDate: string | Date | null
+}
 
 interface Props {
   handleCreate?: (data: PurchaseOrderFormState) => void
@@ -45,9 +52,27 @@ export default function PurchaseOrderForm({
   )
 
   return (
-    <div className="grid grid-cols-6 gap-4">
-      <div className={`${mode === 'edit' ? 'col-span-1' : 'col-span-5'}`}>
+    <div className="grid grid-cols-12 gap-4">
+      <div className={`${mode === 'edit' ? 'col-span-4' : 'col-span-12'}`}>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+          {mode === 'edit' && <PurchaseOrderTotal />}
+
+          {mode === 'edit' && (
+            <>
+              <p>Status</p>
+              <select
+                {...register('status', { required: true })}
+                className="select select-bordered select-sm"
+              >
+                {['NEW', 'APPROVED', 'IN_PROGRESS', 'COMPLETED'].map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
+
           <p>Nama</p>
           <input
             className="input input-bordered input-sm"
@@ -63,6 +88,7 @@ export default function PurchaseOrderForm({
           </button>
         </form>
       </div>
+      {mode === 'edit' && <PurchaseOrderLineItem />}
     </div>
   )
 }

@@ -15,7 +15,7 @@ export function getDirtyFields<T>(
 
 export function transformStringToDate<T>(
   attributes: string[],
-  data: Record<string, string | Date>
+  data: Record<string, string | Date | number | null>
 ) {
   const result = { ...data }
   attributes.forEach((item) => {

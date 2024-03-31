@@ -2,6 +2,8 @@ import Layout from '~/components/Layout'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
 import PurchaseOrderForm from '~/sections/purchase-order-section/PurchaseOrderForm'
+import { transformStringToDate } from '~/utils/form'
+import { type RouterInput } from '~/server/api/root'
 
 export default function CreatePurchaseOrder() {
   const router = useRouter()
@@ -14,7 +16,11 @@ export default function CreatePurchaseOrder() {
     <Layout>
       <PurchaseOrderForm
         handleCreate={(data) => {
-          mutate(data, {
+          const transformedData = transformStringToDate<
+            RouterInput['purchaseOrder']['add']
+          >(['completedDate'], data)
+
+          mutate(transformedData, {
             onSuccess: (data) => {
               void utils.purchaseOrder.get.invalidate()
               void router.push(`/purchase-order/${data.id}/edit`)
@@ -23,7 +29,8 @@ export default function CreatePurchaseOrder() {
         }}
         mode="create"
         defaultValues={{
-          total: 0
+          total: 0,
+          status: 'NEW'
         }}
       />
     </Layout>

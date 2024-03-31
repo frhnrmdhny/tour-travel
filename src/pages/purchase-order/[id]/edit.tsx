@@ -2,6 +2,8 @@ import Layout from '~/components/Layout'
 import PurchaseOrderForm from '~/sections/purchase-order-section/PurchaseOrderForm'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
+import { type RouterInput } from '~/server/api/root'
+import { transformStringToDate } from '~/utils/form'
 
 export default function EditPurchaseOrder() {
   const router = useRouter()
@@ -27,10 +29,18 @@ export default function EditPurchaseOrder() {
         {data && !isLoading && (
           <PurchaseOrderForm
             handleEdit={(data) => {
+              const transformedData = transformStringToDate<
+                RouterInput['purchaseOrder']['update']
+              >(['completedDate'], {
+                ...data,
+                id
+              })
+
               mutate(
                 {
-                  id,
-                  ...data
+                  ...transformedData,
+                  completedDate:
+                    transformedData.status === 'COMPLETED' ? new Date() : null
                 },
                 {
                   onSuccess: () => {

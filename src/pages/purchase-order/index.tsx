@@ -11,6 +11,7 @@ type PurchaseOrderGetOutput = RouterOutput['purchaseOrder']['get']
 
 export default function PurchaseOrder() {
   const router = useRouter()
+
   const { data: session } = useSession()
 
   const [paginationModel, setPaginationModel] = usePagination()
@@ -32,6 +33,8 @@ export default function PurchaseOrder() {
       [
         { field: 'name', headerName: 'Nama', flex: 1 },
         { field: 'total', headerName: 'Total', flex: 1 },
+        { field: 'status', headerName: 'Status', flex: 1 },
+        { field: 'completedDate', headerName: 'Tanggal Selesai', flex: 1 },
         {
           field: 'id',
           headerName: '',

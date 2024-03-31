@@ -48,7 +48,7 @@ export default function AccessHistory() {
                   }
                 >
                   <time className="font-mono italic">
-                    {event.createdAt.toDateString()}
+                    {event.createdAt.toLocaleString()}
                   </time>
                   <div className="text-lg font-black">{event.user.name}</div>
 

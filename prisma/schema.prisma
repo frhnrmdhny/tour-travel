@@ -295,13 +295,22 @@ model LogHistory {
 }
 
 model PurchaseOrder {
-  id       String     @id @default(cuid())
-  name     String
-  total    Int
-  LineItem LineItem[]
+  id            String              @id @default(cuid())
+  name          String
+  total         Int
+  status        PurchaseOrderStatus
+  completedDate DateTime?
+  LineItem      LineItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum PurchaseOrderStatus {
+  NEW
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
 }
 
 model LineItem {
@@ -309,7 +318,7 @@ model LineItem {
   PurchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
   purchaseOrderId String
   Component       Component     @relation(fields: [ComponentId], references: [id])
-  ComponentId     String
+  ComponentId     String        @unique()
   quantity        Int
   price           Int
   total           Int
