@@ -39,8 +39,8 @@ export default function Customer() {
   const { data: session } = useSession()
 
   const [paginationModel, setPaginationModel] = usePagination()
-  const dateGte = new Date("2024-02-01");
-  const dateLte = new Date("2024-03-03");
+  const dateGte = new Date('2024-02-01')
+  const dateLte = new Date('2024-03-03')
 
   const { data, isLoading } = api.customer.get.useQuery(
     {
@@ -51,7 +51,7 @@ export default function Customer() {
         passportIssuedDate: {
           lt: dateLte.toISOString(),
           gt: dateGte.toISOString()
-        },
+        }
       }
     },
     { enabled: !!session?.user }

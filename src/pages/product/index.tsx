@@ -21,7 +21,7 @@ export default function Product() {
       page: paginationModel.page,
       pageSize: paginationModel.pageSize
     },
-    { enabled: !!session?.user },
+    { enabled: !!session?.user }
   )
 
   const { mutate } = api.product.delete.useMutation()

@@ -12,12 +12,15 @@ export const customerRouter = createTRPCRouter({
         page: z.number(),
         pageSize: z.number(),
         sorts: z.string().optional().default(''),
-        filters: z.record(z.unknown()).optional(),
+        filters: z.record(z.unknown()).optional()
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page, sorts, filters } = input;
-      const where = validateAttributeFilters(filters, Prisma.CustomerScalarFieldEnum);
+      const { pageSize, page, sorts, filters } = input
+      const where = validateAttributeFilters(
+        filters,
+        Prisma.CustomerScalarFieldEnum
+      )
       console.log(where)
       const sortsObject = sortsStringToObject(sorts)
 
