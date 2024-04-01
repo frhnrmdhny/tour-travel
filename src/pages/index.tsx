@@ -165,24 +165,50 @@ export default function Home() {
               <div className="grid grid-flow-row-dense grid-cols-1 grid-rows-1 gap-[20px]">
                 <div className="card bg-[#F2F4F7] text-primary-content w-[614px] ">
                   <div className="card-body">
-                    <h2 className="card-title text-[#01B9DE] text-2xl font-bold ">Akses Platform & Pilih Paket</h2>
-                    <p className="text-[#667085] text-lg text-balance">Calon jamaah mengakses platform agen perjalanan, memilih paket haji atau umrah yang diinginkan.</p>
+                    <div className="grid">
+                      <Image
+                        src="/assets/number-01.png"
+                        width={75}
+                        height={75}
+                        alt="Picture of the author"
+                      />
+                      <h2 className="card-title text-[#01B9DE] text-2xl font-bold ">Akses Platform & Pilih Paket</h2>
+                      <p className="text-[#667085] text-lg text-balance">Calon jamaah mengakses platform agen perjalanan, memilih paket haji atau umrah yang diinginkan.</p>
+                    </div>
                   </div>
                 </div>
                 <div className="card text-primary-conten w-[614px]t ">
                   <div className="card-body">
+                    <Image
+                      src="/assets/number-02.png"
+                      width={75}
+                      height={75}
+                      alt="Picture of the author"
+                    />
                     <h2 className="card-title text-black text-2xl font-bold ">Pendaftaran dan Pembayaran</h2>
                     <p className="text-[#667085] text-lg text-balance">Mereka mendaftar dan membayar biaya perjalanan melalui platform.</p>
                   </div>
                 </div>
                 <div className="card text-primary-content w-[614px] ">
                   <div className="card-body">
+                    <Image
+                      src="/assets/number-03.png"
+                      width={75}
+                      height={75}
+                      alt="Picture of the author"
+                    />
                     <h2 className="card-title text-black text-2xl font-bold ">Konfirmasi via WhatsApp</h2>
                     <p className="text-[#667085] text-lg text-balance">Setelah pembayaran diverifikasi, agen perjalanan mengirim konfirmasi melalui pesan WhatsApp.</p>
                   </div>
                 </div>
                 <div className="card text-primary-content w-[614px] ">
                   <div className="card-body">
+                    <Image
+                      src="/assets/number-04.png"
+                      width={75}
+                      height={75}
+                      alt="Picture of the author"
+                    />
                     <h2 className="card-title text-black text-2xl font-bold ">Persiapan Akhir</h2>
                     <p className="text-[#667085] text-lg text-balance">Calon jamaah menyelesaikan administrasi dan persiapan lainnya sesuai petunjuk agen perjalanan.</p>
                   </div>
@@ -526,24 +552,48 @@ export default function Home() {
                 <div className="grid grid-flow-row-dense grid-cols-1 grid-rows-1 gap-2">
                   <div className="card bg-[#F2F4F7] text-primary-content w-[608px] ">
                     <div className="card-body">
+                      <Image
+                        src="/assets/number-01.png"
+                        width={75}
+                        height={75}
+                        alt="Picture of the author"
+                      />
                       <h2 className="card-title text-[#01B9DE] text-2xl font-bold ">Pengalaman Terpercaya</h2>
                       <p className="text-[#667085] text-lg">Kami telah mengakumulasi pengalaman yang solid dan luas dalam menyelenggarakan perjalanan haji dan umrah, memberikan keamanan dan keyakinan kepada pelanggan.</p>
                     </div>
                   </div>
                   <div className="card text-primary-content w-[608px] ">
                     <div className="card-body">
+                      <Image
+                        src="/assets/number-02.png"
+                        width={75}
+                        height={75}
+                        alt="Picture of the author"
+                      />
                       <h2 className="card-title text-black text-2xl font-bold ">Pelayanan Personalisasi</h2>
                       <p className="text-[#667085] text-lg">Kami menyediakan pelayanan yang disesuaikan dengan kebutuhan dan preferensi individu setiap pelanggan, memastikan pengalaman perjalanan yang sesuai dengan harapan mereka.</p>
                     </div>
                   </div>
                   <div className="card text-primary-content w-[608px] ">
                     <div className="card-body">
+                      <Image
+                        src="/assets/number-03.png"
+                        width={75}
+                        height={75}
+                        alt="Picture of the author"
+                      />
                       <h2 className="card-title text-black text-2xl font-bold ">Kemudahan Akses</h2>
                       <p className="text-[#667085] text-lg">Melalui platform digital kami yang mudah diakses, pelanggan dapat dengan cepat mengakses informasi, melakukan pendaftaran, dan berkomunikasi dengan kami, menjadikan proses pemesanan lebih lancar dan efisien..</p>
                     </div>
                   </div>
                   <div className="card text-primary-content w-[608px] ">
                     <div className="card-body">
+                      <Image
+                        src="/assets/number-04.png"
+                        width={75}
+                        height={75}
+                        alt="Picture of the author"
+                      />
                       <h2 className="card-title text-black text-2xl font-bold ">Bimbingan Terampil</h2>
                       <p className="text-[#667085] text-lg">Tim kami terdiri dari profesional berpengalaman yang siap memberikan panduan yang terampil sepanjang perjalanan, memberikan dukungan penuh kepada pelanggan dalam setiap tahap perjalanan mereka.</p>
                     </div>
@@ -558,11 +608,38 @@ export default function Home() {
       <div className="p-20">
         <div className="hero min-h-screen">
           <div className="hero-content flex-col lg:flex-row">
-            <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" className="w-96 rounded-lg shadow-2xl" />
+
+            <div className="grid grid-rows-3 grid-flow-col gap-2">
+              <div className="row-span-2 col-span-2 ">
+                <Image
+                  src="/assets/image-1.png"
+                  width={200}
+                  height={200}
+                  alt="Picture of the author"
+                  className="mb-4 rounded-lg"
+                />
+                <Image
+                  src="/assets/image-1.png"
+                  width={200}
+                  height={200}
+                  alt="Picture of the author"
+                  className="rounded-lg"
+                />
+              </div>
+              <div className="row-span-3 ...">
+                <Image
+                  src="/assets/image-3.png"
+                  width={400}
+                  height={900}
+                  alt="Picture of the author"
+                  className="rounded-lg"
+                />
+              </div>
+            </div>
             <div>
               <h1 className="text-5xl font-bold">Nikmati Ibadah Anda Dengan Pengalaman Baru</h1>
               <p className="py-2">Jelajahi dunia dengan mata baru dengan temukan keindahan dan kebahagiaan dalam setiap perjalanan bersama Kami.</p>
-              <div className="flex  gap-2">
+              <div className="flex gap-2">
                 <p className="font-bold">4 Years +</p>
                 <p className="font-bold">120+</p>
                 <p className="font-bold">360K+</p>
@@ -606,6 +683,7 @@ export default function Home() {
         </div>
         <div className="grid grid-rows-4 grid-flow-col gap-4">
           <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
+
             <div className="collapse-title text-xl font-medium text-[#01B9DE] text-lg font-bold">
               Apa yang dibutuhkan untuk mendaftar sebagai jamaah haji atau umrah?
             </div>
