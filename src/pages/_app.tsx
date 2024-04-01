@@ -24,7 +24,9 @@ const theme = createTheme({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
+      '"Segoe UI Symbol"',
+      '"Poppins"',
+      '"Inter"'
     ].join(',')
   }
 })
