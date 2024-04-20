@@ -4,6 +4,8 @@ import { type RouterInput } from '~/server/api/root'
 import { getDirtyFields } from '~/utils/form'
 import PurchaseOrderLineItem from './PurchaseOrderLineItem'
 import PurchaseOrderTotal from './PurchaseOrderTotal'
+import { api } from '~/utils/api'
+import { useRouter } from 'next/router'
 
 type PurchaseOrderFormState = Omit<
   RouterInput['purchaseOrder']['add'],
@@ -25,6 +27,8 @@ export default function PurchaseOrderForm({
   defaultValues,
   mode
 }: Props) {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -51,6 +55,31 @@ export default function PurchaseOrderForm({
     [dirtyFields]
   )
 
+  const { id } = router.query
+
+  const { data } = api.purchaseOrder.getById.useQuery(
+    {
+      id: id as string
+    },
+    {
+      enabled: !!id
+    }
+  )
+
+  const { mutate } = api.purchaseOrder.setStatus.useMutation()
+
+  const nextStatus = useMemo(
+    () =>
+      data?.status === 'NEW'
+        ? 'APPROVED'
+        : data?.status === 'APPROVED'
+          ? 'IN_PROGRESS'
+          : 'COMPLETED',
+    [data?.status]
+  )
+
+  const utils = api.useUtils()
+
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className={`${mode === 'edit' ? 'col-span-4' : 'col-span-12'}`}>
@@ -60,16 +89,30 @@ export default function PurchaseOrderForm({
           {mode === 'edit' && (
             <>
               <p>Status</p>
-              <select
-                {...register('status', { required: true })}
-                className="select select-bordered select-sm"
-              >
-                {['NEW', 'APPROVED', 'IN_PROGRESS', 'COMPLETED'].map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+              <div className="badge badge-info py-4 w-full">{data?.status}</div>
+              {data?.status !== 'COMPLETED' && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    mutate(
+                      {
+                        id: id as string,
+                        status: nextStatus,
+                        completedDate: new Date()
+                      },
+                      {
+                        onSuccess: () =>
+                          void utils.purchaseOrder.getById.invalidate({
+                            id: id as string
+                          })
+                      }
+                    )
+                  }}
+                  className="btn btn-neutral btn-outline btn-sm"
+                >
+                  Set Status To {nextStatus}
+                </button>
+              )}
             </>
           )}
 

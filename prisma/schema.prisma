@@ -318,11 +318,13 @@ model LineItem {
   PurchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
   purchaseOrderId String
   Component       Component     @relation(fields: [ComponentId], references: [id])
-  ComponentId     String        @unique()
+  ComponentId     String
   quantity        Int
   price           Int
   total           Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([ComponentId, purchaseOrderId])
 }

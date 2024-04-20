@@ -96,5 +96,50 @@ export const purchaseOrderRouter = createTRPCRouter({
           id
         }
       })
+    ),
+
+  setStatus: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        status: z.enum(['NEW', 'APPROVED', 'IN_PROGRESS', 'COMPLETED']),
+        completedDate: z.date()
+      })
     )
+    .mutation(async ({ ctx, input: { id, ...data } }) => {
+      const { status, completedDate } = data
+
+      const purchaseOrder = await ctx.db.purchaseOrder.update({
+        data: {
+          status,
+          completedDate: status === 'COMPLETED' ? completedDate : undefined
+        },
+        where: {
+          id
+        },
+        include: {
+          LineItem: true
+        }
+      })
+
+      if (status === 'COMPLETED') {
+        await Promise.all(
+          purchaseOrder.LineItem.map((item) =>
+            ctx.db.component.update({
+              where: {
+                id: item.ComponentId
+              },
+              data: {
+                stock: {
+                  increment: item.quantity
+                },
+                price: item.price
+              }
+            })
+          )
+        )
+      }
+
+      return purchaseOrder
+    })
 })
