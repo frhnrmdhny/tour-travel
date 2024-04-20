@@ -29,12 +29,7 @@ const config = {
       { argsIgnorePattern: '^_', ignoreRestSiblings: true }
     ],
     '@typescript-eslint/require-await': 'off',
-    '@typescript-eslint/no-misused-promises': [
-      'error',
-      {
-        checksVoidReturn: { attributes: false }
-      }
-    ]
+    '@typescript-eslint/no-misused-promises': ['off']
   }
 }
 

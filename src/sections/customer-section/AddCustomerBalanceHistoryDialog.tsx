@@ -27,7 +27,7 @@ export default function AddCustomerBalanceHistoryDialog({
     return createPortal(
       <dialog className="modal" ref={addCustomerBalanceHistoryDialogRef}>
         <div className="modal-box">
-          <h3 className="font-bold text-lg mb-2">Add Bank Account</h3>
+          <h3 className="font-bold text-lg mb-2 capitalize">{type}</h3>
           <div className="modal-action">
             <CustomerBalanceHistoryForm
               handleCreate={(data) => {

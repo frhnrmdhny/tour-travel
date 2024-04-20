@@ -96,18 +96,18 @@ model Customer {
 }
 
 model CustomerBalanceHistory {
-  id          String                     @id @default(cuid())
-  type        CustomerBalanceHistoryType
+  id          String             @id @default(cuid())
+  type        BalanceHistoryType
   amount      Int
   description String
-  Customer    Customer                   @relation(fields: [customerId], references: [id])
+  Customer    Customer           @relation(fields: [customerId], references: [id])
   customerId  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-enum CustomerBalanceHistoryType {
+enum BalanceHistoryType {
   DEPOSIT
   WITHDRAW
   TRANSACTION
@@ -236,22 +236,44 @@ model Transaction {
 }
 
 model Partner {
-  id             String        @id @default(cuid())
-  name           String
-  email          String
-  address        String
-  identityNumber String
-  bankAccount    BankAccount[]
-  balance        Int
+  id                    String                  @id @default(cuid())
+  name                  String
+  email                 String
+  address               String
+  identityNumber        String
+  bankAccount           BankAccount[]
+  balance               Int
+  partnerBalanceHistory PartnerBalanceHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PartnerBalanceHistory {
+  id            String             @id @default(cuid())
+  type          BalanceHistoryType
+  amount        Int
+  description   String
+  partner       Partner            @relation(fields: [partnerId], references: [id])
+  partnerId     String
+  bankAccount   BankAccount        @relation(fields: [bankAccountId], references: [id])
+  bankAccountId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model BankAccount {
-  id            String  @id @default(cuid())
-  bankName      String
-  ownerName     String
-  accountNumber String
-  Partner       Partner @relation(fields: [partnerId], references: [id])
-  partnerId     String
+  id                    String                  @id @default(cuid())
+  bankName              String
+  ownerName             String
+  accountNumber         String
+  Partner               Partner                 @relation(fields: [partnerId], references: [id])
+  partnerId             String
+  partnerBalanceHistory PartnerBalanceHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Employee {
