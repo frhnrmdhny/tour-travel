@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 
 interface Props {
-  children: React.ReactElement
+  children: React.ReactNode
 }
 
 export default function Layout({ children }: Props) {
@@ -20,6 +20,10 @@ export default function Layout({ children }: Props) {
         href: '/user',
         label: 'User',
         isHidden: session?.user.role !== 'SUPERADMIN'
+      },
+      {
+        href: '/report',
+        label: 'Report'
       },
       {
         href: '/customer',

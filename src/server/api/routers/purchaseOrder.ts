@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
 
@@ -141,5 +142,43 @@ export const purchaseOrderRouter = createTRPCRouter({
       }
 
       return purchaseOrder
+    }),
+
+  report: protectedProcedure
+    .input(
+      z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const [total, purchaseOrders] = await Promise.all([
+        ctx.db.purchaseOrder.aggregate({
+          _sum: {
+            total: true
+          },
+          where: {
+            createdAt: {
+              gte: input.from,
+              lte: input.to
+            },
+            status: 'COMPLETED'
+          }
+        }),
+        ctx.db.purchaseOrder.findMany({
+          where: {
+            createdAt: {
+              gte: input.from,
+              lte: input.to
+            },
+            status: 'COMPLETED'
+          }
+        })
+      ])
+
+      return {
+        totalExpenses: total._sum.total ?? 0,
+        purchaseOrders
+      }
     })
 })

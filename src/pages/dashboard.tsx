@@ -6,7 +6,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="stats shadow">
+      <div className="stats border border-base-300">
         <div className="stat">
           <div className="stat-figure text-secondary">
             <svg
