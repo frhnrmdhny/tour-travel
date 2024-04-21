@@ -102,5 +102,44 @@ export const employeeRouter = createTRPCRouter({
           id
         }
       })
+    ),
+
+  report: protectedProcedure
+    .input(
+      z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+      })
     )
+    .query(async ({ ctx, input }) => {
+      const [total, paySlips] = await Promise.all([
+        ctx.db.paySlip.aggregate({
+          _sum: {
+            grossPay: true
+          },
+          where: {
+            createdAt: {
+              gte: input.from,
+              lte: input.to
+            }
+          }
+        }),
+        ctx.db.paySlip.findMany({
+          where: {
+            createdAt: {
+              gte: input.from,
+              lte: input.to
+            }
+          },
+          include: {
+            Employee: true
+          }
+        })
+      ])
+
+      return {
+        totalExpenses: total._sum.grossPay ?? 0,
+        paySlips
+      }
+    })
 })
