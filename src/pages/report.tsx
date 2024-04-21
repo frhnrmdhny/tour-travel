@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { type DateRange } from 'react-day-picker'
 import DateRangePicker from '~/components/DateRangePicker'
 import Layout from '~/components/Layout'
+import PartnerReport from '~/sections/report-section/PartnerReport'
 import PurchaseOrderReport from '~/sections/report-section/PurchaseOrderReport'
 
 const TAB_DATA = [
@@ -42,7 +43,11 @@ export default function Report() {
         </div>
       </div>
 
-      {active === 1 ? <PurchaseOrderReport range={range} /> : null}
+      {active === 1 ? (
+        <PurchaseOrderReport range={range} />
+      ) : active === 2 ? (
+        <PartnerReport range={range} />
+      ) : null}
     </Layout>
   )
 }

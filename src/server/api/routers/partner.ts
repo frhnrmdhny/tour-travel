@@ -99,5 +99,46 @@ export const partnerRouter = createTRPCRouter({
           id
         }
       })
+    ),
+
+  report: protectedProcedure
+    .input(
+      z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+      })
     )
+    .query(async ({ ctx, input }) => {
+      const [total, partnerBalanceHistories] = await Promise.all([
+        ctx.db.partnerBalanceHistory.aggregate({
+          _sum: {
+            amount: true
+          },
+          where: {
+            createdAt: {
+              gte: input.from,
+              lte: input.to
+            },
+            type: 'WITHDRAW'
+          }
+        }),
+        ctx.db.partnerBalanceHistory.findMany({
+          where: {
+            createdAt: {
+              gte: input.from,
+              lte: input.to
+            },
+            type: 'WITHDRAW'
+          },
+          include: {
+            partner: true
+          }
+        })
+      ])
+
+      return {
+        totalExpenses: total._sum.amount ?? 0,
+        partnerBalanceHistories
+      }
+    })
 })
