@@ -43,3 +43,6 @@ yarn-error.log*
 
 # postgres
 /postgres
+
+# vs code
+/.vscode

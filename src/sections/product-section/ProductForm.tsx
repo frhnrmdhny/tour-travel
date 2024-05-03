@@ -8,6 +8,7 @@ import ManageComponentDialog from './ManageComponentDialog'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { getDirtyFields } from '~/utils/form'
+import BackButton from '~/components/BackButton'
 
 type ProductFormState = RouterInput['product']['add']
 
@@ -71,6 +72,13 @@ export default function ProductForm({
 
   return (
     <>
+      <div className='py-2 flex'>
+        <BackButton />
+        <div className='px-2 items-center'>
+          <h1 className="font-bold text-gray-800 text-poppins">Tambah Prodcut</h1>
+          <h3 className="text-sm text-slate-500">Pages / Product / Tambah Product</h3>
+        </div>
+      </div>
       <AddCategoryDialog addCategoryDialogRef={addCategoryDialogRef} />
 
       {mode === 'edit' && (
@@ -80,35 +88,49 @@ export default function ProductForm({
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <p>Nama</p>
+        <p className='text-gray-700 font-medium'>Nama <span className='text-red-600'> *</span></p>
         <input
-          className="input input-bordered input-sm"
+          className="input input-bordered input-md" placeholder='Masukkan Nama'
           {...register('name', { required: true })}
         />
 
-        <p>Deskripsi</p>
-        <input
-          className="input input-bordered input-sm"
+        <p className='text-gray-700 font-medium'>Deskripsi  <span className='text-red-600'> *</span></p>
+        <textarea
+          className="textarea textarea-bordered textarea-md w-full" placeholder='Masukkan deskripsi'
           {...register('description', { required: true })}
         />
 
-        <p>Harga</p>
-        <input
-          className="input input-bordered input-sm"
-          {...register('price', { required: true, valueAsNumber: true })}
-        />
+        <p className='text-gray-700 font-medium'>Harga <span className='text-red-600'> *</span></p>
+        <label className="input input-bordered input-md flex items-center gap-2">
+          Rp
+          <input type="text" className="grow" placeholder="1.000.000"
+            {...register('price', { required: true, valueAsNumber: true })}
+          />
+        </label>
 
-        <p>Stock</p>
+        <p className='text-gray-700 font-medium'>Stock <span className='text-red-600'> *</span></p>
         <input
-          className="input input-bordered input-sm"
+          className="input input-bordered input-md" placeholder='1'
           {...register('stock', { required: true, valueAsNumber: true })}
         />
 
-        <p>Restock Level</p>
+        <p className='text-gray-700 font-medium'>Restock Level <span className='text-red-600'> *</span></p>
         <input
-          className="input input-bordered input-sm"
+          className="input input-bordered input-md" placeholder='Masukkan restock level'
           {...register('restockLevel', { required: true, valueAsNumber: true })}
         />
+        <p className="text-slate-700 font-medium leading-normal">Category <span className="text-red-600"> *</span> <span> button here</span></p>
+        <select
+          {...register('productCategoryId', { required: true })}
+          className="select select-bordered select-md"
+        >
+          {['Pilih Category'].map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+
 
         {data && (
           <>
