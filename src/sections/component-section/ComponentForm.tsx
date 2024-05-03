@@ -45,43 +45,64 @@ export default function ComponentForm({
 
   return (
     <>
-      <div className='py-2 flex'>
+      <div className="py-2 flex">
         <BackButton />
-        <div className='px-2 items-center'>
-          <h1 className="font-bold text-gray-800 text-poppins">Tambah Component</h1>
-          <h3 className="text-sm text-slate-500">Pages / Component / Tambah Component</h3>
+        <div className="px-2 items-center">
+          <h1 className="font-bold text-gray-800 text-poppins">
+            Tambah Component
+          </h1>
+          <h3 className="text-sm text-slate-500">
+            Pages / Component / Tambah Component
+          </h3>
         </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <p className='text-gray-700 font-medium'>Nama <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700 font-medium">
+          Nama <span className="text-red-600"> *</span>
+        </p>
         <input
-          className="input input-bordered input-md" placeholder='Masukkan Nama'
+          className="input input-bordered input-md"
+          placeholder="Masukkan Nama"
           {...register('name', { required: true })}
         />
 
-        <p className='text-gray-700 font-medium'>Deskripsi  <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700 font-medium">
+          Deskripsi <span className="text-red-600"> *</span>
+        </p>
         <textarea
-          className="textarea textarea-bordered textarea-md w-full" placeholder='Masukkan deskripsi'
+          className="textarea textarea-bordered textarea-md w-full"
+          placeholder="Masukkan deskripsi"
           {...register('description', { required: true })}
         />
 
-        <p className='text-gray-700 font-medium'>Harga <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700 font-medium">
+          Harga <span className="text-red-600"> *</span>
+        </p>
         <label className="input input-bordered input-md flex items-center gap-2">
           Rp
-          <input type="text" className="grow" placeholder="1.000.000"
+          <input
+            type="text"
+            className="grow"
+            placeholder="1.000.000"
             {...register('price', { required: true, valueAsNumber: true })}
           />
         </label>
 
-        <p className='text-gray-700 font-medium'>Stock <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700 font-medium">
+          Stock <span className="text-red-600"> *</span>
+        </p>
         <input
-          className="input input-bordered input-md" placeholder='1'
+          className="input input-bordered input-md"
+          placeholder="1"
           {...register('stock', { required: true, valueAsNumber: true })}
         />
 
-        <p className='text-gray-700 font-medium'>Restock Level <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700 font-medium">
+          Restock Level <span className="text-red-600"> *</span>
+        </p>
         <input
-          className="input input-bordered input-md" placeholder='Masukkan restock level'
+          className="input input-bordered input-md"
+          placeholder="Masukkan restock level"
           {...register('restockLevel', { required: true, valueAsNumber: true })}
         />
 

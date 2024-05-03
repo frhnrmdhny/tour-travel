@@ -73,11 +73,15 @@ export default function CustomerForm({
 
   return (
     <>
-      <div className='py-2 flex'>
+      <div className="py-2 flex">
         <BackButton />
-        <div className='px-2 items-center'>
-          <h1 className="font-bold text-gray-800 text-poppins">Tambah Customer</h1>
-          <h3 className="text-sm text-slate-500">Pages / Customer / Tambah Customer</h3>
+        <div className="px-2 items-center">
+          <h1 className="font-bold text-gray-800 text-poppins">
+            Tambah Customer
+          </h1>
+          <h3 className="text-sm text-slate-500">
+            Pages / Customer / Tambah Customer
+          </h3>
         </div>
       </div>
 
@@ -110,31 +114,51 @@ export default function CustomerForm({
               ))}
             </select>
 
-            <p className="text-slate-700 font-medium leading-normal">Nama Jamaah <span className="text-gray-400 text-xs font-medium"> (Sesuai pada kartu Vaksin) <span className="text-red-600"> *</span> </span> </p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nama Jamaah{' '}
+              <span className="text-gray-400 text-xs font-medium">
+                {' '}
+                (Sesuai pada kartu Vaksin){' '}
+                <span className="text-red-600"> *</span>{' '}
+              </span>{' '}
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan nama jamaah'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan nama jamaah"
               {...register('nameVaccine', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Nama Paspor <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nama Paspor <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan nama paspor'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan nama paspor"
               {...register('namePassport', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Nomor Paspor <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nomor Paspor <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan nomor paspor'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan nomor paspor"
               {...register('passportNumber', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Kota Paspor <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Kota Paspor <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan kota paspor'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan kota paspor"
               {...register('passportCity', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Tanggal Paspor Dikeluarkan <span className="text-red-600"> *</span> </p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Tanggal Paspor Dikeluarkan{' '}
+              <span className="text-red-600"> *</span>{' '}
+            </p>
             <input
               className="input input-bordered input-sm"
               type="date"
@@ -144,13 +168,18 @@ export default function CustomerForm({
               })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Nama Ayah<span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nama Ayah<span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan nama ayah'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan nama ayah"
               {...register('fatherName', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Jenis Identitas <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Jenis Identitas <span className="text-red-600"> *</span>
+            </p>
             <select
               {...register('identityType', { required: true })}
               className="select select-bordered select-sm"
@@ -162,19 +191,27 @@ export default function CustomerForm({
               ))}
             </select>
 
-            <p className="text-slate-700 font-medium leading-normal">Nomor Identitas <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nomor Identitas <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan nomor identitas'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan nomor identitas"
               {...register('identityNumber', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Tempat Lahir <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Tempat Lahir <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan tempat lahir'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan tempat lahir"
               {...register('birthplace', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Tanggal Lahir <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Tanggal Lahir <span className="text-red-600"> *</span>
+            </p>
             <input
               className="input input-bordered input-sm"
               type="date"
@@ -184,50 +221,72 @@ export default function CustomerForm({
               })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Alamat <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Alamat <span className="text-red-600"> *</span>
+            </p>
             <textarea
-              className="textarea textarea-bordered w-full" placeholder='Masukkan Alamat'
+              className="textarea textarea-bordered w-full"
+              placeholder="Masukkan Alamat"
               {...register('address', { required: true })}
             />
 
-
-            <p className="text-slate-700 font-medium leading-normal">Provinsi <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Provinsi <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Pilih Provinsi'
+              className="input input-bordered input-sm"
+              placeholder="Pilih Provinsi"
               {...register('province', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Kota / Kabupaten <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Kota / Kabupaten <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Pilih Kota atau Kabupaten'
+              className="input input-bordered input-sm"
+              placeholder="Pilih Kota atau Kabupaten"
               {...register('city', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Kecamatan <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Kecamatan <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Pilih Kecamatan'
+              className="input input-bordered input-sm"
+              placeholder="Pilih Kecamatan"
               {...register('subdistrict', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Kelurahan <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Kelurahan <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Pilih Kelurahan'
+              className="input input-bordered input-sm"
+              placeholder="Pilih Kelurahan"
               {...register('ward', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Nomor Telepon <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nomor Telepon <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan Nomor Telephone'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan Nomor Telephone"
               {...register('phoneNumber', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Nomor Handphone <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Nomor Handphone <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Massukkan Nomor Handphone'
+              className="input input-bordered input-sm"
+              placeholder="Massukkan Nomor Handphone"
               {...register('mobileNumber', { required: true })}
             />
 
-            <p className="text-slate-700 font-medium leading-normal">Kewarganegaraan <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Kewarganegaraan <span className="text-red-600"> *</span>
+            </p>
             <select
               {...register('nationality', { required: true })}
               className="select select-bordered select-sm"
@@ -239,22 +298,30 @@ export default function CustomerForm({
               ))}
             </select>
 
-            <p className="text-slate-700 font-medium leading-normal">Status Pernikahan <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Status Pernikahan <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Belum Menikah'
+              className="input input-bordered input-sm"
+              placeholder="Belum Menikah"
               {...register('mobileNumber', { required: true })}
             />
-            <p className="text-slate-700 font-medium leading-normal">Pendidikan <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Pendidikan <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='SMP/MTS'
+              className="input input-bordered input-sm"
+              placeholder="SMP/MTS"
               {...register('mobileNumber', { required: true })}
             />
-            <p className="text-slate-700 font-medium leading-normal">Pekerjaan <span className="text-red-600"> *</span></p>
+            <p className="text-slate-700 font-medium leading-normal">
+              Pekerjaan <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Lainnya'
+              className="input input-bordered input-sm"
+              placeholder="Lainnya"
               {...register('mobileNumber', { required: true })}
             />
-
 
             {martialStatus && (
               <>

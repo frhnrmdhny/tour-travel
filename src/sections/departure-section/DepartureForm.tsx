@@ -63,22 +63,31 @@ export default function DepartureForm({
 
   return (
     <>
-      <div className='py-2 flex'>
+      <div className="py-2 flex">
         <BackButton />
-        <div className='px-2 items-center'>
-          <h1 className="font-bold text-gray-800 text-poppins">Tambah Departure</h1>
-          <h3 className="text-sm text-slate-500">Pages / Departure / Tambah Departure</h3>
+        <div className="px-2 items-center">
+          <h1 className="font-bold text-gray-800 text-poppins">
+            Tambah Departure
+          </h1>
+          <h3 className="text-sm text-slate-500">
+            Pages / Departure / Tambah Departure
+          </h3>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <p className='text-gray-700'>Nama <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700">
+          Nama <span className="text-red-600"> *</span>
+        </p>
         <input
-          className="input input-bordered input-sm" placeholder='Masukkan Keberangkatan'
+          className="input input-bordered input-sm"
+          placeholder="Masukkan Keberangkatan"
           {...register('name', { required: true })}
         />
 
-        <p className='text-gray-700'>Tanggal Keberangkatan <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700">
+          Tanggal Keberangkatan <span className="text-red-600"> *</span>
+        </p>
         <input
           className="input input-bordered input-sm"
           type="datetime-local"
@@ -88,17 +97,22 @@ export default function DepartureForm({
           })}
         />
 
-        <p className='text-gray-700'>Tanggal Kembali <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700">
+          Tanggal Kembali <span className="text-red-600"> *</span>
+        </p>
         <input
           className="input input-bordered input-sm"
           type="datetime-local"
           {...register('returnDate', { required: true, valueAsDate: true })}
         />
 
-        <p className='text-gray-700'>Status <span className='text-red-600'> *</span></p>
+        <p className="text-gray-700">
+          Status <span className="text-red-600"> *</span>
+        </p>
         <select
           {...register('status', { required: true })}
-          className="select select-bordered select-sm" aria-placeholder='Persiapan'
+          className="select select-bordered select-sm"
+          aria-placeholder="Persiapan"
         >
           <option value="PREPARING">Persiapan</option>
           <option value="ONGOING">Dalam Perjalanan</option>

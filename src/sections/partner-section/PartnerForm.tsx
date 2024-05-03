@@ -49,11 +49,13 @@ export default function PartnerForm({
 
   return (
     <>
-      <div className='py-2 flex'>
+      <div className="py-2 flex">
         <BackButton />
-        <div className='px-2 items-center'>
+        <div className="px-2 items-center">
           <h1 className="font-bold text-gray-800 text-poppins">Tambah Mitra</h1>
-          <h3 className="text-sm text-slate-500">Pages / Mitra / Tambah Mitra</h3>
+          <h3 className="text-sm text-slate-500">
+            Pages / Mitra / Tambah Mitra
+          </h3>
         </div>
       </div>
       <AddBankAccountDialog addBankAccountDialogRef={addBankAccountDialogRef} />
@@ -64,27 +66,39 @@ export default function PartnerForm({
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-2"
           >
-            <p className='text-gray-700 font-medium '>Nama <span className='text-red-600'> *</span></p>
+            <p className="text-gray-700 font-medium ">
+              Nama <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan nama mitra' 
+              className="input input-bordered input-sm"
+              placeholder="Masukkan nama mitra"
               {...register('name', { required: true })}
             />
 
-            <p className='text-gray-700 font-medium'>NIK <span className='text-red-600'> *</span></p>
+            <p className="text-gray-700 font-medium">
+              NIK <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan NIK'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan NIK"
               {...register('identityNumber', { required: true })}
             />
 
-            <p className='text-gray-700 font-medium'>Email <span className='text-red-600'> *</span></p>
+            <p className="text-gray-700 font-medium">
+              Email <span className="text-red-600"> *</span>
+            </p>
             <input
-              className="input input-bordered input-sm" placeholder='Masukkan email'
+              className="input input-bordered input-sm"
+              placeholder="Masukkan email"
               {...register('email', { required: true })}
             />
 
-            <p className='text-gray-700 font-medium'>Alamat <span className='text-red-600'> *</span></p>
+            <p className="text-gray-700 font-medium">
+              Alamat <span className="text-red-600"> *</span>
+            </p>
             <textarea
-              className="textarea textarea-bordered textarea-sm" placeholder='Masukkan alamat'
+              className="textarea textarea-bordered textarea-sm"
+              placeholder="Masukkan alamat"
               {...register('address', { required: true })}
               rows={2}
             />
