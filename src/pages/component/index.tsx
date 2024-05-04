@@ -114,14 +114,13 @@ export default function Component() {
               placeholder="Cari component ..."
             />
           </label>
-          <div className="mb-2">
-            <button
-              onClick={() => void router.push('/component/create')}
-              className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
-            >
-              + Tambah Component
-            </button>
-          </div>
+
+          <button
+            onClick={() => void router.push('/component/create')}
+            className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
+          >
+            + Tambah Component
+          </button>
         </div>
 
         <DataGrid

@@ -99,20 +99,15 @@ export default function Partner() {
                 clipRule="evenodd"
               />
             </svg>
-            <input
-              type="text"
-              className="grow"
-              placeholder="Cari product ..."
-            />
+            <input type="text" className="grow" placeholder="Cari mitra ..." />
           </label>
-          <div className="mb-2">
-            <button
-              onClick={() => void router.push('/partner/create')}
-              className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full "
-            >
-              + Tambahkan Mitra
-            </button>
-          </div>
+
+          <button
+            onClick={() => void router.push('/partner/create')}
+            className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full "
+          >
+            + Tambahkan Mitra
+          </button>
         </div>
 
         <DataGrid

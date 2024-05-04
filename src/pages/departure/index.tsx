@@ -109,14 +109,13 @@ export default function Departure() {
               placeholder="Cari departure ..."
             />
           </label>
-          <div className="mb-2 flex justify-end">
-            <button
-              onClick={() => void router.push('/departure/create')}
-              className="btn bg-[#01B9DE] hover:bg-sky-400 btn-md rounded-full text-white"
-            >
-              + Tambah Departure
-            </button>
-          </div>
+
+          <button
+            onClick={() => void router.push('/departure/create')}
+            className="btn bg-[#01B9DE] hover:bg-sky-400 btn-md rounded-full text-white"
+          >
+            + Tambah Departure
+          </button>
         </div>
 
         <DataGrid

@@ -14,10 +14,10 @@ import {
   FaHistory,
   FaSignOutAlt,
   FaBars,
-  FaUserCircle
+  FaBox
 } from 'react-icons/fa'
 import { MdAirplanemodeActive } from 'react-icons/md'
-import { IoIosPaper } from 'react-icons/io'
+import { IoIosPaper, IoMdDocument } from 'react-icons/io'
 
 interface Props {
   children: React.ReactNode
@@ -42,7 +42,8 @@ export default function Layout({ children }: Props) {
       },
       {
         href: '/report',
-        label: 'Report'
+        label: 'Report',
+        icon: <IoMdDocument />
       },
       {
         href: '/customer',
@@ -66,7 +67,8 @@ export default function Layout({ children }: Props) {
       },
       {
         href: '/purchase-order',
-        label: 'Purchase Order'
+        label: 'Purchase Order',
+        icon: <FaBox />
       },
       {
         href: '/transaction',
@@ -102,7 +104,6 @@ export default function Layout({ children }: Props) {
     <div
       className={`drawer drawer-open ${isDrawerCollapsed ? 'drawer-collapsed' : ''}`}
     >
-      {/* Input checkbox for drawer, hidden as we're controlling drawer size via state now */}
       <input
         id="my-drawer"
         type="checkbox"
@@ -112,18 +113,7 @@ export default function Layout({ children }: Props) {
       />
 
       <div className="drawer-content">
-        <div className="navbar w-full">
-          <div className="flex-none px-2 mx-2">
-            <button className="btn btn-square btn-ghost" onClick={toggleDrawer}>
-              <FaBars size={24} />
-            </button>
-          </div>
-          <div className="flex-1 px-2 mx-2"></div>
-          <div className="flex-none">
-            <FaUserCircle size={24} />
-          </div>
-        </div>
-        <div className="px-10 py-2">{children}</div>
+        <div className="p-4">{children}</div>
       </div>
 
       <div
@@ -138,8 +128,9 @@ export default function Layout({ children }: Props) {
           className="drawer-overlay"
           onClick={toggleDrawer}
         ></label>
-        <ul className="menu p-4 min-h-full text-base-content">
-          <li className="text-center p-4">
+
+        <div className="flex justify-between p-4">
+          {!isDrawerCollapsed && (
             <h1
               className="text-3xl font-bold italic"
               style={{
@@ -147,12 +138,19 @@ export default function Layout({ children }: Props) {
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 700,
-                fontSize: isDrawerCollapsed ? '1rem' : '1.5rem' // Adjust font size based on drawer state
+                fontSize: isDrawerCollapsed ? '1rem' : '1.5rem'
               }}
             >
               Tour & Travel
             </h1>
-          </li>
+          )}
+
+          <button className="btn btn-square btn-ghost" onClick={toggleDrawer}>
+            <FaBars size={24} />
+          </button>
+        </div>
+
+        <ul className="menu p-4 min-h-full text-base-content">
           {MENU.map(
             ({ href, label, icon, isHidden }) =>
               !isHidden && (

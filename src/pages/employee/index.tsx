@@ -101,17 +101,16 @@ export default function Employee() {
             <input
               type="text"
               className="grow"
-              placeholder="Cari product ..."
+              placeholder="Cari karyawan ..."
             />
           </label>
-          <div className="mb-2">
-            <button
-              onClick={() => void router.push('/employee/create')}
-              className="btn bg-[#01B9DE] hover:bg-sky-400 btn-md text-white rounded-full"
-            >
-              + Tambahkan Karyawan
-            </button>
-          </div>
+
+          <button
+            onClick={() => void router.push('/employee/create')}
+            className="btn bg-[#01B9DE] hover:bg-sky-400 btn-md text-white rounded-full"
+          >
+            + Tambahkan Karyawan
+          </button>
         </div>
 
         <DataGrid

@@ -124,14 +124,13 @@ export default function Product() {
               placeholder="Cari product ..."
             />
           </label>
-          <div className="mb-2">
-            <button
-              onClick={() => void router.push('/product/create')}
-              className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
-            >
-              + Tambahkan Product
-            </button>
-          </div>
+
+          <button
+            onClick={() => void router.push('/product/create')}
+            className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
+          >
+            + Tambahkan Product
+          </button>
         </div>
 
         <DataGrid

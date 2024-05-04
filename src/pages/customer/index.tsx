@@ -194,17 +194,17 @@ export default function Customer() {
               placeholder="Cari customer ..."
             />
           </label>
-          <div className="gap-2 flex justify-end">
+          <div className="gap-2 flex">
             <button
               onClick={() => void router.push('/customer/create')}
-              className="btn btn-primary btn-md rounded-full bg-[#01B9DE] hover:bg-sky-600 text-white"
+              className="btn btn-md rounded-full bg-[#01B9DE] hover:bg-sky-600 text-white"
             >
               + Tambah Customer
             </button>
 
             <button
               onClick={createXls}
-              className="btn btn-secondary bg-[#01B9DE] hover:bg-[#01B9DE] hover:bg-sky-600 btn-md rounded-full text-white"
+              className="btn bg-[#01B9DE] hover:bg-sky-600 btn-md rounded-full text-white"
             >
               Unduh XLSM
             </button>

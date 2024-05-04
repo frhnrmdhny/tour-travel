@@ -130,17 +130,16 @@ export default function Transaction() {
             <input
               type="text"
               className="grow"
-              placeholder="Cari product ..."
+              placeholder="Cari transaksi ..."
             />
           </label>
-          <div className="mb-2">
-            <button
-              onClick={() => void router.push('/transaction/create')}
-              className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
-            >
-              + Tambah Transaction
-            </button>
-          </div>
+
+          <button
+            onClick={() => void router.push('/transaction/create')}
+            className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
+          >
+            + Tambah Transaction
+          </button>
         </div>
 
         <DataGrid
