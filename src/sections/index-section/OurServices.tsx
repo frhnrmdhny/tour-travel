@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function OurServices() {
   return (
-    <div className="container mx-auto my-12">
+    <div className="container mx-auto mb-12">
       <div className="card bg-[#003B47] text-primary-content p-10 rounded-3xl ">
         <div className="card-body">
           <h1 className="card-title text-[#01B9DE] text-2xl font-semibold leading-loose">
