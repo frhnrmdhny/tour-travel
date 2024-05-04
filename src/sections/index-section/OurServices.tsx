@@ -20,8 +20,8 @@ export default function OurServices() {
             </p>
           </div>
 
-          <div className="py-10 grid grid-cols-3">
-            <div className="card w-96 border border-cyan-500 text-primary-content ">
+          <div className="py-10 grid grid-cols-3 gap-4">
+            <div className="card border border-cyan-500 text-primary-content ">
               <div className="card-body ">
                 <div className="avatar">
                   <div className="w-20">
@@ -45,7 +45,7 @@ export default function OurServices() {
                 </p>
               </div>
             </div>
-            <div className="card w-96 border border-gray-500 text-primary-content ">
+            <div className="card border border-gray-500 text-primary-content ">
               <div className="card-body ">
                 <div className="avatar">
                   <div className="w-20 rounded-full">
@@ -68,7 +68,7 @@ export default function OurServices() {
                 </p>
               </div>
             </div>
-            <div className="card w-96 border border-gray-500 text-primary-content">
+            <div className="card border border-gray-500 text-primary-content">
               <div className="card-body">
                 <div className="avatar">
                   <div className="w-20 rounded-full">
