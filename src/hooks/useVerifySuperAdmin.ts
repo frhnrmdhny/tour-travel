@@ -2,20 +2,15 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-interface Props {
-  shallow?: boolean
-}
-
-export default function useVerifySuperAdmin(
-  { shallow }: Props = { shallow: false }
-) {
+export default function useVerifySuperAdmin() {
   const router = useRouter()
   const { data: session } = useSession()
 
   useEffect(() => {
-    if (session?.user.role !== 'SUPERADMIN' && !shallow)
+    if (session && session.user.role !== 'SUPERADMIN' && router.isReady) {
       void router.push('/dashboard')
-  }, [router, session?.user.role, shallow])
+    }
+  }, [router, session, session?.user.role])
 
   return {
     isSuperAdmin: session?.user.role === 'SUPERADMIN'

@@ -1,9 +1,9 @@
 import { useDebouncedCallback } from 'use-debounce'
 
 type Props = {
-  children: React.ReactNode
+  children?: React.ReactNode
   onChange: (value: string) => void
-  handleAdd: () => void
+  handleAdd?: () => void
 }
 
 export default function Toolbar({ children, onChange, handleAdd }: Props) {
@@ -36,16 +36,18 @@ export default function Toolbar({ children, onChange, handleAdd }: Props) {
         />
       </label>
 
-      <div className="gap-2 flex">
-        <button
-          onClick={handleAdd}
-          className="btn btn-md rounded-full bg-[#01B9DE] hover:bg-sky-600 text-white"
-        >
-          + Tambah
-        </button>
+      {handleAdd && (
+        <div className="gap-2 flex">
+          <button
+            onClick={handleAdd}
+            className="btn btn-md rounded-full bg-[#01B9DE] hover:bg-sky-600 text-white"
+          >
+            + Tambah
+          </button>
 
-        {children}
-      </div>
+          {children}
+        </div>
+      )}
     </>
   )
 }

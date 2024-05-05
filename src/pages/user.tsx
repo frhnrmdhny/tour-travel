@@ -6,20 +6,24 @@ import { useMemo } from 'react'
 import { useSession } from 'next-auth/react'
 import usePagination from '~/hooks/usePagination'
 import { type RouterOutput } from '~/server/api/root'
+import Toolbar from '~/components/Toolbar/Toolbar'
+import { type Prisma } from '@prisma/client'
 
 type UserGetOutput = RouterOutput['user']['get']
 
 export default function User() {
   const { data: session } = useSession()
 
-  const [paginationModel, setPaginationModel] = usePagination()
+  const [paginationModel, setPaginationModel] = usePagination<
+    Prisma.UserWhereInput,
+    Prisma.UserOrderByWithRelationInput
+  >()
 
   const { isSuperAdmin } = useVerifySuperAdmin()
 
   const { data, isLoading } = api.user.get.useQuery(
     {
-      page: paginationModel.page,
-      pageSize: paginationModel.pageSize
+      ...paginationModel
     },
     { enabled: isSuperAdmin }
   )
@@ -71,6 +75,37 @@ export default function User() {
 
   return (
     <Layout>
+      <div className="mb-2">
+        <h1 className="font-bold text-gray-800">User</h1>
+        <h3 className="text-sm text-slate-500">Daftar semua pengguna</h3>
+      </div>
+
+      <div className="mb-2 flex gap-2 justify-between">
+        <Toolbar
+          onChange={(value) => {
+            setPaginationModel((c) => ({
+              ...c,
+              where: {
+                OR: [
+                  {
+                    name: {
+                      contains: value,
+                      mode: 'insensitive'
+                    }
+                  },
+                  {
+                    email: {
+                      contains: value,
+                      mode: 'insensitive'
+                    }
+                  }
+                ]
+              }
+            }))
+          }}
+        />
+      </div>
+
       <DataGrid
         rows={data?.users ?? []}
         columns={columns}
@@ -83,6 +118,16 @@ export default function User() {
         }
         rowCount={data?.pagination.rowCount ?? 0}
         rowSelection={false}
+        sortingMode="server"
+        onSortModelChange={(model) =>
+          setPaginationModel((c) => ({
+            ...c,
+            orderBy: model.map((value) => ({
+              [value.field]: value.sort
+            })) as Prisma.UserOrderByWithRelationInput
+          }))
+        }
+        disableColumnFilter
       />
     </Layout>
   )
