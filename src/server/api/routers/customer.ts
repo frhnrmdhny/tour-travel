@@ -1,32 +1,30 @@
-import { type Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
-import { sortsStringToObject } from '~/utils/parser'
-import { validateAttributeFilters } from '~/utils/validator'
-import typia from 'typia'
-
-const x = z.object({
-  page: z.number(),
-  pageSize: z.number()
-})
-
-type inputSchema = z.infer<typeof x> & { where?: Prisma.CustomerWhereInput }
 
 export const customerRouter = createTRPCRouter({
   get: protectedProcedure
-    .input(typia.createAssert<inputSchema>())
+    .input(
+      z.object({
+        page: z.number(),
+        pageSize: z.number(),
+        orderBy: z
+          .union([
+            z.array(z.record(z.string(), z.unknown())),
+            z.record(z.string(), z.unknown())
+          ])
+          .optional(),
+        where: z.record(z.string(), z.unknown()).optional()
+      })
+    )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page, where } = input
-
-      console.log(where)
-      // const sortsObject = sortsStringToObject(sorts)
+      const { pageSize, page, orderBy, where } = input
 
       const [customers, totalCustomers] = await ctx.db.$transaction([
         ctx.db.customer.findMany({
           take: pageSize,
           skip: page * pageSize,
-          // orderBy: sortsObject,
+          orderBy,
           where,
           include: {
             maritalStatus: {

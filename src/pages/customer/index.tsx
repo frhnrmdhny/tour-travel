@@ -7,47 +7,24 @@ import { useRouter } from 'next/router'
 import usePagination from '~/hooks/usePagination'
 import { type RouterOutput } from '~/server/api/root'
 import Toolbar from '~/components/Toolbar/Toolbar'
+import { type Prisma } from '@prisma/client'
+import { createXls } from '~/utils/xls'
 
 type CustomerGetOutput = RouterOutput['customer']['get']
 
-const TABLE_HEAD_LABEL = {
-  title: 'Title',
-  nameVaccine: 'Nama (Sesuai Dengan nama Pada Kartu Vaksin)',
-  fatherName: 'Nama Ayah',
-  identityType: 'Jenis Identitas',
-  identityNumber: 'No Identitas',
-  namePassport: 'Nama Paspor',
-  passportNumber: 'No Paspor',
-  passportIssuedDate: 'Tanggal Dikeluarkan Paspor(yyyy-mm-dd)',
-  passportCity: 'Kota Paspor',
-  birthplace: 'Tempat Lahir',
-  birthdate: 'Tanggal Lahir(yyyy-mm-dd)',
-  address: 'Alamat',
-  province: 'Provinsi',
-  city: 'Kabupaten',
-  subdistrict: 'Kecamatan',
-  ward: 'Kelurahan',
-  phoneNumber: 'No. Telepon',
-  mobileNumber: 'No Hp',
-  nationality: 'KewargaNegaraan',
-  maritalStatus: 'Status Pernikahan',
-  education: 'Pendidikan',
-  occupation: 'Pekerjaan'
-} as Record<string, string>
-
 export default function Customer() {
   const router = useRouter()
+
   const { data: session } = useSession()
 
-  const [paginationModel, setPaginationModel] = usePagination()
+  const [paginationModel, setPaginationModel] = usePagination<
+    Prisma.CustomerWhereInput,
+    Prisma.CustomerOrderByWithRelationInput
+  >()
 
   const { data, isLoading } = api.customer.get.useQuery(
     {
-      page: paginationModel.page,
-      pageSize: paginationModel.pageSize
-
-      // sorts: 'namePassport',
-      // filters: {}
+      ...paginationModel
     },
     { enabled: !!session?.user }
   )
@@ -117,7 +94,27 @@ export default function Customer() {
         <div className="mb-2 flex gap-2 justify-between">
           <Toolbar
             handleAdd={() => void router.push('/customer/create')}
-            onChange={(value) => {}}
+            onChange={(value) => {
+              setPaginationModel((c) => ({
+                ...c,
+                where: {
+                  OR: [
+                    {
+                      namePassport: {
+                        contains: value,
+                        mode: 'insensitive'
+                      }
+                    },
+                    {
+                      address: {
+                        contains: value,
+                        mode: 'insensitive'
+                      }
+                    }
+                  ]
+                }
+              }))
+            }}
           >
             {data && (
               <button
@@ -135,66 +132,27 @@ export default function Customer() {
           columns={columns}
           loading={isLoading}
           pageSizeOptions={[5, 10, 25]}
-          paginationModel={paginationModel}
+          paginationModel={{
+            page: paginationModel.page,
+            pageSize: paginationModel.pageSize
+          }}
           paginationMode="server"
-          onPaginationModelChange={setPaginationModel}
+          onPaginationModelChange={(model) =>
+            setPaginationModel((c) => ({ ...c, ...model }))
+          }
           rowCount={data?.pagination.rowCount ?? 0}
           rowSelection={false}
+          sortingMode="server"
+          onSortModelChange={(model) =>
+            setPaginationModel((c) => ({
+              ...c,
+              orderBy: model.map((value) => ({
+                [value.field]: value.sort
+              })) as Prisma.CustomerOrderByWithRelationInput
+            }))
+          }
         />
       </>
     </Layout>
   )
-}
-
-const createXls = async (data: RouterOutput['customer']['get']) => {
-  const dayjs = (await import('dayjs')).default
-  const xlsx = await import('xlsx')
-
-  const customers = data.customers.map((customer) => {
-    const {
-      id,
-      passportIssuedDate,
-      birthdate,
-      maritalStatusId,
-      maritalStatus,
-      educationId,
-      education,
-      occupationId,
-      occupation,
-      createdAt,
-      updatedAt,
-      ...rest
-    } = customer
-
-    const actualCustomer: Record<string, string> = {
-      ...rest,
-      maritalStatus: maritalStatus.name,
-      education: education.name,
-      occupation: occupation.name,
-      passportIssuedDate: dayjs(passportIssuedDate).format('YYYY-MM-DD'),
-      birthdate: dayjs(birthdate).format('YYYY-MM-DD')
-    }
-
-    const sortedCustomer: Record<string, string> = {}
-
-    Object.keys(TABLE_HEAD_LABEL).forEach((key) => {
-      const value = actualCustomer[key]
-      if (value) sortedCustomer[key] = value
-    })
-
-    return sortedCustomer
-  })
-
-  const worksheet = xlsx.utils.json_to_sheet(customers)
-  const sheetData = xlsx.utils.sheet_to_json(worksheet, {
-    header: 1
-  })
-  const header = sheetData[0] as string[]
-  const actualHeader = header.map((head) => TABLE_HEAD_LABEL[head])
-  xlsx.utils.sheet_add_aoa(worksheet, [actualHeader], { origin: 'A1' })
-  const workbook = xlsx.utils.book_new()
-  xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
-  xlsx.writeFile(workbook, `data-customer-${Date.now()}.xlsm`, {
-    compression: true
-  })
 }

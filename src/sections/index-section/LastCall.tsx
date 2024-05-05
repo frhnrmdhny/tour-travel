@@ -14,9 +14,9 @@ export default function LastCall() {
           fill
           sizes="100vw"
           style={{
-            objectFit: 'cover'
+            objectFit: 'cover',
+            objectPosition: 'bottom'
           }}
-          objectPosition="bottom"
           className="-z-10"
         />
         <div className="container mx-auto flex justify-center items-center py-20">

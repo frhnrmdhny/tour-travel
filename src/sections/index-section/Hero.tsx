@@ -19,9 +19,9 @@ export default function Hero() {
         fill
         sizes="100vw"
         style={{
-          objectFit: 'contain'
+          objectFit: 'contain',
+          objectPosition: 'top'
         }}
-        objectPosition="top"
         className="-z-10"
       />
 

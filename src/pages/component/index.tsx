@@ -130,7 +130,9 @@ export default function Component() {
           pageSizeOptions={[5, 10, 25]}
           paginationModel={paginationModel}
           paginationMode="server"
-          onPaginationModelChange={setPaginationModel}
+          onPaginationModelChange={(model) =>
+            setPaginationModel((c) => ({ ...c, ...model }))
+          }
           rowCount={data?.pagination.rowCount ?? 0}
           rowSelection={false}
         />
