@@ -1,34 +1,32 @@
-import { Prisma } from '@prisma/client'
+import { type Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc'
 import { sortsStringToObject } from '~/utils/parser'
 import { validateAttributeFilters } from '~/utils/validator'
+import typia from 'typia'
+
+const x = z.object({
+  page: z.number(),
+  pageSize: z.number()
+})
+
+type inputSchema = z.infer<typeof x> & { where?: Prisma.CustomerWhereInput }
 
 export const customerRouter = createTRPCRouter({
   get: protectedProcedure
-    .input(
-      z.object({
-        page: z.number(),
-        pageSize: z.number(),
-        sorts: z.string().optional().default(''),
-        filters: z.record(z.unknown()).optional()
-      })
-    )
+    .input(typia.createAssert<inputSchema>())
     .query(async ({ ctx, input }) => {
-      const { pageSize, page, sorts, filters } = input
-      const where = validateAttributeFilters(
-        filters,
-        Prisma.CustomerScalarFieldEnum
-      )
+      const { pageSize, page, where } = input
+
       console.log(where)
-      const sortsObject = sortsStringToObject(sorts)
+      // const sortsObject = sortsStringToObject(sorts)
 
       const [customers, totalCustomers] = await ctx.db.$transaction([
         ctx.db.customer.findMany({
           take: pageSize,
           skip: page * pageSize,
-          orderBy: sortsObject,
+          // orderBy: sortsObject,
           where,
           include: {
             maritalStatus: {
@@ -48,7 +46,9 @@ export const customerRouter = createTRPCRouter({
             }
           }
         }),
-        ctx.db.customer.count()
+        ctx.db.customer.count({
+          where
+        })
       ])
 
       return {
@@ -196,6 +196,24 @@ export const customerRouter = createTRPCRouter({
       thisMonthCustomerCount
     }
   }),
+
+  getDashboardDataWithFilter: protectedProcedure
+    .input(
+      z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+      })
+    )
+    .query(async ({ ctx, input }) =>
+      ctx.db.customer.count({
+        where: {
+          createdAt: {
+            gte: input.from,
+            lte: input.to
+          }
+        }
+      })
+    ),
 
   getAdditionalInformation: protectedProcedure
     .input(

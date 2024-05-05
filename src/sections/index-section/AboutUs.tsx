@@ -29,7 +29,7 @@ export default function AboutUs() {
               <h1 className="text-3xl text-white leading-[36px] font-bold">
                 About Tour & Travel
               </h1>
-              <p className="py-6 text-wrap">
+              <p className="py-6 text-wrap text-white">
                 Tour & travel adalah industri yang berkaitan dengan penyediaan
                 layanan perjalanan, termasuk pemesanan tiket, akomodasi,
                 transportasi, dan kegiatan wisata bagi individu atau kelompok.

@@ -129,16 +129,14 @@ export default function Layout({ children }: Props) {
           onClick={toggleDrawer}
         ></label>
 
-        <div className="flex justify-between p-4">
+        <div className="flex justify-between p-4 items-center">
           {!isDrawerCollapsed && (
             <h1
               className="text-3xl font-bold italic"
               style={{
-                background: 'linear-gradient(to bottom, #01B9DE, #0190AD)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
                 fontWeight: 700,
-                fontSize: isDrawerCollapsed ? '1rem' : '1.5rem'
+                fontSize: isDrawerCollapsed ? '1rem' : '1.5rem',
+                color: '#01B9DE'
               }}
             >
               Tour & Travel

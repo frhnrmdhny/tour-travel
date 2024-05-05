@@ -51,7 +51,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
       <AppCacheProvider {...pageProps}>
         <MUIThemeProvider theme={theme}>
-          <ThemeProvider forcedTheme="winter">
+          <ThemeProvider forcedTheme="customTheme">
             <SessionProvider session={session}>
               <Component {...pageProps} />
             </SessionProvider>

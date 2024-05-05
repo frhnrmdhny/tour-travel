@@ -1,14 +1,29 @@
 import Layout from '~/components/Layout'
 import { api } from '~/utils/api'
+import DateRangePicker from '~/components/DateRangePicker'
+import { useState } from 'react'
+import { type DateRange } from 'react-day-picker'
+import { endOfMonth, format, startOfMonth } from 'date-fns'
 
 export default function Dashboard() {
+  const [range, setRange] = useState<undefined | DateRange>({
+    from: startOfMonth(new Date()),
+    to: endOfMonth(new Date())
+  })
+
   const { data } = api.customer.getDashboardData.useQuery()
+  const { data: dataWithFilter } =
+    api.customer.getDashboardDataWithFilter.useQuery({ ...range })
 
   return (
     <Layout>
+      <DateRangePicker onChange={setRange} initialRange={range} />
+
+      <h4 className="text-lg mb-2">Data Pelanggan</h4>
+
       <div className="stats border border-base-300">
         <div className="stat">
-          <div className="stat-figure text-secondary">
+          <div className="stat-figure text-primary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -23,21 +38,22 @@ export default function Dashboard() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">Pelanggan Baru</div>
-          <div className="stat-value">{data?.thisMonthCustomerCount}</div>
-          <div className="stat-desc">
-            ↗︎ (
-            {data?.customerGrowth && isFinite(data.customerGrowth)
-              ? data.customerGrowth
-              : 0}
-            %) bulan ini
+          <div className="stat-title">
+            {range?.from && range.to ? (
+              <>
+                {format(range.from, 'P')} - {format(range.to, 'P')}
+              </>
+            ) : (
+              'Pilih tanggal'
+            )}
           </div>
+          <div className="stat-value">{dataWithFilter}</div>
+          <div className="stat-desc"># data rentang waktu tertentu</div>
         </div>
+
         <div className="stats shadow-md flex justify-center">
           <div className="stat">
-            <div className="stat-title text-xl text-black font-bold p-2">
-              Pelanggan Tour & Travel
-            </div>
+            <div className="stat-title mb-4">Semua Data</div>
             <div className="justify-start items-center gap-5 inline-flex">
               <div className="stats shadow bg-[#01B9DE]">
                 <div className="stat">
