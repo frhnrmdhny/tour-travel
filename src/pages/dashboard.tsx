@@ -67,8 +67,8 @@ export default function Dashboard() {
                         fill="none"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M2.42414 7.02985C2.95994 6.8959 3.50287 7.22166 3.63682 7.75746L4.14611 9.79461C4.9592 13.047 7.52144 15.5686 10.7794 16.3333H21.3333C24.1214 16.3333 26.4681 18.4201 26.7939 21.1891L27.6598 28.5498C27.7243 29.0983 27.332 29.5953 26.7835 29.6598C26.235 29.7243 25.738 29.332 25.6735 28.7835L24.8076 21.4228C24.6003 19.661 23.1072 18.3333 21.3333 18.3333H10.5569L10.4497 18.3095C6.4028 17.4102 3.2113 14.3016 2.20583 10.2797L1.69654 8.24253C1.56259 7.70673 1.88835 7.1638 2.42414 7.02985Z"
                           fill="url(#paint0_linear_3229_2569)"
                         />
@@ -92,8 +92,8 @@ export default function Dashboard() {
                             y2="29.6668"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop stop-color="#01B9DE" />
-                            <stop offset="1" stop-color="#0190AD" />
+                            <stop stopColor="#01B9DE" />
+                            <stop offset="1" stopColor="#0190AD" />
                           </linearGradient>
                           <linearGradient
                             id="paint1_linear_3229_2569"
@@ -103,8 +103,8 @@ export default function Dashboard() {
                             y2="29.3334"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop stop-color="#01B9DE" />
-                            <stop offset="1" stop-color="#0190AD" />
+                            <stop stopColor="#01B9DE" />
+                            <stop offset="1" stopColor="#0190AD" />
                           </linearGradient>
                           <linearGradient
                             id="paint2_linear_3229_2569"
@@ -114,8 +114,8 @@ export default function Dashboard() {
                             y2="13.3334"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop stop-color="#01B9DE" />
-                            <stop offset="1" stop-color="#0190AD" />
+                            <stop stopColor="#01B9DE" />
+                            <stop offset="1" stopColor="#0190AD" />
                           </linearGradient>
                         </defs>
                       </svg>
@@ -147,8 +147,8 @@ export default function Dashboard() {
                         fill="none"
                       >
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M5.20615 21.1891C5.53191 18.4202 7.87862 16.3334 10.6667 16.3334H21.3333C24.1214 16.3334 26.4681 18.4202 26.7938 21.1891L27.6598 28.5499C27.7243 29.0984 27.332 29.5953 26.7835 29.6599C26.235 29.7244 25.738 29.332 25.6735 28.7835L24.8075 21.4228C24.6003 19.6611 23.1072 18.3334 21.3333 18.3334H10.6667C8.89279 18.3334 7.39971 19.6611 7.19245 21.4228L6.32648 28.7835C6.26195 29.332 5.76499 29.7244 5.21649 29.6599C4.66799 29.5953 4.27565 29.0984 4.34018 28.5499L5.20615 21.1891Z"
                           fill="url(#paint0_linear_3229_2590)"
                         />
@@ -173,8 +173,8 @@ export default function Dashboard() {
                             y2="29.6668"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop stop-color="#01B9DE" />
-                            <stop offset="1" stop-color="#0190AD" />
+                            <stop stopColor="#01B9DE" />
+                            <stop offset="1" stopColor="#0190AD" />
                           </linearGradient>
                           <linearGradient
                             id="paint1_linear_3229_2590"
@@ -184,8 +184,8 @@ export default function Dashboard() {
                             y2="13.3334"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop stop-color="#01B9DE" />
-                            <stop offset="1" stop-color="#0190AD" />
+                            <stop stopColor="#01B9DE" />
+                            <stop offset="1" stopColor="#0190AD" />
                           </linearGradient>
                           <linearGradient
                             id="paint2_linear_3229_2590"
@@ -195,8 +195,8 @@ export default function Dashboard() {
                             y2="29.3334"
                             gradientUnits="userSpaceOnUse"
                           >
-                            <stop stop-color="#01B9DE" />
-                            <stop offset="1" stop-color="#0190AD" />
+                            <stop stopColor="#01B9DE" />
+                            <stop offset="1" stopColor="#0190AD" />
                           </linearGradient>
                         </defs>
                       </svg>
