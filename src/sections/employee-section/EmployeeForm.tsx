@@ -48,17 +48,8 @@ export default function EmployeeForm({
 
   return (
     <>
-      <div className="py-2 flex">
-        <BackButton />
-        <div className="px-2 items-center">
-          <h1 className="font-bold text-gray-800 text-poppins">
-            Tambah Karyawan
-          </h1>
-          <h3 className="text-sm text-slate-500">
-            Pages / Karyawan / Tambah Karyawan
-          </h3>
-        </div>
-      </div>
+      <BackButton label={`${mode === 'edit' ? 'Edit' : 'Tambah'} Departure`} />
+
       <div className="grid grid-cols-3 gap-4">
         <div className={`${mode === 'edit' ? 'col-span-2' : 'col-span-3'}`}>
           <form

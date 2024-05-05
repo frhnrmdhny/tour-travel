@@ -80,31 +80,29 @@ export default function User() {
         <h3 className="text-sm text-slate-500">Daftar semua pengguna</h3>
       </div>
 
-      <div className="mb-2 flex gap-2 justify-between">
-        <Toolbar
-          onChange={(value) => {
-            setPaginationModel((c) => ({
-              ...c,
-              where: {
-                OR: [
-                  {
-                    name: {
-                      contains: value,
-                      mode: 'insensitive'
-                    }
-                  },
-                  {
-                    email: {
-                      contains: value,
-                      mode: 'insensitive'
-                    }
+      <Toolbar
+        onChange={(value) => {
+          setPaginationModel((c) => ({
+            ...c,
+            where: {
+              OR: [
+                {
+                  name: {
+                    contains: value,
+                    mode: 'insensitive'
                   }
-                ]
-              }
-            }))
-          }}
-        />
-      </div>
+                },
+                {
+                  email: {
+                    contains: value,
+                    mode: 'insensitive'
+                  }
+                }
+              ]
+            }
+          }))
+        }}
+      />
 
       <DataGrid
         rows={data?.users ?? []}

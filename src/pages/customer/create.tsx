@@ -12,23 +12,21 @@ export default function CreateCustomer() {
 
   return (
     <Layout>
-      <>
-        <CustomerForm
-          handleCreate={(data) => {
-            const transformedData = transformStringToDate<
-              RouterInput['customer']['add']
-            >(['departureDate', 'returnDate'], data)
+      <CustomerForm
+        handleCreate={(data) => {
+          const transformedData = transformStringToDate<
+            RouterInput['customer']['add']
+          >(['departureDate', 'returnDate'], data)
 
-            mutate(transformedData, {
-              onSuccess: () => {
-                void utils.customer.get.invalidate()
-                void router.push('/customer')
-              }
-            })
-          }}
-          mode="create"
-        />
-      </>
+          mutate(transformedData, {
+            onSuccess: () => {
+              void utils.customer.get.invalidate()
+              void router.push('/customer')
+            }
+          })
+        }}
+        mode="create"
+      />
     </Layout>
   )
 }

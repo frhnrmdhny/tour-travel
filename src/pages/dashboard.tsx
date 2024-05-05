@@ -17,6 +17,11 @@ export default function Dashboard() {
 
   return (
     <Layout>
+      <div className="mb-2">
+        <h1 className="font-bold text-gray-800">Dashboard</h1>
+        <h3 className="text-sm text-slate-500">Ringkasan data</h3>
+      </div>
+
       <DateRangePicker onChange={setRange} initialRange={range} />
 
       <h4 className="text-lg mb-2">Data Pelanggan</h4>

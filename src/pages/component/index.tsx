@@ -1,8 +1,10 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { type Prisma } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import Layout from '~/components/Layout'
+import Toolbar from '~/components/Toolbar/Toolbar'
 import usePagination from '~/hooks/usePagination'
 import { type RouterOutput } from '~/server/api/root'
 import { api } from '~/utils/api'
@@ -13,12 +15,14 @@ export default function Component() {
   const router = useRouter()
   const { data: session } = useSession()
 
-  const [paginationModel, setPaginationModel] = usePagination()
+  const [paginationModel, setPaginationModel] = usePagination<
+    Prisma.ComponentWhereInput,
+    Prisma.ComponentOrderByWithRelationInput
+  >()
 
   const { data, isLoading } = api.component.get.useQuery(
     {
-      page: paginationModel.page,
-      pageSize: paginationModel.pageSize
+      ...paginationModel
     },
     { enabled: !!session?.user }
   )
@@ -92,36 +96,33 @@ export default function Component() {
       <>
         <div className="mb-2">
           <h1 className="font-bold text-gray-800">Component</h1>
-          <h3 className="text-sm text-slate-500">Pages / Component</h3>
+          <h3 className="text-sm text-slate-500">Daftar data barang</h3>
         </div>
-        <div className="mb-2 flex gap-2 justify-between">
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <input
-              type="text"
-              className="grow"
-              placeholder="Cari component ..."
-            />
-          </label>
 
-          <button
-            onClick={() => void router.push('/component/create')}
-            className="btn bg-[#01B9DE] hover:bg-sky-400 text-white btn-md rounded-full"
-          >
-            + Tambah Component
-          </button>
-        </div>
+        <Toolbar
+          onChange={(value) => {
+            setPaginationModel((c) => ({
+              ...c,
+              where: {
+                OR: [
+                  {
+                    name: {
+                      contains: value,
+                      mode: 'insensitive'
+                    }
+                  },
+                  {
+                    description: {
+                      contains: value,
+                      mode: 'insensitive'
+                    }
+                  }
+                ]
+              }
+            }))
+          }}
+          handleAdd={() => void router.push('/component/create')}
+        />
 
         <DataGrid
           rows={data?.components ?? []}
@@ -135,6 +136,16 @@ export default function Component() {
           }
           rowCount={data?.pagination.rowCount ?? 0}
           rowSelection={false}
+          sortingMode="server"
+          onSortModelChange={(model) =>
+            setPaginationModel((c) => ({
+              ...c,
+              orderBy: model.map((value) => ({
+                [value.field]: value.sort
+              })) as Prisma.DepartureOrderByWithRelationInput
+            }))
+          }
+          disableColumnFilter
         />
       </>
     </Layout>

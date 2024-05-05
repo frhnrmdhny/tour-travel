@@ -72,17 +72,8 @@ export default function ProductForm({
 
   return (
     <>
-      <div className="py-2 flex">
-        <BackButton />
-        <div className="px-2 items-center">
-          <h1 className="font-bold text-gray-800 text-poppins">
-            Tambah Prodcut
-          </h1>
-          <h3 className="text-sm text-slate-500">
-            Pages / Product / Tambah Product
-          </h3>
-        </div>
-      </div>
+      <BackButton label={`${mode === 'edit' ? 'Edit' : 'Tambah'} Product`} />
+
       <AddCategoryDialog addCategoryDialogRef={addCategoryDialogRef} />
 
       {mode === 'edit' && (
@@ -140,25 +131,12 @@ export default function ProductForm({
           placeholder="Masukkan restock level"
           {...register('restockLevel', { required: true, valueAsNumber: true })}
         />
-        <p className="text-slate-700 font-medium leading-normal">
-          Category <span className="text-red-600"> *</span>{' '}
-          <span> button here</span>
-        </p>
-        <select
-          {...register('productCategoryId', { required: true })}
-          className="select select-bordered select-md"
-        >
-          {['Pilih Category'].map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
 
         {data && (
           <>
             <div className="flex gap-2 items-center">
               <p>Category</p>
+              <span className="text-red-600"> *</span>
               <button
                 onClick={(e) => {
                   e.preventDefault()

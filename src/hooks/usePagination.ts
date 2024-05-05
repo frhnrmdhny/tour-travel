@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function usePagination<T, U>() {
+export default function usePagination<T = undefined, U = undefined>() {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,

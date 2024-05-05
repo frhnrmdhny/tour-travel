@@ -63,17 +63,7 @@ export default function DepartureForm({
 
   return (
     <>
-      <div className="py-2 flex">
-        <BackButton />
-        <div className="px-2 items-center">
-          <h1 className="font-bold text-gray-800 text-poppins">
-            Tambah Departure
-          </h1>
-          <h3 className="text-sm text-slate-500">
-            Pages / Departure / Tambah Departure
-          </h3>
-        </div>
-      </div>
+      <BackButton label={`${mode === 'edit' ? 'Edit' : 'Tambah'} Departure`} />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <p className="text-gray-700">

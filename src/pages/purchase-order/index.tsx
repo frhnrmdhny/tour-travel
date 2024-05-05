@@ -1,8 +1,10 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { type Prisma } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import Layout from '~/components/Layout'
+import Toolbar from '~/components/Toolbar/Toolbar'
 import usePagination from '~/hooks/usePagination'
 import { type RouterOutput } from '~/server/api/root'
 import { api } from '~/utils/api'
@@ -14,12 +16,14 @@ export default function PurchaseOrder() {
 
   const { data: session } = useSession()
 
-  const [paginationModel, setPaginationModel] = usePagination()
+  const [paginationModel, setPaginationModel] = usePagination<
+    Prisma.PurchaseOrderWhereInput,
+    Prisma.PurchaseOrderOrderByWithRelationInput
+  >()
 
   const { data, isLoading } = api.purchaseOrder.get.useQuery(
     {
-      page: paginationModel.page,
-      pageSize: paginationModel.pageSize
+      ...paginationModel
     },
     { enabled: !!session?.user }
   )
@@ -77,30 +81,53 @@ export default function PurchaseOrder() {
 
   return (
     <Layout>
-      <>
-        <div className="mb-2">
-          <button
-            onClick={() => void router.push('/purchase-order/create')}
-            className="btn btn-primary btn-sm"
-          >
-            Tambahkan
-          </button>
-        </div>
+      <div className="mb-2">
+        <h1 className="font-bold text-gray-800">Purchase Order</h1>
+        <h3 className="text-sm text-slate-500">Daftar pembelian</h3>
+      </div>
 
-        <DataGrid
-          rows={data?.purchaseOrders ?? []}
-          columns={columns}
-          loading={isLoading}
-          pageSizeOptions={[5, 10, 25]}
-          paginationModel={paginationModel}
-          paginationMode="server"
-          onPaginationModelChange={(model) =>
-            setPaginationModel((c) => ({ ...c, ...model }))
-          }
-          rowCount={data?.pagination.rowCount ?? 0}
-          rowSelection={false}
-        />
-      </>
+      <Toolbar
+        onChange={(value) => {
+          setPaginationModel((c) => ({
+            ...c,
+            where: {
+              OR: [
+                {
+                  name: {
+                    contains: value,
+                    mode: 'insensitive'
+                  }
+                }
+              ]
+            }
+          }))
+        }}
+        handleAdd={() => void router.push('/purchase-order/create')}
+      />
+
+      <DataGrid
+        rows={data?.purchaseOrders ?? []}
+        columns={columns}
+        loading={isLoading}
+        pageSizeOptions={[5, 10, 25]}
+        paginationModel={paginationModel}
+        paginationMode="server"
+        onPaginationModelChange={(model) =>
+          setPaginationModel((c) => ({ ...c, ...model }))
+        }
+        rowCount={data?.pagination.rowCount ?? 0}
+        rowSelection={false}
+        sortingMode="server"
+        onSortModelChange={(model) =>
+          setPaginationModel((c) => ({
+            ...c,
+            orderBy: model.map((value) => ({
+              [value.field]: value.sort
+            })) as Prisma.DepartureOrderByWithRelationInput
+          }))
+        }
+        disableColumnFilter
+      />
     </Layout>
   )
 }

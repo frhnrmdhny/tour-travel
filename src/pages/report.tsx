@@ -31,6 +31,11 @@ export default function Report() {
 
   return (
     <Layout>
+      <div className="mb-2">
+        <h1 className="font-bold text-gray-800">Report</h1>
+        <h3 className="text-sm text-slate-500">Semua data laporan</h3>
+      </div>
+
       <DateRangePicker onChange={setRange} />
 
       <div className="max-w-sm">

@@ -6,16 +6,25 @@ export const productRouter = createTRPCRouter({
     .input(
       z.object({
         page: z.number(),
-        pageSize: z.number()
+        pageSize: z.number(),
+        orderBy: z
+          .union([
+            z.array(z.record(z.string(), z.unknown())),
+            z.record(z.string(), z.unknown())
+          ])
+          .optional(),
+        where: z.record(z.string(), z.unknown()).optional()
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page } = input
+      const { pageSize, page, orderBy, where } = input
 
       const [products, totalProducts] = await ctx.db.$transaction([
         ctx.db.product.findMany({
           take: pageSize,
           skip: page * pageSize,
+          orderBy,
+          where,
           include: {
             productCategory: {
               select: {

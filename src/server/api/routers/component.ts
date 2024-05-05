@@ -6,16 +6,25 @@ export const componentRouter = createTRPCRouter({
     .input(
       z.object({
         page: z.number(),
-        pageSize: z.number()
+        pageSize: z.number(),
+        orderBy: z
+          .union([
+            z.array(z.record(z.string(), z.unknown())),
+            z.record(z.string(), z.unknown())
+          ])
+          .optional(),
+        where: z.record(z.string(), z.unknown()).optional()
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page } = input
+      const { pageSize, page, orderBy, where } = input
 
       const [components, totalComponents] = await ctx.db.$transaction([
         ctx.db.component.findMany({
           take: pageSize,
-          skip: page * pageSize
+          skip: page * pageSize,
+          orderBy,
+          where
         }),
         ctx.db.component.count()
       ])

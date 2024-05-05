@@ -6,6 +6,7 @@ import PurchaseOrderLineItem from './PurchaseOrderLineItem'
 import PurchaseOrderTotal from './PurchaseOrderTotal'
 import { api } from '~/utils/api'
 import { useRouter } from 'next/router'
+import BackButton from '~/components/BackButton'
 
 type PurchaseOrderFormState = Omit<
   RouterInput['purchaseOrder']['add'],
@@ -81,57 +82,68 @@ export default function PurchaseOrderForm({
   const utils = api.useUtils()
 
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className={`${mode === 'edit' ? 'col-span-4' : 'col-span-12'}`}>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-          {mode === 'edit' && <PurchaseOrderTotal />}
+    <>
+      <BackButton
+        label={`${mode === 'edit' ? 'Edit' : 'Tambah'} Purchase Order`}
+      />
 
-          {mode === 'edit' && (
-            <>
-              <p>Status</p>
-              <div className="badge badge-info py-4 w-full">{data?.status}</div>
-              {data?.status !== 'COMPLETED' && (
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    mutate(
-                      {
-                        id: id as string,
-                        status: nextStatus,
-                        completedDate: new Date()
-                      },
-                      {
-                        onSuccess: () =>
-                          void utils.purchaseOrder.getById.invalidate({
-                            id: id as string
-                          })
-                      }
-                    )
-                  }}
-                  className="btn btn-neutral btn-outline btn-sm"
-                >
-                  Set Status To {nextStatus}
-                </button>
-              )}
-            </>
-          )}
-
-          <p>Nama</p>
-          <input
-            className="input input-bordered input-sm"
-            {...register('name', { required: true })}
-          />
-
-          <button
-            disabled={!isDirty}
-            className="btn btn-primary btn-sm mt-4"
-            type="submit"
+      <div className="grid grid-cols-12 gap-4">
+        <div className={`${mode === 'edit' ? 'col-span-4' : 'col-span-12'}`}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-2"
           >
-            {mode === 'create' ? 'Tambahkan' : 'Sunting'}
-          </button>
-        </form>
+            {mode === 'edit' && <PurchaseOrderTotal />}
+
+            {mode === 'edit' && (
+              <>
+                <p>Status</p>
+                <div className="badge badge-info py-4 w-full">
+                  {data?.status}
+                </div>
+                {data?.status !== 'COMPLETED' && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      mutate(
+                        {
+                          id: id as string,
+                          status: nextStatus,
+                          completedDate: new Date()
+                        },
+                        {
+                          onSuccess: () =>
+                            void utils.purchaseOrder.getById.invalidate({
+                              id: id as string
+                            })
+                        }
+                      )
+                    }}
+                    className="btn btn-neutral btn-outline btn-sm"
+                  >
+                    Set Status To {nextStatus}
+                  </button>
+                )}
+              </>
+            )}
+
+            <p>Nama</p>
+            <input
+              className="input input-bordered input-sm"
+              {...register('name', { required: true })}
+            />
+
+            <button
+              disabled={!isDirty}
+              className="btn btn-primary btn-sm mt-4"
+              type="submit"
+            >
+              {mode === 'create' ? 'Tambahkan' : 'Sunting'}
+            </button>
+          </form>
+        </div>
+        {mode === 'edit' && <PurchaseOrderLineItem />}
       </div>
-      {mode === 'edit' && <PurchaseOrderLineItem />}
-    </div>
+    </>
   )
 }

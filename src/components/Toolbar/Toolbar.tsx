@@ -14,7 +14,7 @@ export default function Toolbar({ children, onChange, handleAdd }: Props) {
   }, 1000)
 
   return (
-    <>
+    <div className="mb-2 flex gap-2 justify-between w-full">
       <label className="input input-bordered flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +48,6 @@ export default function Toolbar({ children, onChange, handleAdd }: Props) {
           {children}
         </div>
       )}
-    </>
+    </div>
   )
 }

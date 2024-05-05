@@ -73,17 +73,7 @@ export default function CustomerForm({
 
   return (
     <>
-      <div className="py-2 flex">
-        <BackButton />
-        <div className="px-2 items-center">
-          <h1 className="font-bold text-gray-800 text-poppins">
-            Tambah Customer
-          </h1>
-          <h3 className="text-sm text-slate-500">
-            Pages / Customer / Tambah Customer
-          </h3>
-        </div>
-      </div>
+      <BackButton label={`${mode === 'edit' ? 'Edit' : 'Tambah'} Customer`} />
 
       <div className="grid grid-cols-3 gap-4">
         <div className={`${mode === 'edit' ? 'col-span-2' : 'col-span-3'}`}>

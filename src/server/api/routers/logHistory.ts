@@ -6,16 +6,24 @@ export const logHistoryRouter = createTRPCRouter({
     .input(
       z.object({
         page: z.number(),
-        pageSize: z.number()
+        pageSize: z.number(),
+        orderBy: z
+          .union([
+            z.array(z.record(z.string(), z.unknown())),
+            z.record(z.string(), z.unknown())
+          ])
+          .optional(),
+        where: z.record(z.string(), z.unknown()).optional()
       })
     )
     .query(async ({ ctx, input }) => {
-      const { pageSize, page } = input
+      const { pageSize, page, where } = input
 
-      const [logHistory, totaLogHistory] = await ctx.db.$transaction([
+      const [logHistory, totalLogHistory] = await ctx.db.$transaction([
         ctx.db.logHistory.findMany({
           take: pageSize,
           skip: page * pageSize,
+          where,
           orderBy: {
             createdAt: 'desc'
           },
@@ -35,7 +43,7 @@ export const logHistoryRouter = createTRPCRouter({
         pagination: {
           page,
           pageSize,
-          rowCount: totaLogHistory
+          rowCount: totalLogHistory
         }
       }
     })

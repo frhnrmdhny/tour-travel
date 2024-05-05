@@ -90,41 +90,40 @@ export default function Customer() {
         <h1 className="font-bold text-gray-800">Customer</h1>
         <h3 className="text-sm text-slate-500">Daftar semua pelanggan</h3>
       </div>
-      <div className="mb-2 flex gap-2 justify-between">
-        <Toolbar
-          handleAdd={() => void router.push('/customer/create')}
-          onChange={(value) => {
-            setPaginationModel((c) => ({
-              ...c,
-              where: {
-                OR: [
-                  {
-                    namePassport: {
-                      contains: value,
-                      mode: 'insensitive'
-                    }
-                  },
-                  {
-                    address: {
-                      contains: value,
-                      mode: 'insensitive'
-                    }
+
+      <Toolbar
+        handleAdd={() => void router.push('/customer/create')}
+        onChange={(value) => {
+          setPaginationModel((c) => ({
+            ...c,
+            where: {
+              OR: [
+                {
+                  namePassport: {
+                    contains: value,
+                    mode: 'insensitive'
                   }
-                ]
-              }
-            }))
-          }}
-        >
-          {data && (
-            <button
-              onClick={() => createXls(data)}
-              className="btn bg-[#01B9DE] hover:bg-sky-600 btn-md rounded-full text-white"
-            >
-              Unduh XLSM
-            </button>
-          )}
-        </Toolbar>
-      </div>
+                },
+                {
+                  address: {
+                    contains: value,
+                    mode: 'insensitive'
+                  }
+                }
+              ]
+            }
+          }))
+        }}
+      >
+        {data && (
+          <button
+            onClick={() => createXls(data)}
+            className="btn bg-[#01B9DE] hover:bg-sky-600 btn-md rounded-full text-white"
+          >
+            Unduh XLSM
+          </button>
+        )}
+      </Toolbar>
 
       <DataGrid
         rows={data?.customers ?? []}
