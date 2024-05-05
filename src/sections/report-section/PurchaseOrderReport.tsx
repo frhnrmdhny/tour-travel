@@ -36,7 +36,10 @@ export default function PurchaseOrderReport({ range }: Props) {
 
       <div className="join join-vertical w-full mt-4">
         {Object.entries(groupedPurchaseOrders).map(([key, value]) => (
-          <div className="collapse collapse-arrow join-item border border-base-300">
+          <div
+            className="collapse collapse-arrow join-item border border-base-300"
+            key={key}
+          >
             <input type="radio" name="my-accordion-4" />
             <div className="collapse-title text-xl font-medium">
               <p>{key} (Dibuat)</p>

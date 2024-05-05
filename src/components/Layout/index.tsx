@@ -154,7 +154,7 @@ export default function Layout({ children }: Props) {
               !isHidden && (
                 <li key={href}>
                   <Link href={href}>
-                    <span className="flex items-center gap-4 p-2 rounded hover:bg-blue-100">
+                    <span className="flex items-center gap-4 p-2 rounded">
                       {icon}
                       <span
                         className={`flex-1 text-lg ${isDrawerCollapsed ? 'hidden' : ''}`}
